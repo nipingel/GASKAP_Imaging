@@ -10,7 +10,7 @@ __email__="Nickolas.Pingel@anu.edu.au"
 __status__="Production"
 """
 
-
+dataPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/'
 
 SBArr = ['4567', '4570', '4577']
 for SB in SBArr:

@@ -25,7 +25,7 @@ for inter in interleaveList:
 			beamStr = '0' + str(i)
 		else:
 			beamStr = str(i)
-		msFile = dataPath + '%s/%s%s/CONTSUB/scienceData_SB%s_%s%s.beam%s_SL_BINNED.ms.contsub' % \
+		msFile = dataPath + '%s/%s%s/BINNED/scienceData_SB%s_%s%s.beam%s_SL_BINNED.ms' % \
 		(SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
 		visList.append(msFile)
 

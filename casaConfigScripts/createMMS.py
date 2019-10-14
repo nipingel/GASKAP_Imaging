@@ -12,14 +12,19 @@ __email__="Nickolas.Pingel@anu.edu.au"
 __status__="Production"
 """
 
+## set path for output MMS file
+outputPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered'
+SBID = '8906'
+
+
 ## call genVisList.py to create list of visibiltities called 'visList'
-execfile('genVisList')
+execfile('../utils/genVisList.py')
 
 ## initialize the virtualconcat task
 default('virtualconcat')
 
 ## set parameters
 vis = visList
-concatvis = 'SB8906_allBeams_interleavesABC.mms'
+concatvis = '%s/%s/SB8906_allBeams_interleavesABC.mms' % (outputPath, SBID)
 keepcopy = False
 virtualconcat()

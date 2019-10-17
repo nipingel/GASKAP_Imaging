@@ -27,4 +27,5 @@ default('virtualconcat')
 vis = visList
 concatvis = '%s/%s/SB8906_allBeams_interleavesABC.mms' % (outputPath, SBID)
 keepcopy = False
+copypointing = False
 virtualconcat()

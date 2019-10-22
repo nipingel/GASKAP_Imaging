@@ -1,0 +1,15 @@
+#### JOB NAME
+#PBS -N uvcontSub
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 ncpus instance
+#PBS -l select=1:ncpus=1
+#PBS -l place=scatter
+#### Type of node: large memory
+#PBS -q largemem
+#### job array: one per 4 ms files
+#PBS -t 1-27
+
+
+

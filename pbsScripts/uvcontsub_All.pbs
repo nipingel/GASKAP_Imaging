@@ -9,7 +9,14 @@
 #### Type of node: large memory
 #PBS -q largemem
 #### job array: one per 4 ms files
-#PBS -t 1-27
+#PBS -J 0-1
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts
+job_num=$PBS_ARRAY_INDEX
+
+## start processing of 4 ms files on this cpu instance
+startBeam=$(($job_num * 4))
+endBeam=$(($startBeam + 4))
 
 
 

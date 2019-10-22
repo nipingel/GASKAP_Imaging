@@ -19,8 +19,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--startBeam', help='starting beam', type = int)
 parser.add_argument('-e', '--endBeam', help = 'ending beam', type = int)
 parser.add_argument('-d', '--subDir', help = 'sub-directory to look for files')
-args = parser.parse_args()
-
+args, unknown = parser.parse_known_args()
 ## default to 0-36 if not specified startBeam or endBeam
 if not args.startBeam:
 	startBeam = 0
@@ -44,14 +43,13 @@ for inter in interleaveList:
 			beamStr = '0' + str(i)
 		else:
 			beamStr = str(i)
-		if not args.subDir:
+		if not args.subDir: ## create list of unbinned calibratred visibilties 
 			msFile = dataPath + '%s/%s%s/scienceData_SB%s_%s%s.beam%s_SL.ms' % \
 			(SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
-		elif args.subDir == 'CONTSUB':
+		elif args.subDir == 'CONTSUB': ## create list of binned, continuum subtracted visibilities
 			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_BINNED.ms.contsub' % \
                         (SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
-	        else:
+	        else: ## create list of binned visibilities
                         msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_BINNED.ms' % \
                         (SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
 		visList.append(msFile)
-

@@ -20,6 +20,7 @@ parser.add_argument('-s', '--startBeam', help='starting beam', type = int)
 parser.add_argument('-e', '--endBeam', help = 'ending beam', type = int)
 parser.add_argument('-d', '--subDir', help = 'sub-directory to look for files')
 args, unknown = parser.parse_known_args()
+
 ## default to 0-36 if not specified startBeam or endBeam
 if not args.startBeam:
 	startBeam = 0
@@ -35,7 +36,6 @@ interleaveList = ['A', 'B', 'C']
 
 ## initialize empty list to store ms files
 visList = []
-
 ## loop through the interleaves and beams to append to list
 for inter in interleaveList:
 	for i in range(startBeam, endBeam):

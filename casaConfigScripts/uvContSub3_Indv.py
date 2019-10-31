@@ -40,7 +40,7 @@ for i in range(len(args.listOfChans)):
 print('Fitting over this spw and channels: %s' % fitspwStr)
 
 ## parse name of visibiltiy from input path
-msName = msPath.split('/')[-1]
+msName = args.msPath.split('/')[-1]
 
 ## set uvcontsub3 parameters and run
 default('uvcontsub3')

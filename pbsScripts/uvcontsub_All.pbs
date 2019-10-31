@@ -54,7 +54,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		msName=$dataPath"/scienceData_"$SBID"_"$fieldName$inter".beam"$beamNum"_SL_"$subDir".ms"
 
 		## make call to casa
-		casa --nologfile --log2term -c uvContSub3_Indv.py -l $chanRange -o $order -n $msName
+		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub3_Indv.py -l $chanRange -o $order -n $msName
 	done
 done
 

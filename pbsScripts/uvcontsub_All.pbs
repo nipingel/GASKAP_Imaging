@@ -50,7 +50,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		echo "Processing interleave "$inter
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter
+		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
 		msName=$dataPath"/scienceData_"$SBID"_"$fieldName$inter".beam"$beamNum"_SL_"$subDir".ms"
 
 		## make call to casa

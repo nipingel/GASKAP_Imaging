@@ -9,7 +9,7 @@
 #### Type of node: large memory
 #PBS -q largemem
 #### job array: one per 4 ms files
-#PBS -J 0-1
+#PBS -J 1-2
 
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
@@ -51,7 +51,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		
 		## define data paths
 		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_"$SBID"_"$fieldName$inter".beam"$beamNum"_SL_"$subDir".ms"
+		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL_"$subDir".ms"
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub3_Indv.py -l $chanRange -o $order -n $msName

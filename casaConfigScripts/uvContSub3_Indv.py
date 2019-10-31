@@ -47,5 +47,5 @@ default('uvcontsub3')
 print('Removing continuum from: %s' % msName)
 vis = msName
 fitspw = fitspwStr
-fitorder = order
+fitorder = args.order
 uvcontsub3()

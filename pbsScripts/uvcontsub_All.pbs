@@ -28,7 +28,7 @@ baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
-endBeam=$(($startBeam + 1))
+endBeam=$(($startBeam + 2))
 
 ## Loop through the starting and end beam. 
 ## Each iteration will call a single instance of CASA

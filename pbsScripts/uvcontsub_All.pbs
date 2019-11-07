@@ -8,8 +8,8 @@
 #PBS -l place=scatter
 #### Type of node: large memory
 #PBS -q largemem
-#### job array: one per 4 ms files
-#PBS -J 1-2
+#### job array: one per 6 ms files
+#PBS -J 0-17
 
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
@@ -21,14 +21,14 @@ SBID=8906
 
 ## set channel range
 chanRange="0 400 680 750 900 1050"
-order=1
+order=3
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
-endBeam=$(($startBeam + 2))
+endBeam=$(($startBeam + 1))
 
 ## Loop through the starting and end beam. 
 ## Each iteration will call a single instance of CASA

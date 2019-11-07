@@ -43,9 +43,9 @@ print('Fitting over this spw and channels: %s' % fitspwStr)
 msName = args.msPath.split('/')[-1]
 
 ## set uvcontsub3 parameters and run
-default('uvcontsub3')
+default('uvcontsub')
 print('Removing continuum from: %s' % msName)
 vis = args.msPath
 fitspw = fitspwStr
 fitorder = args.order
-uvcontsub3()
+uvcontsub()

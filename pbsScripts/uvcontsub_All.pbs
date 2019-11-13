@@ -4,7 +4,7 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1
+#PBS -l select=1:ncpus=18
 #PBS -l place=scatter
 #### Type of node: large memory
 #PBS -q largemem
@@ -17,7 +17,7 @@ job_num=$PBS_ARRAY_INDEX
 ## define path variables
 subDir="BINNED"
 fieldName="SMC1-0_M344-11"
-SBID=8906
+SBID="8906"
 
 ## set channel range
 chanRange="0 400 680 750 900 1050"
@@ -32,7 +32,7 @@ endBeam=$(($startBeam + 2))
 
 ## Loop through the starting and end beam. 
 ## Each iteration will call a single instance of CASA
-## to run uvContSub3_Indv.py with the specified channel string
+## to run uvContSub_Indv.py with the specified channel string
 ## and polynomial fit order as inputs
 
 for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));

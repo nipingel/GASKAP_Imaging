@@ -38,6 +38,7 @@ for i in range(len(args.listOfChans)):
 	elif i % 2 == 1 and i < len(args.listOfChans) - 1:
 		fitspwStr += ';'
 print('Fitting over this spw and channels: %s' % fitspwStr)
+print('With order: %d' % args.order)
 
 ## parse name of visibiltiy from input path
 msName = args.msPath.split('/')[-1]

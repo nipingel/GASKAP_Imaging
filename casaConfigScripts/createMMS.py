@@ -16,8 +16,13 @@ __status__="Production"
 outputPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered'
 SBID = '8906'
 
+## set genVistList parameters
+startBeam = '0'
+endBeam = '35'
+subDir = 'CONTSUB'
 
 ## call genVisList.py to create list of visibiltities called 'visList'
+sys.argv = ['../utils/genVisList.py', '-s', startBeam, '-e', endBeam, '-d', subDir]
 execfile('../utils/genVisList.py')
 
 ## initialize the virtualconcat task

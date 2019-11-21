@@ -27,7 +27,7 @@ if not args.startBeam:
 	endBeam = 36
 else:
 	startBeam = args.startBeam
-	endBeam = args.endBeam
+	endBeam = args.endBeam + 1
 
 dataPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/'
 SBID = '8906'

@@ -30,6 +30,6 @@ default('split')
 print('Binning %s by %d channels' % (msName, widthChans))
 vis = args.msPath
 outputvis = args.msPath.replace('.ms', '.binned')
-width = 2
+width = widthChans
 datacolumn = 'data'
 split()

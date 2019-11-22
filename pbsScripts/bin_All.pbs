@@ -51,7 +51,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 
 		## make call to casa
-		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -o $width -n $msName
+		casa --logfile "binBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -w $width -n $msName
 	done
 done
 

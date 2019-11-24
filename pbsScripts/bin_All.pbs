@@ -35,9 +35,9 @@ endBeam=$(($startBeam + 2))
 for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 	do
 	## append '0' if beamNum is less than 10
-	if (( $beamNum < 10));
+	if [ $beamNum -lt 10 ];
 	then
-	beamNum="0"$beamNum
+		beamNum=$( printf '%02d' $beamNum )
 	fi
 
 	echo "Processing beam number "$beamNum
@@ -53,6 +53,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		## make call to casa
 		casa --logfile "binBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -w $width -n $msName
 	done
+	## remove leading zero for next iterations
+	beamNum=${beamNum#0}
 done
 
 

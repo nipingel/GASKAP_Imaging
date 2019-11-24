@@ -21,7 +21,7 @@ SBID="8906"
 
 ## set channel range
 chanRange="0 400 680 750 900 1050"
-order=3
+order=1
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
@@ -51,7 +51,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		
 		## define data paths
 		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL_"$subDir".ms"
+		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned"
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName

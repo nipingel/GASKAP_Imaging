@@ -1,27 +1,56 @@
+#
 #### JOB NAME
-#PBS -N uvcontSub
+#PBS -N splitByTime
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=18
+#PBS -l select=1:ncpus=1
 #PBS -l place=scatter
-#### Type of node: large memory
-#PBS -q largemem
+#### Type of node: small or large memory
+#PBS -q smallmem
 #### job array: one per 6 ms files
-#PBS -J 0-17
+#PBS -J 2-3
+
+## function to check if an input value to in an array
+function containsBeams () {
+        local compareVar=$1
+        shift
+        local bmArray=("$@")
+        beamIn=1
+        for bm in "${bmArray[@]}";
+                do
+                if [[ $bm -eq $compareVar ]];
+                        then
+                        beamIn=0
+                        break
+                fi
+        done
+        return $beamIn
+}
+
+## function to check if an input character is in string
+function containsInters () {
+        local compareInter=$1
+        local interVals=$2
+        interIn=1
+        if [[ $interVals == *$compareInter* ]]; then
+                interIn=0
+        fi
+        return $interIn
+}
+
 
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-subDir="BINNED"
+subDir="CONTSUB"
 fieldName="SMC1-0_M344-11"
 SBID="8906"
 
-## set channel range
-chanRange="0 400 680 750 900 1050"
-order=1
+## set time range (index => interleaves A C B)
+timeStrArr=(2019/06/01/16:07:04.2~2019/06/01/16:12:04.2 2019/06/01/16:22:19.9~2019/06/01/16:27:19.9 2019/06/01/16:37:35.6~2019/06/01/16:42:35.6)
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
@@ -30,10 +59,16 @@ baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
 startBeam=$(($job_num * 2))
 endBeam=$(($startBeam + 2))
 
+## set beams/interleaves to skip. Each string in skipInterleave array contains 
+## the interleaves to skip for the specified beam in skipBeams
+skipBeams=(05)
+skipInter=(ABC)
+skipCnt=0
+
 ## Loop through the starting and end beam. 
 ## Each iteration will call a single instance of CASA
-## to run uvContSub_Indv.py with the specified channel string
-## and polynomial fit order as inputs
+## to run splitByTime_Indv.py with the specified time range string
+## as an input
 
 for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 	do
@@ -45,19 +80,43 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
         
 	echo "Processing beam number "$beamNum
 
-	for inter in A B C;
+	## order of observation was interleaves A C B
+	cnt=0
+	for inter in A C B;
 	do
 		echo "Processing interleave "$inter
 		
+		## check if we need to skip this beam/interleave pair
+		containsBeams $beamNum ${skipBeams[@]}
+		## check if interleave needs to be skipped
+		if [[ $beamIn -eq 0 ]]; then
+			containsInters $inter ${skipInter[$skipCnt]}
+			if [[ $interIn -eq 0 ]]; then 
+				echo "Skipping beam "$beamNum"; interleave "$inter
+				continue
+			fi
+		fi
+
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned"
+		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$suDir
+		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+
+		## get timeStr
+		timeStr=${timeStrArr[cnt]}
+		echo $timeStr
 
 		## make call to casa
-		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName
+		## casa --logfile "splitByTime_Beam"$beamNum"_inter"$inter".log" -c splitByTime_Indv.py -t $timeStr -n $msName
+
+		## increment counter
+        ((cnt++))
 	done
-        ## remove leading zero for next iterations
-        beamNum=${beamNum#0}
+	## incrememnt skipCnt if we skipped an interleave/beam pair 
+	if [[ $beamIn -eq 0 ]]; then 
+		((skipCnt++))
+	fi
+    ## remove leading zero for next beam iteration
+    beamNum=${beamNum#0}
 done
 
 

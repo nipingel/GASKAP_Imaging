@@ -5,7 +5,7 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1
+#PBS -l select=1:ncpus=4
 #PBS -l place=scatter
 #### Type of node: small or large memory
 #PBS -q smallmem
@@ -98,7 +98,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$suDir
+		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$subDir
 		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
 
 		## get timeStr
@@ -106,7 +106,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		echo $timeStr
 
 		## make call to casa
-		## casa --logfile "splitByTime_Beam"$beamNum"_inter"$inter".log" -c splitByTime_Indv.py -t $timeStr -n $msName
+		casa --logfile "splitByTime_Beam"$beamNum"_inter"$inter".log" -c splitByTime_Indv.py -t $timeStr -n $msName
 
 		## increment counter
         ((cnt++))

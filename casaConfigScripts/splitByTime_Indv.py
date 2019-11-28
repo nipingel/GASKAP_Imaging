@@ -20,7 +20,7 @@ parser.add_argument('-n', '--msPath', help = '<required> FULL path of ms file', 
 args, unknown = parser.parse_known_args()
 
 ## get number of channels to use in average
-timeRange = args.time
+timeRange = args.timeRange
 
 ## parse name of visibiltiy from input path
 msName = args.msPath.split('/')[-1]

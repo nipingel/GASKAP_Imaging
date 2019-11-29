@@ -10,7 +10,7 @@
 #### Type of node: small or large memory
 #PBS -q smallmem
 #### job array: one per 6 ms files
-#PBS -J 2-3
+#PBS -J 0-17
 
 ## function to check if an input value to in an array
 function containsBeams () {

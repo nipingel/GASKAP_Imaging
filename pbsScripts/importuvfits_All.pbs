@@ -102,7 +102,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fileSuffix='_split.ms'
 
 		## make call to casa
-		casa --logfile "exportuvfits_Beam"$beamNum"_inter"$inter".log" -c importuvfits_Indv.py -n $fitsName -s $fileSuffix
+		casa --logfile "importuvfits_Beam"$beamNum"_inter"$inter".log" -c importuvfits_Indv.py -n $fitsName -s $fileSuffix
 
 		## increment counter
         ((cnt++))

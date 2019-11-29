@@ -1,16 +1,16 @@
 #
 #### JOB NAME
-#PBS -N splitByTime
+#PBS -N importUvfits
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=4
+#PBS -l select=1:ncpus=2
 #PBS -l place=scatter
 #### Type of node: small or large memory
 #PBS -q smallmem
 #### job array: one per 6 ms files
-#PBS -J 2-3
+#PBS -J 0-17
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -49,10 +49,7 @@ subDir="CONTSUB"
 fieldName="SMC1-0_M344-11"
 SBID="8906"
 
-## set time range (index => interleaves A C B)
-timeStrArr=(2019/06/01/16:07:04.2~2019/06/01/16:12:04.2 2019/06/01/16:22:19.9~2019/06/01/16:27:19.9 2019/06/01/16:37:35.6~2019/06/01/16:42:35.6)
-
-## set base path to dataS
+## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
@@ -99,13 +96,13 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 
 		## define data paths
 		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$subDir
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+		fitsName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub.uvfits"
 
-		## get timeStr
-		timeStr=${timeStrArr[cnt]}
+		## define file suffix
+		fileSuffix='_split.ms'
 
 		## make call to casa
-		casa --logfile "splitByTime_Beam"$beamNum"_inter"$inter".log" -c splitByTime_Indv.py -t $timeStr -n $msName
+		casa --logfile "exportuvfits_Beam"$beamNum"_inter"$inter".log" -c importuvfits_Indv.py -n $fitsName -s $fileSuffix
 
 		## increment counter
         ((cnt++))

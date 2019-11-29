@@ -1,6 +1,6 @@
 """
 11/28/2019
-Export input ms to uvfits format. This is also a workd around to split out a specific time range
+Export input ms to uvfits format. This is also a work around to split out a specific time range
 when split/mstransform complains about row access to the deleted POINTING sub-table
 User inputs:
 -n --msPath -<required> FULL path of ms file

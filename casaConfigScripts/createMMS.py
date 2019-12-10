@@ -19,7 +19,10 @@ SBID = '8906'
 ## set genVistList parameters
 startBeam = '0'
 endBeam = '35'
-subDir = 'CONTSUB'
+subDir = 'TIME_SPLIT'
+skipBeam = ['5']
+skipInter = ['ABC']
+chanNum = '488'
 
 ## call genVisList.py to create list of visibiltities called 'visList'
 sys.argv = ['../utils/genVisList.py', '-s', startBeam, '-e', endBeam, '-d', subDir]

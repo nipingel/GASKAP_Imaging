@@ -19,26 +19,19 @@ __status__="Production"
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-s', '--startBeam', help='<optional> starting beam', type = int)
-parser.add_argument('-e', '--endBeam', help = '<optional> ending beam', type = int)
+parser.add_argument('-s', '--startBeam', help='<optional> starting beam', default = 0)
+parser.add_argument('-e', '--endBeam', help = '<optional> ending beam', default = 35)
 parser.add_argument('-d', '--subDir', help = '<required> sub-directory to look for files', required = True)
 parser.add_argument('-b', '--skipBeam', help ='<optional> list of beams to skip')
 parser.add_argument('-i', '--skipInter', help = '<optional> list of interleaves to skip')
-parser.add_argument('-c', '--chanNum', help='<optional> channel number if dealing with split ms files', type = int)
+parser.add_argument('-c', '--chanNum', help='<optional> channel number if dealing with split ms files')
 args, unknown = parser.parse_known_args()
-
 ## unpack arguments
 skipBeamList = args.skipBeam
 skipInterList = args.skipInter
-print(skipBeamList[0], skipInterList[0])
-
-## default to 0-36 if not specified startBeam or endBeam
-if not args.startBeam:
-	startBeam = 0
-	endBeam = 36
-else:
-	startBeam = args.startBeam
-	endBeam = args.endBeam + 1
+chanNum = int(args.chanNum)
+startBeam = int(args.startBeam)
+endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 
 dataPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/'
 SBID = '8906'
@@ -85,38 +78,35 @@ for i in range(startBeam, endBeam):
 	    	## if args.chanNum is defined, then we are creating a list of files continuum subtracted and 
 	    	## split out by channel number. If not defined, then we are creating a list of just continuum
 	    	## subtracted files
-			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_binned.contsub_chan%d.ms' % \
-			(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, args.chanNum)
+			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_binned.contsub' % \
+			(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
 	    	
-	    	try:
-	    		args.chanNum
-	    	except NameError:
-	    		msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_binned.contsub' % \
-				(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+	    	if args.chanNum is not None:
+	    		#msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_binned.contsub_chan%d.ms' % \
+				#(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, args.chanNum)
+	    		msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % \
+				(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum)			
 
 		if args.subDir == 'TIME_SPLIT': 
 			## create list of split out ms files (by time)
 	    	## if args.chanNum is defined, then we are creating a list of files split out by channel number
 	    	## and time if not defined, then we are creating a list of files just split out by time
-			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split_chan%d.ms' % \
-	    	(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, args.chanNum)
+			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split.ms' % \
+	    	(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
 	    	
-	    	try:
-	    		args.chanNum
-	    	except NameError:
-	    		msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split.ms' % \
-	    		(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+	    	if args.chanNum:
+	    		msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split_chan%d.ms' % \
+	    		(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum)
 	    
 		if args.subDir == 'BINNED': ## create list of binned visibilities
 	    	## if args.chanNum is defined, then we are creating a list of files binned and split out by channel number.
 	    	## If not defined, then we are creating a list of just binned files
-			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned_chan%d.ms' % \
-			(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, args.chanNum)
-	    	try:
-	    		args.chanNum
-	    	except NameError:
+			msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.ms' % \
+			(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+	    	
+	    	if args.chanNum:
 	    		msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned_chan%d.ms' % \
-	    		(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, args.chanNum)
+	    		(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum)
 		visList.append(msFile)
 
 		## if we skipped a beam, increase skipped counter and reset boolean

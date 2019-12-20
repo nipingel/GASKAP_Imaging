@@ -32,14 +32,14 @@ parser.add_argument('-w', '--minorThresh', help = '<required> minor cycle thresh
 parser.add_argument('-p', '--phaseCenter', help = '<required> phase center of image (e.g., \'J2000 00h52m44s -72d49m42\')', required = True, nargs='+')
 parser.add_argument('-d', '--subDir', help = '<required> sub-directory to look for files', required = True)
 parser.add_argument('-o', '--output', help = '<required> output name', required = True)
-parser.add_argument('-r', '--restart', help = '<optional> restart from previously generated images')
+parser.add_argument('-r', '--restart', help = '<optional> restart from previously generated images', default = False)
 parser.add_argument('-s', '--startBeam', help ='<optional> starting beam', default = 0)
 parser.add_argument('-e', '--endBeam', help = '<optional> ending beam', default = 35)
 parser.add_argument('-b', '--skipBeam', help ='<optional> list of beams to skip')
 parser.add_argument('-i', '--skipInter', help = '<optional> list of interleaves to skip')
 parser.add_argument('-l', '--chanNum', help='<optional> channel number if dealing with split ms files')
 args, unknown = parser.parse_known_args()
-print(args)
+
 ## unpack/reformat input to lists for generating visibility list
 skipBeamList = [args.skipBeam]
 skipInterList = [args.skipInter]
@@ -50,12 +50,11 @@ nCycleNiter = int(args.nCycleNiter)
 minorThresh = int(args.minorThresh)
 phaseCenterStr = args.phaseCenter[0]
 outputName = args.output
-restart = args.restart
+inputRestart = args.restart
 
 ## generate visibility list with input arguments
-sys.argv = ['../utils/genVisList.py', '-s', args.startBeam, '-e', args.endBeam, '-d', args.subDir, '-b', args.skipBeam, '-i', args.skipInter, '-c', args.chanNum]
+sys.argv = ['../utils/genVisList.py', '-s', args.startBeam, '-e', args.endBeam, '-d', args.subDir, '-b', skipBeamList, '-i', skipInterList, '-c', args.chanNum]
 execfile('../utils/genVisList.py')
-print(visList)
 
 ## image/output parameters
 default('tclean')
@@ -65,7 +64,7 @@ imagename = outputName
 selectdata = True
 datacolumn = 'data'
 phasecenter = phaseCenterStr
-imsize = [5000, 5000]
+imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
 
 ## data selection parameters
@@ -85,13 +84,21 @@ verbose = True
 
 ## gridding/deconvolution parameters
 interpolation = 'linear'
-gridder ='mosaic'
+#gridder ='mosaic'
 vptable = '../misc/ASKAP_AIRY_BP.tab'
 usepointing = False
-mosweight = False
+#mosweight = False
+gridder='wproject'
+wprojplanes=250
 deconvolver = 'multiscale'
-scales = [0, 5, 10, 25, 50]
+scales = [0, 5, 15, 45, 135, 250] ## maximum recoverable scale based on minimum baseline: 280 pixels => 32.8 arcmin
 smallscalebias = 0.6
+niter = totNiter
+cycleniter=nCycleNiter
+cyclefactor = 1.0 ## set < 1.0 to clean deeper before triggering major cycle
+minpsffraction = 0.05 ## clean deeper before triggering major cycle
+maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
+threshold = '%dmJy' % minorThresh
 restoringbeam = []
 pblimit = 0.05
 normtype = 'flatnoise'
@@ -101,18 +108,16 @@ dogrowprune = False
 weighting = 'briggs'
 robust = 1.1
 
-## deconvolution parameters
-niter = totNiter
-cycleniter=nCycleNiter
-threshold = '%dmJy' % minorThresh
+## additional parameters
 interactive = False
 verbose = True
 parallel = True
+calcpsf=True
+calcres=True
 
 ## check if we are restarting
-if restart is not None:
+if inputRestart == True:
 	calcpsf = False
 	calcres = False
 	restart = True
-inp
-#tclean()
+tclean()

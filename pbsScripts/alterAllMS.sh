@@ -13,13 +13,15 @@
 ##__email__ = "Nickolas.Pingel@anu.edu.au"
 ##__status__ = "Production"
 
-dataDir='/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/8906/'
-fieldIDs=(SMC1-0_M344-11)
+#dataDir='/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/8906/'
+dataDir='/avatar/jdempsey/smc/8957-ms-casda/'
+fieldIDs=(SMC1-0_M344-11 SMC1-1_M344-06)
 interLet=(A B C)
-SBID=8906
+#SBID=8906
+SBID=8957
 
 ## loop through each SBID, interleave and beam to provide fixPhaseCenter.py with name of MS
-for s in {0..0}
+for s in {1..1}
 do
 	fieldID=${fieldIDs[s]}
 	for i in {0..2}
@@ -31,7 +33,8 @@ do
 			then 
 				bm='0'$bm
 			fi
-			python ../utils/fixPhaseCenters.py -f $dataDir$fieldID$inter"/scienceData_SB"$SBID"_"$fieldID$inter".beam"$bm"_SL.ms"
+			#python ../utils/fixPhaseCenters.py -f $dataDir$fieldID$inter"/scienceData_SB"$SBID"_"$fieldID$inter".beam"$bm"_SL.ms"
+			python ../utils/fixPhaseCenters.py -f $dataDir"scienceData_SB"$SBID"_"$fieldID$inter".beam"$bm"_SL.ms"
 		done
 	done
 done

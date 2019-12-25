@@ -85,7 +85,7 @@ verbose = True
 ## gridding/deconvolution parameters
 interpolation = 'linear'
 vptable = '../misc/ASKAP_AIRY_BP.tab'
-gridder='mosiac'
+gridder='mosaic'
 #wprojplanes=1024
 #psterm = True
 #aterm = False

@@ -84,12 +84,15 @@ verbose = True
 
 ## gridding/deconvolution parameters
 interpolation = 'linear'
-#gridder ='mosaic'
 vptable = '../misc/ASKAP_AIRY_BP.tab'
-usepointing = False
-#mosweight = False
-gridder='wproject'
-wprojplanes=250
+gridder='mosiac'
+#wprojplanes=1024
+#psterm = True
+#aterm = False
+#wbawp = False
+mosweight=False
+usepointing=False
+
 deconvolver = 'multiscale'
 scales = [0, 5, 15, 45, 135, 250] ## maximum recoverable scale based on minimum baseline: 280 pixels => 32.8 arcmin
 smallscalebias = 0.6

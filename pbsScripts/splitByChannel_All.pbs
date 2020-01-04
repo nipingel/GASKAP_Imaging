@@ -51,7 +51,7 @@ SBID="8906"
 
 ## define channel range to split out
 startChan=512
-endChan=$(($startChan + 2))
+endChan=$(($startChan + 28))
 
 ## set base path to dataS
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
@@ -106,7 +106,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
 
 			## make call to casa
-			casa --logfile "splitByChan_Beam"$beamNum"_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
+			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
 		done
 	done
 	## incrememnt skipCnt if we skipped an interleave/beam pair 

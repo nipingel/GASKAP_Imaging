@@ -27,8 +27,8 @@ skipBeams=5
 skipInter=ABC
 
 ## set imaging parameters
-totNiter=100000
-nCycleNiter=15000
+totNiter=36000
+nCycleNiter=3000
 minorThresh=5 ##mJy
 subDir=CONTSUB
 output=SMC_MSCLEAN_CHAN$chanNum

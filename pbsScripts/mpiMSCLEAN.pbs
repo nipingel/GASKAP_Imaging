@@ -15,7 +15,7 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((484 + $job_num))
+chanNum=$((512 + $job_num))
 
 ## select which beams to include
 startBeam=0

@@ -1,6 +1,6 @@
 #
 #### JOB NAME
-#PBS -N clean
+#PBS -N clean548
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
@@ -10,12 +10,12 @@
 #### Type of node: smallmem or largemem
 #PBS -q largemem
 #### job array: one job instance per velocity plane 
-#PBS -J 0-27
+# PBS -J 0-27
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((512 + $job_num))
+chanNum=$((456 + $job_num))
 
 ## select which beams to include
 startBeam=0

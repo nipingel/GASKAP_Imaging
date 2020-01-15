@@ -69,7 +69,7 @@ cell = ['7arcsec', '7arcsec']
 
 ## data selection parameters
 specmode = 'mfs'
-outframe = 'LSRK'
+outframe = 'TOPO'
 restfreq = '1.420405GHz'
 
 ## mask parameters

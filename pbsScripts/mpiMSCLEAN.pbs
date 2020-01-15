@@ -10,12 +10,13 @@
 #### Type of node: smallmem or largemem
 #PBS -q largemem
 #### job array: one job instance per velocity plane 
-# PBS -J 0-27
+####PBS -J 0-27
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
-job_num=$PBS_ARRAY_INDEX
+#job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((456 + $job_num))
+#chanNum=$((456 + $job_num))
+chanNum=470
 
 ## select which beams to include
 startBeam=0
@@ -27,11 +28,11 @@ skipBeams=5
 skipInter=ABC
 
 ## set imaging parameters
-totNiter=36000
+totNiter=0
 nCycleNiter=3000
 minorThresh=5 ##mJy
 subDir=CONTSUB
-output=SMC_MSCLEAN_CHAN$chanNum
+output=SMC_DIRTY_CHAN$chanNum
 phaseCenter="J2000 00h52m44s -72d49m42"
 
 

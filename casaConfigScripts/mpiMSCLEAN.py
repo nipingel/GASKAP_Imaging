@@ -76,10 +76,11 @@ restfreq = '1.420405GHz'
 usemask = 'auto-multithresh'
 pbmask = 0.2
 sidelobethreshold = 2.5
-noisethreshold = 4.25
-minbeamfrac = 0.3
+noisethreshold = 4.0
+minbeamfrac = 2.0
 lownoisethreshold = 1.5
-negativethreshold = 2.5
+negativethreshold = 0.0
+growiterations=100
 verbose = True
 
 ## gridding/deconvolution parameters
@@ -119,7 +120,7 @@ calcpsf=True
 calcres=True
 
 ## check if we are restarting
-if inputRestart == True:
+if inputRestart == 'True':
 	calcpsf = False
 	calcres = False
 	restart = True

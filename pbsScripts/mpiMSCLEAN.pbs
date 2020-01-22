@@ -1,6 +1,6 @@
 #
 #### JOB NAME
-#PBS -N clean470
+#PBS -N clean
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
@@ -15,7 +15,7 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((456 + $job_num))
+chanNum=$((484 + $job_num))
 
 ## select which beams to include
 startBeam=0
@@ -27,11 +27,11 @@ skipBeams=5
 skipInter=ABC
 
 ## set imaging parameters
-totNiter=3000
+totNiter=36000
 nCycleNiter=3000
 minorThresh=5 ##mJy
 subDir=CONTSUB
-output=SMC_DIRTY_CHAN$chanNum
+output=SMC_MSCLEAN_CHAN$chanNum
 phaseCenter="J2000 00h52m44s -72d49m42"
 
 

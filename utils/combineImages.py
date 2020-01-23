@@ -48,7 +48,6 @@ fileList = glob.glob('*.%s' % fileExt)
 
 ## ensure list is in ascending channel order
 fileList.sort()
-print(fileList)
 
 ## loop through list to correct headers
 for file in fileList:

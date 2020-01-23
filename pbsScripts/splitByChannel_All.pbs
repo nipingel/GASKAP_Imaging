@@ -50,7 +50,7 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## define channel range to split out
-startChan=456
+startChan=512
 endChan=$(($startChan + 28))
 
 ## set base path to dataS

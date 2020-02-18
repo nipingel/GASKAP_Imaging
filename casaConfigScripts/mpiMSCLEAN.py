@@ -75,8 +75,8 @@ restfreq = '1.420405GHz'
 ## mask parameters
 usemask = 'auto-multithresh'
 pbmask = 0.2
-sidelobethreshold = 2.5
-noisethreshold = 4.0
+sidelobethreshold = 2.0
+noisethreshold = 2.5
 minbeamfrac = 2.0
 lownoisethreshold = 1.5
 negativethreshold = 0.0

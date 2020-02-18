@@ -2,7 +2,8 @@
 #### JOB NAME
 #PBS -N splitByChan
 ### Ask for email at job start, end, and if aborted
-#PBS -M Nickolas.Pingel@anu.edu.au
+###PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -M nicholas.killerby-smith@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
 #PBS -l select=1:ncpus=1
@@ -50,7 +51,7 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## define channel range to split out
-startChan=512
+startChan=400
 endChan=$(($startChan + 28))
 
 ## set base path to dataS

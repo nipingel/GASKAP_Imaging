@@ -1,0 +1,123 @@
+#
+#### JOB NAME
+#PBS -N splitByChan
+### Ask for email at job start, end, and if aborted
+###PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -M nicholas.killerby-smith@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 ncpus instance
+#PBS -l select=1:ncpus=1
+#PBS -l place=scatter
+#### Type of node: smallmem or largemem
+#PBS -q smallmem
+#### job array: one per 6 ms files
+#PBS -J 0-17
+
+## function to check if an input value to in an array
+function containsBeams () {
+        local compareVar=$1
+        shift
+        local bmArray=("$@")
+        beamIn=1
+        for bm in "${bmArray[@]}";
+                do
+                if [[ $bm -eq $compareVar ]];
+                        then
+                        beamIn=0
+                        break
+                fi
+        done
+        return $beamIn
+}
+
+## function to check if an input character is in string
+function containsInters () {
+        local compareInter=$1
+        local interVals=$2
+        interIn=1
+        if [[ $interVals == *$compareInter* ]]; then
+                interIn=0
+        fi
+        return $interIn
+}
+
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+job_num=$PBS_ARRAY_INDEX
+
+## define path variables
+subDir="CONTSUB"
+fieldName="SMC1-0_M344-11"
+SBID="8906"
+
+## define channel range to split out
+startChan=400
+endChan=$(($startChan + 28))
+
+## set base path to dataS
+baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
+
+## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
+startBeam=$(($job_num * 2))
+endBeam=$(($startBeam + 2))
+
+## set beams/interleaves to skip. Each string in skipInterleave array contains 
+## the interleaves to skip for the specified beam in skipBeams
+skipBeams=(05)
+skipInter=(ABC)
+skipCnt=0
+
+## Loop through the starting and end beam. 
+## Each iteration will call a single instance of CASA
+## to run splitByTime_Indv.py with the specified time range string
+## as an input
+
+for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
+	do
+	## append '0' if beamNum is less than 10
+        if [ $beamNum -lt 10 ];
+        then
+        	beamNum=$( printf '%02d' $beamNum )
+        fi
+        
+	echo "Processing beam number "$beamNum
+
+	## order of observation was interleaves A C B
+	cnt=0
+	for inter in A C B;
+	do
+		echo "Processing interleave "$inter
+		
+		## check if we need to skip this beam/interleave pair
+		containsBeams $beamNum ${skipBeams[@]}
+		## check if interleave needs to be skipped
+		if [[ $beamIn -eq 0 ]]; then
+			containsInters $inter ${skipInter[$skipCnt]}
+			if [[ $interIn -eq 0 ]]; then 
+				echo "Skipping beam "$beamNum"; interleave "$inter
+				continue
+			fi
+		fi
+
+		## loop over the channel range one wishes to split out from the ms file
+		for ((chanNum=$startChan;chanNum<$endChan;chanNum++));
+		do 
+			## define data paths
+			dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$subDir
+			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+
+			## make call to casa
+			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
+		done
+	done
+	## incrememnt skipCnt if we skipped an interleave/beam pair 
+	if [[ $beamIn -eq 0 ]]; then 
+		((skipCnt++))
+	fi
+    ## remove leading zero for next beam iteration
+    beamNum=${beamNum#0}
+done
+
+
+
+

@@ -4,7 +4,7 @@
 
 ## define interleave, SBID, Project name 
 rootDir=/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered
-interVal=A
+interVal=C
 SBID=8906
 objectName=SMC1-0_M344-11
 
@@ -12,8 +12,11 @@ objectName=SMC1-0_M344-11
 destDir=/fred/oz145/data/smc2019/msdata_smc/altered/$SBID/$objectName$interVal/CONTSUB
 
 ## loop through and rsync each beam
-for i in {0..0}
-do 
- #rsync -azP avatar:$rootDir/$SBID/$objectName$interVal/CONTSUB/scienceData_SB$SBID_$objectName$interVal.beam$i_SL.binned.contsub.tar
- rsync -azP avatar:$rootDir/$SBID/$objectName$interVal/CONTSUB/test.tar $destDir
+for bm in {2..35}
+do
+	if [ $bm -lt 10 ]
+	then
+		bm='0'$bm
+	fi 
+	rsync -azP avatar:$rootDir/$SBID/$objectName$interVal/CONTSUB/scienceData_SB$SBID"_"$objectName$interVal.beam"$bm"_SL.binned.contsub.tar $destDir
 done

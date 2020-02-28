@@ -52,9 +52,8 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## define channel range to split out
-startChan=428
-#endChan=$(($startChan + 28))
-endChan=$(($startChan + 1))
+startChan=429
+endChan=$(($startChan + 27))
 
 ## set base path to dataS
 baseDataPath="/fred/oz145/data/smc2019/msdata_smc/altered"

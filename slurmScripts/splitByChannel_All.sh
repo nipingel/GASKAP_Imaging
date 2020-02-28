@@ -1,17 +1,18 @@
-#
-#### JOB NAME
-#PBS -N splitByChan
-### Ask for email at job start, end, and if aborted
-###PBS -M Nickolas.Pingel@anu.edu.au
-#PBS -M nicholas.killerby-smith@anu.edu.au
-#PBS -m abe
-#### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1
-#PBS -l place=scatter
-#### Type of node: smallmem or largemem
-#PBS -q smallmem
-#### job array: one per 6 ms files
-#PBS -J 0-17
+#!/bin/bash
+#SBATCH --job-name splitByChan
+#SBATCH --output=splitByChanSummary
+## resource allocation
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=1
+#SBATCH --mem-per-cpu=4000
+#SBATCH --time=00-04:00:00
+
+## email parameters
+#SBATCH --mail-user=Nickolas.Pingel@anu.edu.au
+#SBATCH --mail-type=ALL
+
+## set up job array: one per 6 ms files
+#SBATCH --array=0-17
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -42,8 +43,8 @@ function containsInters () {
 }
 
 
-cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
-job_num=$PBS_ARRAY_INDEX
+cd /fred/oz145/pros/GASKAP_Imaging/casaConfigScripts
+job_num=$SLURM_ARRAY_TASK_ID
 
 ## define path variables
 subDir="CONTSUB"
@@ -51,11 +52,12 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## define channel range to split out
-startChan=400
-endChan=$(($startChan + 28))
+startChan=428
+#endChan=$(($startChan + 28))
+endChan=$(($startChan + 1))
 
 ## set base path to dataS
-baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
+baseDataPath="/fred/oz145/data/smc2019/msdata_smc/altered"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -107,7 +109,7 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
 
 			## make call to casa
-			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
+			../../casa-pipeline-release-5.6.1-8.el7/bin/casa --logfile "splitByChan_Beam"$beamNum"_chan"$chanNum"_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
 		done
 	done
 	## incrememnt skipCnt if we skipped an interleave/beam pair 

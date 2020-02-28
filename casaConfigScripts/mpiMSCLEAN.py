@@ -59,6 +59,9 @@ execfile('../utils/genVisList.py')
 ## image/output parameters
 default('tclean')
 
+## change level of messages in CASA logger
+casalog.filter('DEBUG2')
+
 vis = visList
 imagename = outputName
 selectdata = True

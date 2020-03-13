@@ -59,9 +59,6 @@ execfile('../utils/genVisList.py')
 ## image/output parameters
 default('tclean')
 
-## change level of messages in CASA logger
-casalog.filter('DEBUG2')
-
 vis = visList
 imagename = outputName
 selectdata = True
@@ -77,13 +74,13 @@ restfreq = '1.420405GHz'
 
 ## mask parameters
 usemask = 'auto-multithresh'
-pbmask = 0.2
-sidelobethreshold = 2.0
-noisethreshold = 2.5
-minbeamfrac = 2.0
-lownoisethreshold = 1.5
+pbmask = 0.85
+sidelobethreshold = 3.0
+noisethreshold = 4.25
+minbeamfrac = 0.3
+lownoisethreshold = 2.0
 negativethreshold = 0.0
-growiterations=100
+growiterations=75
 verbose = True
 
 ## gridding/deconvolution parameters
@@ -98,12 +95,13 @@ mosweight=False
 usepointing=False
 
 deconvolver = 'multiscale'
-scales = [0, 5, 15, 45, 135, 250] ## maximum recoverable scale based on minimum baseline: 280 pixels => 32.8 arcmin
+#scales = [0, 5, 15, 45, 135, 250] ## maximum recoverable scale based on minimum baseline: 280 pixels => 32.8 arcmin
+scales = [0, 8, 16, 32]
 smallscalebias = 0.6
 niter = totNiter
 cycleniter=nCycleNiter
-cyclefactor = 0.75 ## set < 1.0 to clean deeper before triggering major cycle
-minpsffraction = 0.05 ## clean deeper before triggering major cycle
+cyclefactor = 0.25 ## set < 1.0 to clean deeper before triggering major cycle
+minpsffraction = 0.025 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
 restoringbeam = []

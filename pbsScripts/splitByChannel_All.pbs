@@ -9,7 +9,7 @@
 #PBS -l select=1:ncpus=1
 #PBS -l place=scatter
 #### Type of node: smallmem or largemem
-#PBS -q smallmem
+#PBS -q largemem
 #### job array: one per 6 ms files
 #PBS -J 0-17
 
@@ -51,8 +51,8 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## define channel range to split out
-startChan=400
-endChan=$(($startChan + 28))
+startChan=256
+endChan=$(($startChan + 1))
 
 ## set base path to dataS
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"

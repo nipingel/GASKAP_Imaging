@@ -72,18 +72,23 @@ specmode = 'mfs'
 outframe = 'TOPO'
 restfreq = '1.420405GHz'
 
-## mask parameters
-usemask = 'auto-multithresh'
-pbmask = 0.85
-sidelobethreshold = 3.0
-noisethreshold = 4.25
-minbeamfrac = 0.3
-lownoisethreshold = 2.0
-negativethreshold = 0.0
-growiterations=75
-verbose = True
+## manual mask parameters
+usemask = 'user'
+mask = ''
 
-## gridding/deconvolution parameters
+## automasking parameters ##
+#usemask = 'auto-multithresh'
+#pbmask = 0.5
+#sidelobethreshold = 2.5
+#noisethreshold = 3.5
+#minbeamfrac = 0.3
+#lownoisethreshold = 1.75
+#negativethreshold = 0.0
+#growiterations=75
+#dogrowprune=False
+#verbose = True
+
+## gridding parameters ##
 interpolation = 'linear'
 vptable = '../misc/ASKAP_AIRY_BP.tab'
 gridder='mosaic'
@@ -94,22 +99,21 @@ gridder='mosaic'
 mosweight=False
 usepointing=False
 
+## deconvolution parameters ##
 deconvolver = 'multiscale'
-#scales = [0, 5, 15, 45, 135, 250] ## maximum recoverable scale based on minimum baseline: 280 pixels => 32.8 arcmin
-scales = [0, 8, 16, 32]
-smallscalebias = 0.6
+scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter
 cyclefactor = 0.25 ## set < 1.0 to clean deeper before triggering major cycle
 minpsffraction = 0.025 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
-restoringbeam = []
+restoringbeam = '30.0arcsec'
 pblimit = 0.05
 normtype = 'flatnoise'
-dogrowprune = False
 
-## visibility weighting
+## visibility weighting ##
 weighting = 'briggs'
 robust = 1.1
 

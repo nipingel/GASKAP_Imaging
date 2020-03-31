@@ -4,8 +4,8 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=18
-#PBS -l place=scatter
+#PBS -l select=1:ncpus=1
+#PBS -l place=free:shared
 #### Type of node: large memory
 #PBS -q largemem
 #### job array: one per 6 ms files
@@ -48,7 +48,7 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## set channel range
-chanRange="0 400 680 750 900 1050"
+chanRange="0 200 450 511"
 order=1
 
 ## set base path to data

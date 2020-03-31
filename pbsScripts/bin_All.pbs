@@ -4,12 +4,12 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=18
-#PBS -l place=scatter
-#### Type of node: large memory
+#PBS -l select=1:ncpus=1
+#PBS -l place=free:shared
+#### Type of node: small or large memory
 #PBS -q largemem
-#### job array: one per 6 ms files
-#PBS -J 0-17
+#### job array: one per 6 ms files (2 beams X 3 interleaves)
+#PBS -J 7-17
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -47,7 +47,7 @@ fieldName="SMC1-0_M344-11"
 SBID="8906"
 
 ## set channel range
-width=2
+width=4
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"

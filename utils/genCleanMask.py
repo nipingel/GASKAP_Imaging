@@ -4,6 +4,8 @@ Script to generate a clean mask from list of files from a user provided extensio
 which denotes the minimum pixel value to be included in the clean mask. Generally ~2x the noise
 These masks will then be used by tclean to continue cleaning/imaging. 
 
+** MUST BE RUN IN SAME DIRECTORY AS INPUT FILES **
+
 User inputs:
 -f --fileExt - <required> file extension (e.g., 'image')
 -t --threshold - <required> minimum pixel value to include in mask 
@@ -15,6 +17,7 @@ __email__="Nickolas.Pingel@anu.edu.au"
 ### imports
 import argparse
 import glob
+import os
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--fileExt', help = '<required> file extension (e.g., image)', required = True)
@@ -28,20 +31,18 @@ threshold = args.threshold
 print('Creating mask from pixels with values at and above %s [Jy/Beam]' % threshold)
 
 ## create list of files
-fileList = glob.glob('../casaConfigScripts/*.%s' % fileExt)
+fileList = glob.glob('*.%s' % fileExt)
 
 ## sort numerically
 fileList.sort()
 
 ## loop through list to make mask based on threshold
-#for file in fileList:
-for i in range(0, 1):
-	file = fileList[i]
+for file in fileList:
 	print('Generating mask for file: %s' % file)
-	
+
 	## make internal mask based on threshold
 	ia.open(file)
-	ia.calcmask(mask = '%s > %s' % (file, threshold), name = 'sig_2.0_mask')
+	ia.calcmask(mask = '%s > %s' % (file, threshold), name = 'sig_2.0.mask')
 	ia.done()
 
 	## generate actual 1/0 mask image

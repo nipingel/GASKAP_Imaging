@@ -1,11 +1,11 @@
 #
 #### JOB NAME
-#PBS -N clean_200-227
+#PBS -N clean216-43
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 cores per one job instance
-#PBS -l select=1:ncpus=4:mpiprocs=5:mem=16gb
+#PBS -l select=1:ncpus=5:mpiprocs=5:mem=22gb
 #PBS -l place=scatter
 #### Type of node: smallmem or largemem
 #PBS -q largemem
@@ -16,7 +16,7 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((200 + $job_num))
+chanNum=$((216 + $job_num))
 
 ## select which beams to include
 startBeam=0
@@ -24,17 +24,16 @@ endBeam=35
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
-skipBeams=5
+skipBeams=37
 skipInter=ABC
 
 ## set imaging parameters
-totNiter=20000
+totNiter=10000
 nCycleNiter=2000
 minorThresh=10 ##mJy
 subDir=CONTSUB
-output=SMC_MSCLEAN_scale32_iter20000_bias0.4_CHAN$chanNum
-phaseCenter="J2000 00h52m44s -72d49m42"
-
+output=GASKAP_10941_MSCLEAN_scale32_iter20000_bias0.4_CHAN$chanNum
+phaseCenter="J2000 00h58m43s -72d31m49"
 
 ## Inform user of explicit call to imager
-../../casa-pipeline-release-5.6.2-2.el7/bin/mpicasa -n 5 ../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -d $subDir -o $output -p="$phaseCenter" -s $startBeam -e $endBeam -b $skipBeams -i $skipInter -l $chanNum    
+../../casa-pipeline-release-5.6.2-2.el7/bin/mpicasa -n 5 ../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -d $subDir -o $output -p="$phaseCenter" -s $startBeam -e $endBeam -b $skipBeams -i $skipInter -l $chanNum -r True  

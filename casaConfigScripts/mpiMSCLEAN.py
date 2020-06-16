@@ -101,7 +101,8 @@ usepointing=False
 
 ## deconvolution parameters ##
 deconvolver = 'multiscale'
-scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+#scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+scales = [0, 4, 8, 16]
 smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter

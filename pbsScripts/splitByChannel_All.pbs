@@ -46,15 +46,15 @@ job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="CONTSUB"
-fieldName="SMC1-0_M344-11"
-SBID="8906"
+fieldName="GASKAP_M344-11B_T0-0"
+SBID="10941"
 
 ## define channel range to split out
-startChan=285
+startChan=244
 endChan=$(($startChan + 28))
 
 ## set base path to dataS
-baseDataPath="/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered"
+baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -62,7 +62,7 @@ endBeam=$(($startBeam + 2))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(05)
+skipBeams=(37)
 skipInter=(ABC)
 skipCnt=0
 

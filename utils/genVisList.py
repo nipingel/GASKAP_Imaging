@@ -33,9 +33,9 @@ chanNum = int(args.chanNum)
 startBeam = int(args.startBeam)
 endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 
-dataPath = '/avatar/nipingel/ASKAP/SMC/data/smc2019/msdata_smc/altered/'
-SBID = '8906'
-fieldName = 'SMC1-0_M344-11'
+dataPath = '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/'
+SBID = '10941'
+fieldName = 'GASKAP_M344-11B_T0-0'
 interleaveList = ['A', 'B', 'C']
 
 ## initialize empty list to store ms files

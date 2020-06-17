@@ -9,7 +9,7 @@
 #### Type of node: small or large memory
 #PBS -q largemem
 #### job array: one per 6 ms files (2 beams X 3 interleaves)
-#PBS -J 0-17
+#PBS -J 2-17
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -90,12 +90,12 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		msName_1=$baseDataPath"/"$SBID_1"/"$fieldName$inter"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.ms"
-		msName_2=$baseDataPath"/"$SBID_2"/"$fieldName$inter"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		msName_1=$baseDataPath"/"$SBID_1"/"$fieldName$inter"/scienceData_SB"$SBID_1"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		msName_2=$baseDataPath"/"$SBID_2"/"$fieldName$inter"/scienceData_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 		concatName=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 
 		## make call to casa
-		casa --nologfile -c concatVis.py -p1 $msName_1 -p2 $msName_2 -c $concatName
+		casa --nologfile -c concatVis.py -p1 $msName_1 -p2 $msName_2 -o $concatName
 	done
 
 	## incrememnt skipCnt if we skipped an interleave/beam pair 

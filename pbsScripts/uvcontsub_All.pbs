@@ -45,7 +45,8 @@ job_num=$PBS_ARRAY_INDEX
 ## define path variables
 subDir="BINNED"
 fieldName="GASKAP_M344-11B_T0-0"
-SBID="10941"
+SBID_1="10941"
+SBID_2="10944"
 
 ## set channel range
 chanRange="0 140 300 340 400 500"
@@ -95,8 +96,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned"
+		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/BINNED"
+		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned"
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName

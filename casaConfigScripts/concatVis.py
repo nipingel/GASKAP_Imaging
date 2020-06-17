@@ -29,7 +29,7 @@ msName_2 = args.path2.split('/')[-1]
 
 ## construct list of visibilities to be concatenated
 visList = []
-visList.extend([args.path1, args2.path2])
+visList.extend([args.path1, args.path2])
 
 ## set split parameters and run
 default('concat')

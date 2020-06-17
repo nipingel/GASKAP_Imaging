@@ -44,7 +44,8 @@ job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 fieldName="GASKAP_M344-11B_T0-0"
-SBID="10941"
+SBID_1="10941"
+SBID_2="10944"
 
 ## set channel range
 width=4
@@ -92,8 +93,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter
+		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 
 		## make call to casa
 		casa --logfile "binBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -w $width -n $msName

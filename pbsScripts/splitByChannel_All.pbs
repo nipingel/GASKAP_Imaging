@@ -47,10 +47,11 @@ job_num=$PBS_ARRAY_INDEX
 ## define path variables
 subDir="CONTSUB"
 fieldName="GASKAP_M344-11B_T0-0"
-SBID="10941"
+SBID_1="10941"
+SBID_2="10944"
 
 ## define channel range to split out
-startChan=244
+startChan=216
 endChan=$(($startChan + 28))
 
 ## set base path to dataS
@@ -102,8 +103,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		for ((chanNum=$startChan;chanNum<$endChan;chanNum++));
 		do 
 			## define data paths
-			dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$subDir
-			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+			dataPath=$baseDataPath"/"$SBID_1"_"SBID_2/"$fieldName$inter"/"$subDir
+			msName=$dataPath"/scienceData_SB"$SBID_1"_"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
 
 			## make call to casa
 			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum

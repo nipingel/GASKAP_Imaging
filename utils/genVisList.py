@@ -34,7 +34,9 @@ startBeam = int(args.startBeam)
 endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 
 dataPath = '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/'
-SBID = '10941'
+SBID_Comb = '10941_10944'
+SBID_1 = '10941'
+SBID_2 = '10944'
 fieldName = 'GASKAP_M344-11B_T0-0'
 interleaveList = ['A', 'B', 'C']
 
@@ -78,9 +80,9 @@ for i in range(startBeam, endBeam):
 			## split out by channel number. If not defined, then we are creating a list of just continuum
 			## subtracted files	    	
 			if chanNum is not None:
-				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum))		
+				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL_binned.contsub' % (SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 
 		if args.subDir == 'TIME_SPLIT': 
 			## create list of split out ms files (by time)

@@ -10,7 +10,7 @@ SBID_2=10944
 fieldName=GASKAP_M344-11B_T0-0
 
 ## define destination directory
-destDir=/fred/oz145/data/pilot_obs/ms_data/altered/$SBID_1"_"$SBID_2/$fieldName$interVal/CONTSUB
+destDir=/fred/oz145/data/pilot_obs/ms_data/$SBID_1"_"$SBID_2/$fieldName$interVal/CONTSUB
 
 ## loop through and rsync each beam
 for bm in {0..35}

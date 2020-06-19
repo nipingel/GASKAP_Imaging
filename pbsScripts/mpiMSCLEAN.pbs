@@ -32,7 +32,7 @@ totNiter=0
 nCycleNiter=2000
 minorThresh=10 ##mJy
 subDir=CONTSUB
-output=GASKAP_10941__10944_MSCLEAN_scale32_iter20000_bias0.4_CHAN$chanNum
+output=GASKAP_10941_10944_MSCLEAN_scale32_iter20000_bias0.4_CHAN$chanNum
 phaseCenter="J2000 00h58m43s -72d31m49"
 
 ## Inform user of explicit call to imager

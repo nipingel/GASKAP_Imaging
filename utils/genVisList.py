@@ -72,7 +72,7 @@ for i in range(startBeam, endBeam):
 
 		if not args.subDir: ## create list of unbinned, non-continuum subtracted calibrated visibilties 
 			msFile = dataPath + '%s/%s%s/scienceData_SB%s_%s%s.beam%s_SL.ms' % \
-			(SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
+			(SBID_Comb, fieldName, inter, SBID_1, SBID_2, fieldName, inter, beamStr)
 		
 		## create list of binned, continuum subtracted visibilities
 		if args.subDir == 'CONTSUB':
@@ -89,20 +89,17 @@ for i in range(startBeam, endBeam):
 			## if args.chanNum is defined, then we are creating a list of files split out by channel number
 			## and time if not defined, then we are creating a list of files just split out by time
 			if chanNum is not None:
-				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split_chan%d.ms' % (SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum))
+				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_split_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.contsub_split.ms' % \
-				(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub_split.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 		if args.subDir == 'BINNED': ## create list of binned visibilities
 
 			## if args.chanNum is defined, then we are creating a list of files binned and split out by channel number.
 			## If not defined, then we are creating a list of just binned files
 			if chanNum is not None:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned_chan%d.ms' % \
-				(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr, chanNum)
+				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s%s.beam%s_SL.binned.ms' % \
-				(SBID, fieldName, inter, args.subDir, SBID, fieldName, inter, beamStr)
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 
 		## if we skipped a beam, increase skipped counter and reset boolean
 		if skipBool == True:

@@ -46,14 +46,15 @@ cd /fred/oz145/pros/GASKAP_Imaging/casaConfigScripts/
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-fieldName="SMC1-0_M344-11"
-SBID="8906"
+fieldName="GASKAP_M344-11B_T0-0"
+SBID_1="10941"
+SBID_2="10944"
 
 ## set channel range
 width=4
 
 ## set base path to data
-baseDataPath="/fred/oz145/data/smc2019/msdata_smc/altered"
+baseDataPath="/fred/oz145/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -61,7 +62,7 @@ endBeam=$(($startBeam + 2))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(05)
+skipBeams=(37)
 skipInter=(ABC)
 skipCnt=0
 
@@ -95,8 +96,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter
+		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 
 		## make call to casa
 		casa --logfile "binBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -w $width -n $msName

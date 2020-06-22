@@ -4,7 +4,7 @@
 
 ## define interleave, SBID, Project name 
 rootDir=/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/
-interVal=A
+interVal=B
 SBID_1=10941
 SBID_2=10944
 fieldName=GASKAP_M344-11B_T0-0
@@ -13,7 +13,7 @@ fieldName=GASKAP_M344-11B_T0-0
 destDir=/fred/oz145/data/pilot_obs/ms_data/$SBID_1"_"$SBID_2/$fieldName$interVal/CONTSUB
 
 ## loop through and rsync each beam
-for bm in {0..35}
+for bm in {1..35}
 do
 	if [ $bm -lt 10 ]
 	then

@@ -47,15 +47,16 @@ job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="BINNED"
-fieldName="SMC1-0_M344-11"
-SBID="8906"
+fieldName="GASKAP_M344-11B_T0-0"
+SBID_1="10941"
+SBID_2="10944"
 
 ## set channel range
-chanRange="0 400 680 750 900 1050"
+chanRange="0 140 300 340 400 500"
 order=1
 
 ## set base path to data
-baseDataPath="/fred/oz145/data/smc2019/msdata_smc/altered"
+baseDataPath="/fred/oz145/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -63,7 +64,7 @@ endBeam=$(($startBeam + 2))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(05)
+skipBeams=(37)
 skipInter=(ABC)
 skipCnt=0
 
@@ -98,8 +99,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned"
+		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/BINNED"
+		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned"
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName

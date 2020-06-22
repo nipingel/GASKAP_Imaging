@@ -48,16 +48,17 @@ job_num=$SLURM_ARRAY_TASK_ID
 
 ## define path variables
 subDir="CONTSUB"
-fieldName="SMC1-0_M344-11"
-SBID="8906"
+fieldName="GASKAP_M344-11B_T0-0"
+SBID_1="10941"
+SBID_2="10944"
 
 ## define channel range to split out
-startChan=512
-endChan=$(($startChan + 1))
+startChan=244
+endChan=$(($startChan + 28))
 
 
 ## set base path to dataS
-baseDataPath="/fred/oz145/data/smc2019/msdata_smc/altered"
+baseDataPath="/fred/oz145/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -65,7 +66,7 @@ endBeam=$(($startBeam + 2))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(05)
+skipBeams=(37)
 skipInter=(ABC)
 skipCnt=0
 
@@ -105,8 +106,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		for ((chanNum=$startChan;chanNum<$endChan;chanNum++));
 		do 
 			## define data paths
-			dataPath=$baseDataPath"/"$SBID$"/"$fieldName$inter"/"$subDir
-			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+			dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/"$subDir
+			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
 
 			## make call to casa
 			../../casa-pipeline-release-5.6.1-8.el7/bin/casa --logfile "splitByChan_Beam"$beamNum"_chan"$chanNum"_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum

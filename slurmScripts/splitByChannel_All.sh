@@ -58,7 +58,7 @@ endChan=$(($startChan + 28))
 
 
 ## set base path to dataS
-baseDataPath="/fred/oz145/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0"
+baseDataPath="/fred/oz145/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))

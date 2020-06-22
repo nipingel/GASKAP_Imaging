@@ -8,7 +8,7 @@
 #PBS -l select=1:ncpus=1
 #PBS -l place=free:shared
 #### Type of node: smallmem or largemem
-#PBS -q smallmem
+#PBS -q largemem
 #### job array: one per 6 ms files
 #PBS -J 0-17
 
@@ -51,7 +51,7 @@ SBID_1="10941"
 SBID_2="10944"
 
 ## define channel range to split out
-startChan=216
+startChan=188
 endChan=$(($startChan + 28))
 
 ## set base path to dataS

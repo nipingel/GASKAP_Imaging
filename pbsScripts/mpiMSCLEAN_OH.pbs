@@ -1,0 +1,35 @@
+#### JOB NAME
+#PBS -N clnOH_bm3
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 cores per one job instance
+#PBS -l select=1:ncpus=12:mpiprocs=1:mem=10gb
+#PBS -l place=scatter
+#### Type of node: smallmem or largemem
+#PBS -q largemem
+#### job array: one job instance per velocity plane 
+#PBS -J 0-23
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+chanChunkIdx=$PBS_ARRAY_INDEX
+
+chanChunkArr=(0_124 125_249 250_374 375_449 500_624 625_749 750_874 875_999 1000_1124 1125_1249 1250_1374 1375_1499 1500_1624 1625_1749 1750_1874 1875_1999 2000_2124 2125_2249 2250_2374 2375_2499 2500_2624 2625_2749 2750_2874 2875_2999)
+
+## define channel chunk to image based on job array ID
+chanChunk=${chanChunkArr[$chanChunkIdx]}
+dataDir=/avatar/nipingel/ASKAP/OH/data/10656/GASKAP_OHTest
+
+##set beam number
+beamNum=03
+
+## set imaging parameters
+totNiter=0
+nCycleNiter=0
+minorThresh=10 ##mJy
+output=GASKAP_10656_MSCLEAN_OHTest_1667_CHANS$chanChunk
+restfreq=1.6673590
+vis=$dataDir"/scienceData_SB10656_GASKAP_OHTest.beam"$beamNum"_1667_cont_SL_chans"$chanChunk".ms"
+
+## Inform user of explicit call to imager
+../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -o $output -f $restfreq -v $vis

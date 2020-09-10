@@ -32,6 +32,6 @@ default('split')
 print('Splitting out channels %s from %s ' % (chanChunk, msName))
 vis = args.msPath
 outputvis = args.msPath + '_chans%s.ms' % chanChunk
-spw='0:%s' % chanChunk.replace('-', '~')
+spw='0:%s' % chanChunk.replace('_', '~')
 datacolumn = 'data'
 split()

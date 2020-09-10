@@ -51,7 +51,7 @@ SBID_1="10941"
 SBID_2="10944"
 
 ## define channel range to split out
-startChan=188
+startChan=104
 endChan=$(($startChan + 28))
 
 ## set base path to dataS

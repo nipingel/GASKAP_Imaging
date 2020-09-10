@@ -66,6 +66,7 @@ datacolumn = 'data'
 phasecenter = phaseCenterStr
 imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
+antenna='!ak01&ak04'
 
 ## data selection parameters
 specmode = 'mfs'
@@ -101,13 +102,12 @@ usepointing=False
 
 ## deconvolution parameters ##
 deconvolver = 'multiscale'
-#scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
-scales = [0, 4, 8, 16]
+scales = [0, 4, 8] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
 smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter
-cyclefactor = 0.25 ## set < 1.0 to clean deeper before triggering major cycle
-minpsffraction = 0.025 ## clean deeper before triggering major cycle
+cyclefactor = 0.5 ## set < 1.0 to clean deeper before triggering major cycle
+minpsffraction = 0.05 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
 restoringbeam = '30.0arcsec'

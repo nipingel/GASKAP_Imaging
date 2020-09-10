@@ -23,15 +23,12 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--totNiter', help = '<required> total number of iterations', required = True)
 parser.add_argument('-n', '--nCycleNiter', help = '<required> total number of minor cycle iterations', required = True)
 parser.add_argument('-w', '--minorThresh', help = '<required> minor cycle threshold [mJy]', required = True)
-parser.add_argument('-v', '--visPath', help = '<required> FULL path to measurement set for beam'  = True)
+parser.add_argument('-v', '--visPath', help = '<required> FULL path to measurement set for beam', required = True)
 parser.add_argument('-o', '--output', help = '<required> output name', required = True)
-parser.add_argument('-f', '--restfreq', help = '<required> rest frequency of OH transition we\'re imaging in units of GHz')
+parser.add_argument('-f', '--restfreq', help = '<required> rest frequency of OH transition we\'re imaging in units of GHz', required = True)
 parser.add_argument('-r', '--restart', help = '<optional> restart from previously generated images', default = False)
 args, unknown = parser.parse_known_args()
 
-## unpack/reformat input to lists for generating visibility list
-skipBeamList = [args.skipBeam]
-skipInterList = [args.skipInter]
 
 ## unpack required imaging arguments
 totNiter = int(args.totNiter)
@@ -39,7 +36,7 @@ nCycleNiter = int(args.nCycleNiter)
 minorThresh = int(args.minorThresh)
 inputVis = args.visPath
 outputName = args.output
-restfreq = args.restfreq
+restFreq = args.restfreq
 inputRestart = args.restart
 
 ## image/output parameters
@@ -49,13 +46,13 @@ vis = inputVis
 imagename = outputName
 selectdata = True
 datacolumn = 'data'
-imsize = [800, 800]
+imsize = [1000, 1000]
 cell = ['7arcsec', '7arcsec']
 
 ## data selection parameters
 specmode = 'cube'
 outframe = 'TOPO'
-restfreq = '%sGHz' % restfreq
+restfreq = '%sGHz' % restFreq
 
 ## manual mask parameters
 usemask = 'user'
@@ -105,7 +102,7 @@ robust = 1.1
 ## additional parameters
 interactive = False
 verbose = True
-parallel = True
+parallel = False
 calcpsf=True
 calcres=True
 

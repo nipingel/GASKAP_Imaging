@@ -4,10 +4,10 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 cores per one job instance
-#PBS -l select=1:ncpus=12:mpiprocs=1:mem=10gb
+#PBS -l select=1:ncpus=1:mpiprocs=1:mem=10gb
 #PBS -l place=scatter
 #### Type of node: smallmem or largemem
-#PBS -q largemem
+#PBS -q smallmem
 #### job array: one job instance per velocity plane 
 #PBS -J 0-23
 
@@ -29,7 +29,6 @@ nCycleNiter=0
 minorThresh=10 ##mJy
 output=GASKAP_10656_MSCLEAN_OHTest_1667_CHANS$chanChunk
 restfreq=1.6673590
-vis=$dataDir"/scienceData_SB10656_GASKAP_OHTest.beam"$beamNum"_1667_cont_SL_chans"$chanChunk".ms"
-
+vis=$dataDir"/scienceData_SB10656_GASKAP_OHTest.beam"$beamNum"_1667_cont_SL.ms_chans"$chanChunk".ms"
 ## Inform user of explicit call to imager
-../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -o $output -f $restfreq -v $vis
+../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN_OH.py -t $totNiter -n $nCycleNiter -w $minorThresh -o $output -f $restfreq -v $vis

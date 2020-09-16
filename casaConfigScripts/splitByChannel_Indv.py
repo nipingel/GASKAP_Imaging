@@ -31,7 +31,9 @@ fileSuffix = msName.split('.')[-1]
 default('split')
 print('Splitting out channel %s from %s ' % (chanNum, msName))
 vis = args.msPath
-outputvis = args.msPath + '_chan%s.ms' % chanNum
-spw='0:%s' % chanNum
+#outputvis = args.msPath + '_chan%s.ms' % chanNum
+outputvis = args.msPath + '_chans104_118.ms'
+#spw='0:%s' % chanNum
+spw='0:104~118'
 datacolumn = 'data'
 split()

@@ -7,7 +7,7 @@
 #PBS -l select=1:ncpus=1
 #PBS -l place=free:shared
 #### Type of node: large memory
-#PBS -q largemem
+#PBS -q smallmem
 #### job array: one per 6 ms files
 #PBS -J 0-17
 
@@ -39,17 +39,16 @@ function containsInters () {
         return $interIn
 }
 
-cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+cd /avatar/lynnca/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="BINNED"
-fieldName="GASKAP_M344-11B_T0-0"
-SBID_1="10941"
-SBID_2="10944"
+fieldName="GASKAP_M344-06"
+SBID="14211"
 
 ## set channel range
-chanRange="0 140 300 340 400 500"
+chanRange="0 100 250 320 430 511"
 order=1
 
 ## set base path to data

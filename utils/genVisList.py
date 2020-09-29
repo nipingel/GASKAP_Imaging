@@ -69,8 +69,8 @@ for i in range(startBeam, endBeam):
 					continue
 
 		if not args.subDir: ## create list of unbinned, non-continuum subtracted calibrated visibilties 
-			msFile = dataPath + '%s/%s%s/scienceData_SB%s_%s%s.beam%s_SL.ms' % \
-			(SBID_Comb, fieldName, inter, SBID_1, SBID_2, fieldName, inter, beamStr)
+			msFile = dataPath + '%s/%s%s/scienceData_SB%s_%s.beam%s_SL.ms' % \
+			(SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
 		
 		## create list of binned, continuum subtracted visibilities
 		if args.subDir == 'CONTSUB':
@@ -78,7 +78,7 @@ for i in range(startBeam, endBeam):
 			## split out by channel number. If not defined, then we are creating a list of just continuum
 			## subtracted files	    	
 			if chanNum is not None:
-				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
+				visList.append(dataPath + '%s/%s%s/scienceData_SB%s_%s_%s.beam%s_SL_binned.contsub_chan%s.ms' % (SBID, fieldName, inter, SBID, fieldName, inter, beamStr, chanNum))		
 			else:
 				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s_%s.beam%s_SL_binned.contsub' % (SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
 

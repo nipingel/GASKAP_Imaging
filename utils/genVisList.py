@@ -33,11 +33,9 @@ chanNum = int(args.chanNum)
 startBeam = int(args.startBeam)
 endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 
-dataPath = '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/'
-SBID_Comb = '10941_10944'
-SBID_1 = '10941'
-SBID_2 = '10944'
-fieldName = 'GASKAP_M344-11B_T0-0'
+dataPath = '/avatar/lynnca/ASKAP/SMC/data/pilot_obs/ms_data/'
+SBID = '14211'
+fieldName = 'GASKAP_M344-06'
 interleaveList = ['A', 'B', 'C']
 
 ## initialize empty list to store ms files
@@ -82,7 +80,7 @@ for i in range(startBeam, endBeam):
 			if chanNum is not None:
 				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_%s_%s.beam%s_SL_binned.contsub' % (SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
 
 		if args.subDir == 'TIME_SPLIT': 
 			## create list of split out ms files (by time)

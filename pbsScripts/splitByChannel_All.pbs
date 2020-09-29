@@ -41,21 +41,20 @@ function containsInters () {
 }
 
 
-cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+cd /avatar/lynnca/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="CONTSUB"
-fieldName="GASKAP_M344-11B_T0-0"
-SBID_1="10941"
-SBID_2="10944"
+fieldName="GASKAP_M344-06"
+SBID="14211"
 
 ## define channel range to split out
-startChan=188
+startChan=86
 endChan=$(($startChan + 28))
 
 ## set base path to dataS
-baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
+baseDataPath="/avatar/lynnca/ASKAP/SMC/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
@@ -103,8 +102,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		for ((chanNum=$startChan;chanNum<$endChan;chanNum++));
 		do 
 			## define data paths
-			dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/"$subDir
-			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
+			dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter
+			msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned.contsub"
 
 			## make call to casa
 			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum

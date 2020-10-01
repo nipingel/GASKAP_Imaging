@@ -36,4 +36,4 @@ output=GASKAP_14211_MSCLEAN_scale16_iter20000_bias0.4_CHAN$chanNum
 phaseCenter="J2000 01h50m38s -70d45m26"
 
 ## Inform user of explicit call to imager
-../../casa-pipeline-release-5.6.2-2.el7/bin/mpicasa -n 5 ../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -d $subDir -o $output -p="$phaseCenter" -s $startBeam -e $endBeam -b $skipBeams -i $skipInter -l $chanNum  
+../../casa-release-5.7.0-134.el7/bin/mpicasa -n 5 ../../casa-release-5.7.0-134.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -d $subDir -o $output -p="$phaseCenter" -s $startBeam -e $endBeam -b $skipBeams -i $skipInter -l $chanNum  

@@ -24,8 +24,8 @@ dataDir=/avatar/nipingel/ASKAP/OH/data/10656/GASKAP_OHTest
 beamNum=03
 
 ## set imaging parameters
-totNiter=0
-nCycleNiter=0
+totNiter=625000
+nCycleNiter=1000
 minorThresh=10 ##mJy
 output=GASKAP_10656_MSCLEAN_OHTest_1667_CHANS$chanChunk
 restfreq=1.6673590

@@ -56,7 +56,7 @@ restfreq = '%sGHz' % restFreq
 
 ## manual mask parameters
 usemask = 'user'
-mask = ''
+mask = 'OH_beam3_cleanRegion.crtf'
 
 ## automasking parameters ##
 #usemask = 'auto-multithresh'

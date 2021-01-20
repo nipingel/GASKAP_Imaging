@@ -8,7 +8,7 @@
 #PBS -l select=1:ncpus=1
 #PBS -l place=free:shared
 #### Type of node: smallmem or largemem
-#PBS -q largemem
+#PBS -q smallmem
 #### job array: one per 6 ms files
 #PBS -J 0-17
 
@@ -44,15 +44,22 @@ function containsInters () {
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
+## array to hold specific beams to process
+#beamArr=(6 10 12 14)
+
 ## define path variables
-subDir="CONTSUB"
+#subDir="CONTSUB"
+subDir="TIME_SPLIT"
+#fieldName="GASKAP_GC_HI"
 fieldName="GASKAP_M344-11B_T0-0"
+#SBID="13538"
+
 SBID_1="10941"
 SBID_2="10944"
 
 ## define channel range to split out
-startChan=188
-endChan=$(($startChan + 28))
+startChan=225
+endChan=$(($startChan + 1))
 
 ## set base path to dataS
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
@@ -60,6 +67,9 @@ baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
 startBeam=$(($job_num * 2))
 endBeam=$(($startBeam + 2))
+
+#startBeam=${beamArr[$job_num]}
+#endBeam=$(($startBeam + 1))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
@@ -104,8 +114,9 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		do 
 			## define data paths
 			dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/"$subDir
-			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub"
-
+			#dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter"/"$subDir
+			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub.split"
+			#msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned.contsub"
 			## make call to casa
 			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
 		done

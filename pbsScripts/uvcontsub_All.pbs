@@ -44,13 +44,14 @@ job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="BINNED"
-fieldName="GASKAP_M344-11B_T0-0"
-SBID_1="10941"
-SBID_2="10944"
+fieldName="GASKAP_GC_HI"
+SBID="13538"
+#SBID_1="10941"
+#SBID_2="10944"
 
 ## set channel range
-chanRange="0 140 300 340 400 500"
-order=1
+chanRange="0 600 950 1200"
+order=5
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
@@ -96,8 +97,10 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/BINNED"
-		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned"
+		#dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/"$subDir
+		dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter"/"$subDir
+		#msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned"
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName

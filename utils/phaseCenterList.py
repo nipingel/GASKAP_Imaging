@@ -42,7 +42,7 @@ for inter in interleaveList:
 			beamStr = '0' + str(i)
 		else:
 			beamStr = str(i)
-                msFile = '%s/%s/%s/%s%s/scienceData_SB%s_%s%s.beam%s_SL.ms' % (subDir, SBID, fieldName, fieldName, inter, SBID, fieldName, inter, beamStr)
+                msFile = '%s/%s/%s%s/scienceData_SB%s_%s_%s.beam%s_SL.ms' % (subDir, SBID, fieldName, inter, SBID, fieldName, inter, beamStr)
 		#msFile = '%s/scienceData_SB%s_%s%s.beam%s_SL.ms' % (subDir, SBID, fieldName, inter, beamStr)
 
 		## open table in read-only to get FIELD_ID

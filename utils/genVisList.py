@@ -33,10 +33,13 @@ chanNum = int(args.chanNum)
 startBeam = int(args.startBeam)
 endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 
+print(skipBeamList, skipInterList)
 dataPath = '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/'
+SBID = '13538'
 SBID_Comb = '10941_10944'
 SBID_1 = '10941'
 SBID_2 = '10944'
+#fieldName = 'GASKAP_GC_HI'
 fieldName = 'GASKAP_M344-11B_T0-0'
 interleaveList = ['A', 'B', 'C']
 
@@ -66,6 +69,7 @@ for i in range(startBeam, endBeam):
 
 				## set skip boolean variable to true
 				skipBool = True
+				print(skipCnt)
 				skipInter = skipInterList[skipCnt]
 				if inter in skipInter:
 					continue
@@ -82,16 +86,15 @@ for i in range(startBeam, endBeam):
 			if chanNum is not None:
 				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
-
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s_%s.beam%s_SL_binned.contsub' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 		if args.subDir == 'TIME_SPLIT': 
 			## create list of split out ms files (by time)
 			## if args.chanNum is defined, then we are creating a list of files split out by channel number
 			## and time if not defined, then we are creating a list of files just split out by time
 			if chanNum is not None:
-				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_split_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))
+				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub.split_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))
 			else:
-				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub_split.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
+				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL_binned.contsub.split.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 		if args.subDir == 'BINNED': ## create list of binned visibilities
 
 			## if args.chanNum is defined, then we are creating a list of files binned and split out by channel number.

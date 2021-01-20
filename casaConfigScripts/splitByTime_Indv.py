@@ -29,7 +29,7 @@ msName = args.msPath.split('/')[-1]
 default('split')
 print('Splitting out %s from %s ' % (timeRange, msName))
 vis = args.msPath
-outputvis = args.msPath + '.timeSplit'
+outputvis = args.msPath.replace('.contsub', '.contsub.split')
 timerange = timeRange
 datacolumn = 'data'
 split()

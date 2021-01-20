@@ -35,14 +35,14 @@ parser.add_argument('-o', '--output', help = '<required> output name', required 
 parser.add_argument('-r', '--restart', help = '<optional> restart from previously generated images', default = False)
 parser.add_argument('-s', '--startBeam', help ='<optional> starting beam', default = 0)
 parser.add_argument('-e', '--endBeam', help = '<optional> ending beam', default = 35)
-parser.add_argument('-b', '--skipBeam', help ='<optional> list of beams to skip')
-parser.add_argument('-i', '--skipInter', help = '<optional> list of interleaves to skip')
+parser.add_argument('-b', '--skipBeam', help ='<optional> list of beams to skip', nargs = '+')
+parser.add_argument('-i', '--skipInter', help = '<optional> list of interleaves to skip', nargs = '+')
 parser.add_argument('-l', '--chanNum', help='<optional> channel number if dealing with split ms files')
 args, unknown = parser.parse_known_args()
 
 ## unpack/reformat input to lists for generating visibility list
-skipBeamList = [args.skipBeam]
-skipInterList = [args.skipInter]
+skipBeamList = args.skipBeam
+skipInterList = args.skipInter
 
 ## unpack required imaging arguments
 totNiter = int(args.totNiter)
@@ -54,11 +54,11 @@ inputRestart = args.restart
 
 ## generate visibility list with input arguments
 sys.argv = ['../utils/genVisList.py', '-s', args.startBeam, '-e', args.endBeam, '-d', args.subDir, '-b', skipBeamList, '-i', skipInterList, '-c', args.chanNum]
-execfile('../utils/genVisList.py')
+execfile('../utils/genVisList.py', globals())
+#execfile('../utils/genVisList.py')
 
 ## image/output parameters
 default('tclean')
-
 vis = visList
 imagename = outputName
 selectdata = True
@@ -66,6 +66,9 @@ datacolumn = 'data'
 phasecenter = phaseCenterStr
 imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
+
+## REMOVE ak1-ak4 BASELINE
+antenna='!ak01&ak04'
 
 ## data selection parameters
 specmode = 'mfs'
@@ -90,7 +93,7 @@ mask = ''
 
 ## gridding parameters ##
 interpolation = 'linear'
-vptable = '../misc/ASKAP_AIRY_BP.tab'
+vptable = '../misc/ASKAP_12m.tab'
 gridder='mosaic'
 #wprojplanes=1024
 #psterm = True
@@ -101,17 +104,17 @@ usepointing=False
 
 ## deconvolution parameters ##
 deconvolver = 'multiscale'
-#scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
-scales = [0, 4, 8, 16]
+scales = [0, 4, 8, 16, 32, 64] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+#scales = [0, 4, 8, 16]
 smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter
-cyclefactor = 0.25 ## set < 1.0 to clean deeper before triggering major cycle
+cyclefactor = 0.75 ## set < 1.0 to clean deeper before triggering major cycle
 minpsffraction = 0.025 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
 restoringbeam = '30.0arcsec'
-pblimit = 0.05
+pblimit = 0.0
 normtype = 'flatnoise'
 
 ## visibility weighting ##

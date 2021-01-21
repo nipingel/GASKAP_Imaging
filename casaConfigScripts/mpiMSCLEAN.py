@@ -93,7 +93,9 @@ mask = ''
 
 ## gridding parameters ##
 interpolation = 'linear'
-vptable = '../misc/ASKAP_12m.tab'
+#vptable = '../misc/ASKAP_cen_beam.tab'
+#vptable = '../misc/ASKAP_AIRY_BP.tab'
+vptable = '../misc/ASKAP_11mdiam_1mblockage.tab'
 gridder='mosaic'
 #wprojplanes=1024
 #psterm = True
@@ -114,7 +116,7 @@ minpsffraction = 0.025 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
 restoringbeam = '30.0arcsec'
-pblimit = 0.0
+pblimit = 0.05
 normtype = 'flatnoise'
 
 ## visibility weighting ##
@@ -127,10 +129,16 @@ verbose = True
 parallel = True
 calcpsf=True
 calcres=True
+restart = False
 
 ## check if we are restarting
 if inputRestart == 'True':
 	calcpsf = False
 	calcres = False
 	restart = True
-tclean()
+#tclean()
+tclean(vis = visList, imagename = imagename, selectdata = True, datacolumn = datacolumn, phasecenter = phasecenter, imsize = imsize, cell = cell, antenna = antenna, 
+	specmode = specmode, outframe = outframe, restfreq = restfreq, usemask = usemask, mask = mask, interpolation = interpolation, vptable = vptable, gridder = gridder, 
+	mosweight = mosweight, usepointing = usepointing, deconvolver = deconvolver, niter = niter, cycleniter = cycleniter, cyclefactor = 0.75, threshold = threshold, 
+	restoringbeam = restoringbeam, pblimit = pblimit, normtype = normtype, weighting = weighting, robust = robust, interactive = False, calcpsf = calcpsf, calcres = calcres, 
+	parallel = parallel, restart = restart)

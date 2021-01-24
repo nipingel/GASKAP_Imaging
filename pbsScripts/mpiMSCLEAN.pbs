@@ -1,6 +1,5 @@
-#
 #### JOB NAME
-#PBS -N cln225_11m
+#PBS -N cln225_Holo
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
@@ -34,7 +33,7 @@ nCycleNiter=2000
 minorThresh=5 ##mJy
 subDir=CONTSUB
 phaseCenter="J2000 00h58m43s -72d31m49"
-output=GASKAP_SB10941_10944_MSCLEAN_scale64_11mdiam_1mblockage_VP_CHAN$chanNum
+output=GASKAP_SB10941_10944_MSCLEAN_scale64_HoloVP_CHAN$chanNum
 
 # Inform user of explicit call to imager
 #../../casa-pipeline-release-5.6.2-2.el7/bin/mpicasa -n 15 ../../casa-pipeline-release-5.6.2-2.el7/bin/casa --logfile $output".log" -c mpiMSCLEAN.py -t $totNiter -n $nCycleNiter -w $minorThresh -d $subDir -o $output -p="$phaseCenter" -s $startBeam -e $endBeam -b $skipBeams -i $skipInter -l $chanNum

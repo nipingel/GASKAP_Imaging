@@ -24,7 +24,6 @@ __status__="Production"
 """
 ## imports
 import argparse
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--totNiter', help = '<required> total number of iterations', required = True)
 parser.add_argument('-n', '--nCycleNiter', help = '<required> total number of minor cycle iterations', required = True)
@@ -56,6 +55,7 @@ inputRestart = args.restart
 sys.argv = ['../utils/genVisList.py', '-s', args.startBeam, '-e', args.endBeam, '-d', args.subDir, '-b', skipBeamList, '-i', skipInterList, '-c', args.chanNum]
 execfile('../utils/genVisList.py', globals())
 #execfile('../utils/genVisList.py')
+#visList = ['/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0A/CONTSUB/scienceData_SB10941_SB10944_GASKAP_M344-11B_T0-0A.beam05_SL.binned.contsub_chan225.ms', '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0A/CONTSUB/scienceData_SB10941_SB10944_GASKAP_M344-11B_T0-0A.beam00_SL.binned.contsub_chan225.ms']
 
 ## image/output parameters
 default('tclean')
@@ -64,6 +64,7 @@ imagename = outputName
 selectdata = True
 datacolumn = 'data'
 phasecenter = phaseCenterStr
+
 imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
 
@@ -72,9 +73,9 @@ antenna='!ak01&ak04'
 
 ## data selection parameters
 specmode = 'mfs'
-outframe = 'TOPO'
-restfreq = '1.420405GHz'
-
+outframe = 'LSRK'
+#restfreq = '1.420405GHz'
+restfreq = []
 ## manual mask parameters
 usemask = 'user'
 mask = ''
@@ -93,9 +94,9 @@ mask = ''
 
 ## gridding parameters ##
 interpolation = 'linear'
-#vptable = '../misc/ASKAP_cen_beam.tab'
 #vptable = '../misc/ASKAP_AIRY_BP.tab'
-vptable = '../misc/ASKAP_11mdiam_1mblockage.tab'
+vptable = '../misc/ASKAP_Holo.tab'
+#vptable = '../misc/ASKAP_11mdiam_1mblockage.tab'
 gridder='mosaic'
 #wprojplanes=1024
 #psterm = True
@@ -111,8 +112,8 @@ scales = [0, 4, 8, 16, 32, 64] # point source, ~2xbeam, ..., scale at which mscl
 smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter
-cyclefactor = 0.75 ## set < 1.0 to clean deeper before triggering major cycle
-minpsffraction = 0.025 ## clean deeper before triggering major cycle
+cyclefactor = 1.0 ## set < 1.0 to clean deeper before triggering major cycle
+minpsffraction = 0.05 ## clean deeper before triggering major cycle
 maxpsffraction = 0.8 ## keep default cleaning depth per minor cycle (clean at least the top 20%)
 threshold = '%dmJy' % minorThresh
 restoringbeam = '30.0arcsec'
@@ -126,7 +127,7 @@ robust = 1.1
 ## additional parameters
 interactive = False
 verbose = True
-parallel = True
+parallel = False
 calcpsf=True
 calcres=True
 restart = False
@@ -139,6 +140,6 @@ if inputRestart == 'True':
 #tclean()
 tclean(vis = visList, imagename = imagename, selectdata = True, datacolumn = datacolumn, phasecenter = phasecenter, imsize = imsize, cell = cell, antenna = antenna, 
 	specmode = specmode, outframe = outframe, restfreq = restfreq, usemask = usemask, mask = mask, interpolation = interpolation, vptable = vptable, gridder = gridder, 
-	mosweight = mosweight, usepointing = usepointing, deconvolver = deconvolver, niter = niter, cycleniter = cycleniter, cyclefactor = 0.75, threshold = threshold, 
+	mosweight = mosweight, scales = scales, usepointing = usepointing, deconvolver = deconvolver, niter = niter, cycleniter = cycleniter, cyclefactor = 0.75, threshold = threshold, 
 	restoringbeam = restoringbeam, pblimit = pblimit, normtype = normtype, weighting = weighting, robust = robust, interactive = False, calcpsf = calcpsf, calcres = calcres, 
 	parallel = parallel, restart = restart)

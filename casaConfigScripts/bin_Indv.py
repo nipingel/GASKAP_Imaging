@@ -29,7 +29,7 @@ msName = args.msPath.split('/')[-1]
 default('split')
 print('Binning %s by %d channels' % (msName, widthChans))
 vis = args.msPath
-outputvis = args.msPath.replace('.ms', '.binned')
+outputvis = args.msPath.replace('.ms', '_binned.ms')
 width = widthChans
 datacolumn = 'data'
 split()

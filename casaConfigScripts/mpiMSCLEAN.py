@@ -53,8 +53,8 @@ inputRestart = args.restart
 
 ## generate visibility list with input arguments
 sys.argv = ['../utils/genVisList.py', '-s', args.startBeam, '-e', args.endBeam, '-d', args.subDir, '-b', skipBeamList, '-i', skipInterList, '-c', args.chanNum]
-execfile('../utils/genVisList.py', globals())
-#execfile('../utils/genVisList.py')
+#execfile('../utils/genVisList.py', globals())
+execfile('../utils/genVisList.py')
 #visList = ['/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0A/CONTSUB/scienceData_SB10941_SB10944_GASKAP_M344-11B_T0-0A.beam05_SL.binned.contsub_chan225.ms', '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/GASKAP_M344-11B_T0-0A/CONTSUB/scienceData_SB10941_SB10944_GASKAP_M344-11B_T0-0A.beam00_SL.binned.contsub_chan225.ms']
 
 ## image/output parameters
@@ -69,7 +69,7 @@ imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
 
 ## REMOVE ak1-ak4 BASELINE
-antenna='!ak01&ak04'
+#antenna='!ak01&ak04'
 
 ## data selection parameters
 specmode = 'mfs'
@@ -94,8 +94,8 @@ mask = ''
 
 ## gridding parameters ##
 interpolation = 'linear'
-#vptable = '../misc/ASKAP_AIRY_BP.tab'
-vptable = '../misc/ASKAP_Holo.tab'
+vptable = '../misc/ASKAP_AIRY_BP.tab'
+#vptable = '../misc/ASKAP_Holo.tab'
 #vptable = '../misc/ASKAP_11mdiam_1mblockage.tab'
 gridder='mosaic'
 #wprojplanes=1024
@@ -107,7 +107,7 @@ usepointing=False
 
 ## deconvolution parameters ##
 deconvolver = 'multiscale'
-scales = [0, 4, 8, 16, 32, 64] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
 #scales = [0, 4, 8, 16]
 smallscalebias = 0.4
 niter = totNiter
@@ -141,5 +141,5 @@ if inputRestart == 'True':
 tclean(vis = visList, imagename = imagename, selectdata = True, datacolumn = datacolumn, phasecenter = phasecenter, imsize = imsize, cell = cell, antenna = antenna, 
 	specmode = specmode, outframe = outframe, restfreq = restfreq, usemask = usemask, mask = mask, interpolation = interpolation, vptable = vptable, gridder = gridder, 
 	mosweight = mosweight, scales = scales, usepointing = usepointing, deconvolver = deconvolver, niter = niter, cycleniter = cycleniter, cyclefactor = 0.75, threshold = threshold, 
-	restoringbeam = restoringbeam, pblimit = pblimit, normtype = normtype, weighting = weighting, robust = robust, interactive = False, calcpsf = calcpsf, calcres = calcres, 
+	restoringbeam = restoringbeam, pblimit = pblimit, normtype = normtype, weighting = weighting, interactive = False, calcpsf = calcpsf, calcres = calcres, 
 	parallel = parallel, restart = restart)

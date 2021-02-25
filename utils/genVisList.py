@@ -17,7 +17,6 @@ __status__="Production"
 """
 ## imports
 import argparse
-
 parser = argparse.ArgumentParser()
 parser.add_argument('-s', '--startBeam', help='<optional> starting beam', default = 0)
 parser.add_argument('-e', '--endBeam', help = '<optional> ending beam', default = 35)
@@ -36,11 +35,11 @@ endBeam = int(args.endBeam) + 1 ## make inclusive for for-loop
 print(skipBeamList, skipInterList)
 dataPath = '/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/'
 SBID = '13538'
-SBID_Comb = '10941_10944'
-SBID_1 = '10941'
-SBID_2 = '10944'
+SBID_Comb = '13531_13536'
+SBID_1 = '13531'
+SBID_2 = '13536'
 #fieldName = 'GASKAP_GC_HI'
-fieldName = 'GASKAP_M344-11B_T0-0'
+fieldName = 'GASKAP_GP_HI'
 interleaveList = ['A', 'B', 'C']
 
 ## initialize empty list to store ms files
@@ -84,7 +83,7 @@ for i in range(startBeam, endBeam):
 			## split out by channel number. If not defined, then we are creating a list of just continuum
 			## subtracted files	    	
 			if chanNum is not None:
-				visList.append(dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s%s.beam%s_SL.binned.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
+				visList.append(dataPath + '%s/%s_%s/%s/scienceData_SB%s_SB%s_%s_%s.beam%s_SL_binned.ms.contsub_chan%d.ms' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr, chanNum))		
 			else:
 				msFile = dataPath + '%s/%s%s/%s/scienceData_SB%s_SB%s_%s_%s.beam%s_SL_binned.contsub' % (SBID_Comb, fieldName, inter, args.subDir, SBID_1, SBID_2, fieldName, inter, beamStr)
 		if args.subDir == 'TIME_SPLIT': 

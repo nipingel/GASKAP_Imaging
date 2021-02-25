@@ -37,7 +37,7 @@ print('Creating mask from pixels with PB values at and above %s' % threshold)
 
 ## read in image and pb cubes
 try:
-	image_hdu = fits.open(image_path)
+	image_hdu = fits.open(image_path, mode = 'update')
 	pb_hdu = fits.open(pbCube_path)
 except FileNotFoundError:
 	print('Path to image or PB cube is incorrect; exiting...')
@@ -51,19 +51,26 @@ pb_data = pb_hdu[0].data
 ## 		that the images are the same size 
 if len(image_data.shape) > 3:
 	image_data = image_data[0, :, :, :]
-if len(pb_data.shape) > 3:
-	pb_data = pb_data[0, :, :, :]
+if len(pb_data.shape) > 2:
+	pb_data = pb_data[0, :, :]
 
-compareShape_bool = image_data.shape == pb_data.shape
-if compareShape_bool == False:
-	raise IndexError("Image and PB cubes are not the same shape")
+spatial_dims = image_data.shape[1:]
+if spatial_dims != pb_data.shape[:]:
+	raise IndexError("Cube and PB image do not have the same dimensions")
+
+## cast any blanked pixels in pb pattern cube to 0 for thresholding
+pb_data[np.isnan(pb_data)] = 0.0
 
 ## now, determine which pixels are below user threshold
 bad_pb_indices = np.where(pb_data < threshold)
 
-## set these equal to 0 in data image
-image_data[bad_pb_indices] = np.float('nan')
-
+print('Masking spectral planes...')
+## blank these pixels in data image
+for i in range(0, image_data.shape[0]):
+	plane = image_data[i, :, :]
+	plane[bad_pb_indices] = np.float('nan')
+	image_data[i, :, :] = plane
+print('Writing out new FITS image...')
 ## write out new image
 fits.writeto('%s.fits' % output, data = image_data, header = image_hdu[0].header)
 

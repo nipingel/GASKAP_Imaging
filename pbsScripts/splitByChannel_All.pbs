@@ -48,18 +48,15 @@ job_num=$PBS_ARRAY_INDEX
 #beamArr=(6 10 12 14)
 
 ## define path variables
-#subDir="CONTSUB"
-subDir="TIME_SPLIT"
-#fieldName="GASKAP_GC_HI"
-fieldName="GASKAP_M344-11B_T0-0"
-#SBID="13538"
+subDir="CONTSUB"
+fieldName="GASKAP_GP_HI"
 
-SBID_1="10941"
-SBID_2="10944"
+SBID_1="13531"
+SBID_2="13536"
 
 ## define channel range to split out
-startChan=225
-endChan=$(($startChan + 1))
+startChan=758
+endChan=$(($startChan + 28))
 
 ## set base path to dataS
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
@@ -113,9 +110,9 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		for ((chanNum=$startChan;chanNum<$endChan;chanNum++));
 		do 
 			## define data paths
-			dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/"$subDir
+			dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName"_"$inter"/"$subDir
 			#dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter"/"$subDir
-			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.binned.contsub.split"
+			msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName"_"$inter".beam"$beamNum"_SL_binned.ms.contsub"
 			#msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned.contsub"
 			## make call to casa
 			casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum

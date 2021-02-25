@@ -9,7 +9,7 @@
 #### Type of node: small or large memory
 #PBS -q largemem
 #### job array: one per 6 ms files (2 beams X 3 interleaves)
-#PBS -J 2-17
+#PBS -J 0-17
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -43,9 +43,9 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-fieldName="GASKAP_M344-11B_T0-0"
-SBID_1="10941"
-SBID_2="10944"
+fieldName="GASKAP_GP_HI"
+SBID_1="13531"
+SBID_2="13536"
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
@@ -90,9 +90,9 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		fi
 		
 		## define data paths
-		msName_1=$baseDataPath"/"$SBID_1"/"$fieldName$inter"/scienceData_SB"$SBID_1"_"$fieldName$inter".beam"$beamNum"_SL.ms"
-		msName_2=$baseDataPath"/"$SBID_2"/"$fieldName$inter"/scienceData_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
-		concatName=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+		msName_1=$baseDataPath"/"$SBID_1"/"$fieldName"_"$inter"_02/scienceData_SB"$SBID_1"_"$fieldName"_"$inter"_02.beam"$beamNum"_SL.ms"
+		msName_2=$baseDataPath"/"$SBID_2"/"$fieldName"_"$inter"_01/scienceData_SB"$SBID_2"_"$fieldName"_"$inter"_01.beam"$beamNum"_SL.ms"
+		concatName=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName"_"$inter"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName"_"$inter".beam"$beamNum"_SL.ms"
 
 		## make call to casa
 		casa --nologfile -c concatVis.py -p1 $msName_1 -p2 $msName_2 -o $concatName

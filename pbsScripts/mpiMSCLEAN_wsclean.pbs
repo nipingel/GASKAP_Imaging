@@ -1,0 +1,62 @@
+#### JOB NAME
+#PBS -N wsclean_chan
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 cores per one job instance
+#PBS -l select=1:ncpus=4
+#PBS -l place=free:shared
+#### Type of node: smallmem or largemem
+#PBS -q largemem
+#### job array: one job instance per velocity plane 
+PBS -J 0-28
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts
+job_num=$PBS_ARRAY_INDEX
+
+## define channel range to image based on job array ID
+chanNum=$((749 + $job_num))
+
+## construct path to data
+SBID="14158"
+field_name="M344-06"
+
+base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/"
+sub_dir ="CONTSUB/chan"${chanNum}
+
+## set imaging parameters
+totNiter=50000
+minorThresh=0.01 ##Jy
+m_gain=0.7
+robust=0.8
+scales="0,16,32,64,128"
+imsize=5000 
+cellsize="7asec"
+compute_threads=4 
+beam_size=30 ## arcsec
+multiscale_bias=0.9
+num_major_limit=5
+ms_path=${base_dir}"/"${sub_dir}
+output=GASKAP_SB1458
+
+## call to imager
+wsclean -use-idg -aterm-config ../misc/beammap_all.config \\
+	-field 0,1,2
+	-name ${output} 
+	-weight briggs ${robust}
+	-size ${imsize} ${imsize}
+	-scale ${cellsize}
+	-pol i
+	-beam-size ${beam_size}
+	-casa-mask ../misc/deconvolve.mask
+	-no-negative
+	-nmiter ${num_major_limit}
+	-mgain 0.7
+	-niter ${totNiter}
+	-multiscale-gain 0.1
+	-muliscale -multiscale-scale-bias 0.9
+	-multiscale-scales ${scales}
+	-logtime \\
+	-j ${compute_threads}
+	${ms_path}"/*.ms" | tee ${output}".log"
+

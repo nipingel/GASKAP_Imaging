@@ -1,28 +1,30 @@
+#!/bin/bash
 #### JOB NAME
 #PBS -N wsclean_chan
 ### Ask for email at job start, end, and if aborted
-#PBS -M Nickolas.Pingel@anu.edu.au
-#PBS -m abe
-#### Ask for 1 total nodes, 1 cores per one job instance
-#PBS -l select=1:ncpus=4
-#PBS -l place=free:shared
+####PBS -M Nickolas.Pingel@anu.edu.au
+####PBS -m abe
+#### Ask for 1 total nodes,  cores per one job instance
+#PBS -l select=1:ncpus=24:mpiprocs=12
+#PBS -l place=free
 #### Type of node: smallmem or largemem
 #PBS -q largemem
 #### job array: one job instance per velocity plane 
-PBS -J 0-28
+####PBS -J 0-28
 
-cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts
-job_num=$PBS_ARRAY_INDEX
+#cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts 
+cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/CONTSUB
+#job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-chanNum=$((749 + $job_num))
+#chanNum=$((225 + $job_num))
 
 ## construct path to data
-SBID="14158"
+SBID="10941_10944"
 field_name="M344-06"
 
-base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/"
-sub_dir ="CONTSUB/chan"${chanNum}
+base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
+sub_dir=${SBID}"/CONTSUB"
 
 ## set imaging parameters
 totNiter=50000
@@ -32,31 +34,34 @@ robust=0.8
 scales="0,16,32,64,128"
 imsize=5000 
 cellsize="7asec"
-compute_threads=4 
+compute_threads=2 
 beam_size=30 ## arcsec
 multiscale_bias=0.9
 num_major_limit=5
-ms_path=${base_dir}"/"${sub_dir}
-output=GASKAP_SB1458
-
+ms_path=${base_dir}"/"${sub_dir}"/"*
+output="GASKAP_SB10941_10944_chans225_237"
+mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/deconvolve.mask
+config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_all.config
 ## call to imager
-wsclean -use-idg -aterm-config ../misc/beammap_all.config \\
-	-field 0,1,2
-	-name ${output} 
-	-weight briggs ${robust}
-	-size ${imsize} ${imsize}
-	-scale ${cellsize}
-	-pol i
-	-beam-size ${beam_size}
-	-casa-mask ../misc/deconvolve.mask
-	-no-negative
-	-nmiter ${num_major_limit}
-	-mgain 0.7
-	-niter ${totNiter}
-	-multiscale-gain 0.1
-	-muliscale -multiscale-scale-bias 0.9
-	-multiscale-scales ${scales}
-	-logtime \\
-	-j ${compute_threads}
-	${ms_path}"/*.ms" | tee ${output}".log"
-
+/usr/local/openmpi/bin/mpirun -np 12 wsclean-mp \
+	-use-idg \
+	-aterm-config ${config_path} \
+	-field 0,1,2 \
+	-name ${output} \
+	-weight briggs ${robust} \
+	-casa-mask ${mask_path} \
+	-size ${imsize} ${imsize} \
+	-scale ${cellsize} \
+	-pol i \
+	-beam-size ${beam_size} \
+	-no-negative \
+	-nmiter ${num_major_limit} \
+	-mgain 0.7 \
+	-niter ${totNiter} \
+	-multiscale-gain 0.1 \
+	-multiscale -multiscale-scale-bias 0.9 \
+	-multiscale-scales ${scales} \
+	-log-time \
+	-j ${compute_threads} \
+	-channel-range 225 237 \
+	-channels-out 12 *".contsub" | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"

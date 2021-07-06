@@ -1,23 +1,24 @@
 #!/bin/bash
 #### JOB NAME
-#PBS -N wsclean_chan
+#PBS -N wsc_156_183
 ### Ask for email at job start, end, and if aborted
-####PBS -M Nickolas.Pingel@anu.edu.au
-####PBS -m abe
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
 #### Ask for 1 total nodes,  cores per one job instance
-#PBS -l select=1:ncpus=24:mpiprocs=12
+#PBS -l select=1:ncpus=4:mpiprocs=1:host=avatar40
 #PBS -l place=free
 #### Type of node: smallmem or largemem
 #PBS -q largemem
 #### job array: one job instance per velocity plane 
-####PBS -J 0-28
+#PBS -J 0-13
 
-#cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts 
-cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/10941_10944/CONTSUB
-#job_num=$PBS_ARRAY_INDEX
+job_num=$PBS_ARRAY_INDEX
+
+cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/14158/CONTSUB
+job_num=$PBS_ARRAY_INDEX
 
 ## define channel range to image based on job array ID
-#chanNum=$((225 + $job_num))
+chanNum=$((156 + $job_num))
 
 ## construct path to data
 SBID="10941_10944"
@@ -27,41 +28,43 @@ base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 sub_dir=${SBID}"/CONTSUB"
 
 ## set imaging parameters
-totNiter=50000
-minorThresh=0.01 ##Jy
+totNiter=100
+minorThresh=0.005 ##Jy
 m_gain=0.7
-robust=0.8
-scales="0,16,32,64,128"
+robust=0.9
+scales="0,8,16,32,64,128,256"
 imsize=5000 
 cellsize="7asec"
-compute_threads=2 
+compute_threads=4
 beam_size=30 ## arcsec
-multiscale_bias=0.9
+multiscale_bias=0.85
 num_major_limit=5
 ms_path=${base_dir}"/"${sub_dir}"/"*
-output="GASKAP_SB10941_10944_chans225_237"
-mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/deconvolve.mask
-config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_all.config
+output="GASKAP_SB14158_chan"${chanNum}
+mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve.mask
+config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_bridge.config
 ## call to imager
-/usr/local/openmpi/bin/mpirun -np 12 wsclean-mp \
+#-casa-mask ${mask_path} \
+#/usr/local/openmpi/bin/mpirun wsclean-mp \
+wsclean \
 	-use-idg \
 	-aterm-config ${config_path} \
 	-field 0,1,2 \
 	-name ${output} \
 	-weight briggs ${robust} \
-	-casa-mask ${mask_path} \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
 	-pol i \
+	-auto-threshold 3 \
+	-save-first-residual \
 	-beam-size ${beam_size} \
 	-no-negative \
 	-nmiter ${num_major_limit} \
 	-mgain 0.7 \
 	-niter ${totNiter} \
+	-threshold ${minorThresh} \
 	-multiscale-gain 0.1 \
-	-multiscale -multiscale-scale-bias 0.9 \
+	-multiscale -multiscale-scale-bias ${multiscale_bias} \
 	-multiscale-scales ${scales} \
 	-log-time \
-	-j ${compute_threads} \
-	-channel-range 225 237 \
-	-channels-out 12 *".contsub" | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"
+	-j ${compute_threads} "chan"${chanNum}"/"*".ms" | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"

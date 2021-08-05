@@ -68,14 +68,11 @@ phasecenter = phaseCenterStr
 imsize = [4300, 4300]
 cell = ['7arcsec', '7arcsec']
 
-## REMOVE ak1-ak4 BASELINE
-#antenna='!ak01&ak04'
-
 ## data selection parameters
 specmode = 'mfs'
 outframe = 'LSRK'
-#restfreq = '1.420405GHz'
-restfreq = []
+restfreq = '1.420405GHz'
+#restfreq = []
 ## manual mask parameters
 usemask = 'user'
 mask = ''
@@ -107,8 +104,8 @@ usepointing=False
 
 ## deconvolution parameters ##
 deconvolver = 'multiscale'
-scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
-#scales = [0, 4, 8, 16]
+#scales = [0, 4, 8, 16, 32] # point source, ~2xbeam, ..., scale at which msclean does not diverge 
+scales = [0, 4, 8]
 smallscalebias = 0.4
 niter = totNiter
 cycleniter=nCycleNiter
@@ -121,13 +118,14 @@ pblimit = 0.05
 normtype = 'flatnoise'
 
 ## visibility weighting ##
+#weighting = 'natural'
 weighting = 'briggs'
 robust = 1.1
 
 ## additional parameters
 interactive = False
 verbose = True
-parallel = False
+parallel = True
 calcpsf=True
 calcres=True
 restart = False

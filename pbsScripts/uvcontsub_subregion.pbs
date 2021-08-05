@@ -4,12 +4,17 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1:host=avatar39
+#PBS -l select=1:ncpus=1
 #PBS -l place=free:shared
 #### Type of node: large memory
 #PBS -q largemem
 #### job array: one per 6 ms files
-#PBS -J 0-17
+#PBS -J 0-11
+
+## beam array
+beam_array=( 07 08 13 14 06 07 13 14 07 13 14 19 )
+inter_array=(A A A A B B B B C C C C)
+
 
 ## function to check if an input value to in an array
 function containsBeams () {
@@ -43,22 +48,25 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-subDir="BINNED"
-fieldName="GASKAP_M344-06"
-SBID="14158"
-SBID_1="14158"
-SBID_2="14211"
+fieldName="GASKAP_M344-11B_T0-0"
+
+SBID_1="10941"
+SBID_2="10944"
+
+beamNum=${beam_array[$job_num]}
+inter=${inter_array[$job_num]}
+
 
 ## set channel range
-chanRange="0 100 240 320 440 500"
-order=1
+chanRange="0 500 1200 1300 1600 2000"
+order=2
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 
 ## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
-startBeam=$(($job_num * 2))
-endBeam=$(($startBeam + 2))
+#startBeam=$(($job_num * 2))
+#endBeam=$(($startBeam + 2))
 
 ## set beams/interleaves to skip. Each string in skipInterleave array contains 
 ## the interleaves to skip for the specified beam in skipBeams
@@ -71,50 +79,13 @@ skipCnt=0
 ## to run uvContSub_Indv.py with the specified channel string
 ## and polynomial fit order as inputs
 
-for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
-	do
-	## append '0' if beamNum is less than 10
-        if [ $beamNum -lt 10 ];
-        then
-        	beamNum=$( printf '%02d' $beamNum )
-        fi
-        
-	echo "Processing beam number "$beamNum
+dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter
+msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
 
-	for inter in A B C;
-	do
-		echo "Processing interleave "$inter
 
-		## check if we need to skip this beam/interleave pair
-		containsBeams $beamNum ${skipBeams[@]}
-		## check if interleave needs to be skipped
-		if [[ $beamIn -eq 0 ]]; then
-			containsInters $inter ${skipInter[$skipCnt]}
-			if [[ $interIn -eq 0 ]]; then 
-				echo "Skipping beam "$beamNum"; interleave "$inter
-				continue
-			fi
-		fi
-		
-		## define data paths
-		#dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter"/"$subDir
-		#msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned"
-
-		dataPath=${baseDataPath}/${SBID_1}_${SBID_2}
-		msName=${dataPath}/${subDir}/scienceData_SB${SBID_1}_SB${SBID_2}_${fieldName}_${inter}.beam${beamNum}_SL_binned.ms
-
-		## make call to casa
-		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName
-	done
-
-	## incrememnt skipCnt if we skipped an interleave/beam pair 
-	if [[ $beamIn -eq 0 ]]; then 
-		((skipCnt++))
-	fi
-
-    ## remove leading zero for next iterations
-    beamNum=${beamNum#0}
-done
+## make call to casa
+casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName
+                
 
 
 

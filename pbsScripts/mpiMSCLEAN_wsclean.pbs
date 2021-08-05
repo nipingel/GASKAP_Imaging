@@ -5,12 +5,12 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes,  cores per one job instance
-#PBS -l select=1:ncpus=4:mpiprocs=1:host=avatar40
+#PBS -l select=1:ncpus=8:mpiprocs=1:host=avatar40
 #PBS -l place=free
 #### Type of node: smallmem or largemem
 #PBS -q largemem
 #### job array: one job instance per velocity plane 
-#PBS -J 0-13
+#PBS -J 0-27
 
 job_num=$PBS_ARRAY_INDEX
 
@@ -28,7 +28,7 @@ base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 sub_dir=${SBID}"/CONTSUB"
 
 ## set imaging parameters
-totNiter=100
+totNiter=20000
 minorThresh=0.005 ##Jy
 m_gain=0.7
 robust=0.9
@@ -41,10 +41,9 @@ multiscale_bias=0.85
 num_major_limit=5
 ms_path=${base_dir}"/"${sub_dir}"/"*
 output="GASKAP_SB14158_chan"${chanNum}
-mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve.mask
-config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_bridge.config
+mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve_stream.mask
+config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_stream.config
 ## call to imager
-#-casa-mask ${mask_path} \
 #/usr/local/openmpi/bin/mpirun wsclean-mp \
 wsclean \
 	-use-idg \
@@ -55,6 +54,7 @@ wsclean \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
 	-pol i \
+	-casa-mask ${mask_path} \
 	-auto-threshold 3 \
 	-save-first-residual \
 	-beam-size ${beam_size} \

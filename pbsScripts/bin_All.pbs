@@ -4,7 +4,7 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1
+#PBS -l select=1:ncpus=1:host=avatar39
 #PBS -l place=free:shared
 #### Type of node: small or large memory
 #PBS -q largemem
@@ -43,13 +43,13 @@ cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-fieldName="GASKAP_GP_HI"
-SBID="13538"
-SBID_1="13531"
-SBID_2="13536"
+fieldName="GASKAP_M344-06"
+SBID="14158"
+SBID_1="14158"
+SBID_2="14211"
 
 ## set channel range
-width=2
+width=4
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
@@ -95,8 +95,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		
 		## define data paths
 		
-		dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName"_"$inter
-		msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName"_"$inter".beam"$beamNum"_SL.ms"
+		dataPath=${baseDataPath}/${SBID_1}_${SBID_2}
+		msName=${dataPath}/scienceData_SB${SBID_1}_SB${SBID_2}_${fieldName}_${inter}.beam${beamNum}_SL.ms
 
 		## make call to casa
 		casa --logfile "binBeam"$beamNum"_inter"$inter".log" -c bin_Indv.py -w $width -n $msName

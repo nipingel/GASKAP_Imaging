@@ -14,6 +14,7 @@
 
 ## beam array
 beam_array=( 07 08 13 14 06 07 13 14 07 13 14 19 )
+## interleave array
 inter_array=( A A A A B B B B C C C C )
 
 ## function to check if an input value to in an array
@@ -48,9 +49,6 @@ function containsInters () {
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
-## array to hold specific beams to process
-#beamArr=(6 10 12 14)
-
 ## define path variables
 subDir="SWBAR"
 fieldName="GASKAP_M344-11B_T0-0"
@@ -65,20 +63,9 @@ endChan=$(($startChan + 28))
 ## set base path to dataS
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 
-## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
-#startBeam=$(($job_num * 2))
-#endBeam=$(($startBeam + 2))
-
+## set beam and inter variable names
 beamNum=${beam_array[$job_num]}
 inter=${inter_array[$job_num]}
-#beamNum="08"
-#inter="A"
-
-## set beams/interleaves to skip. Each string in skipInterleave array contains 
-## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(37)
-skipInter=(ABC)
-skipCnt=0
 
 ## Loop through the starting and end beam. 
 ## Each iteration will call a single instance of CASA
@@ -94,7 +81,6 @@ for ((chanNum=$startChan; chanNum<$endChan; chanNum++));
 	
 	## make call to casa
 	casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
-	## incrememnt skipCnt if we skipped an interleave/beam pair 
 done
 
 

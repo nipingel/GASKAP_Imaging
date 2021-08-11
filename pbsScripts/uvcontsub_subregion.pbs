@@ -1,5 +1,5 @@
 #### JOB NAME
-#PBS -N uvcontSub
+#PBS -N uvsub_subregion
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
@@ -8,85 +8,39 @@
 #PBS -l place=free:shared
 #### Type of node: large memory
 #PBS -q largemem
-#### job array: one per 6 ms files
+#### job array: one per MS file
 #PBS -J 0-11
 
 ## beam array
 beam_array=( 07 08 13 14 06 07 13 14 07 13 14 19 )
-inter_array=(A A A A B B B B C C C C)
-
-
-## function to check if an input value to in an array
-function containsBeams () {
-        local compareVar=$1
-        shift
-        local bmArray=("$@")
-        beamIn=1
-        for bm in "${bmArray[@]}";
-                do
-                if [[ $bm -eq $compareVar ]];
-                        then
-                        beamIn=0
-                        break
-                fi
-        done
-        return $beamIn
-}
-
-## function to check if an input character is in string
-function containsInters () {
-        local compareInter=$1
-        local interVals=$2
-        interIn=1
-        if [[ $interVals == *$compareInter* ]]; then
-                interIn=0
-        fi
-        return $interIn
-}
+## interleave array
+inter_array=( A A A A B B B B C C C C )
 
 cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
 job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
-fieldName="GASKAP_M344-11B_T0-0"
-
+subDir="SWBAR"#
+fieldName="GASKAP_M344-06"
 SBID_1="10941"
 SBID_2="10944"
 
-beamNum=${beam_array[$job_num]}
-inter=${inter_array[$job_num]}
 
-
-## set channel range
+## set channel range and polynomial order for model
 chanRange="0 500 1200 1300 1600 2000"
 order=2
+
+## set beam and inter variable names
+beamNum=${beam_array[$job_num]}
+inter=${inter_array[$job_num]}
 
 ## set base path to data
 baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
 
-## start processing of (beamsXinterleaves) 2x3=6 ms files on this cpu instance
-#startBeam=$(($job_num * 2))
-#endBeam=$(($startBeam + 2))
-
-## set beams/interleaves to skip. Each string in skipInterleave array contains 
-## the interleaves to skip for the specified beam in skipBeams
-skipBeams=(37)
-skipInter=(ABC)
-skipCnt=0
-
-## Loop through the starting and end beam. 
-## Each iteration will call a single instance of CASA
-## to run uvContSub_Indv.py with the specified channel string
-## and polynomial fit order as inputs
-
-dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$fieldName$inter
-msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms"
+## set path to MS file
+dataPath=${baseDataPath}/${SBID_1}_${SBID_2}/${subDir}
+msName=${dataPath}/scienceData_SB${SBID_1}_SB${SBID_2}_${fieldName}${inter}.beam${beamNum}_SL.ms.binned
 
 
 ## make call to casa
-casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName
-                
-
-
-
-
+casa --logfile contSubBeam${beamNum}_inter${inter}.log -c uvContSub_Indv.py -l ${chanRange} -o ${order} -n ${msName}

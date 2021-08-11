@@ -1,11 +1,11 @@
 #!/bin/bash
 #### JOB NAME
-#PBS -N wsc_156_183
+#PBS -N wsc_1
 ### Ask for email at job start, end, and if aborted
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes,  cores per one job instance
-#PBS -l select=1:ncpus=8:mpiprocs=1:host=avatar40
+#PBS -l select=1:ncpus=2:mpiprocs=1:host=avatar38
 #PBS -l place=free
 #### Type of node: smallmem or largemem
 #PBS -q largemem
@@ -13,22 +13,14 @@
 #PBS -J 0-27
 
 job_num=$PBS_ARRAY_INDEX
+## change directory to top level directory where individual spectral MS files are stored
+cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/14158_14211/CONTSUB
 
-cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/14158/CONTSUB
-job_num=$PBS_ARRAY_INDEX
-
-## define channel range to image based on job array ID
-chanNum=$((156 + $job_num))
-
-## construct path to data
-SBID="10941_10944"
-field_name="M344-06"
-
-base_dir="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
-sub_dir=${SBID}"/CONTSUB"
+## define channel range to image based on job array
+chanNum=$((100 + $job_num))
 
 ## set imaging parameters
-totNiter=20000
+totNiter=100
 minorThresh=0.005 ##Jy
 m_gain=0.7
 robust=0.9
@@ -40,7 +32,7 @@ beam_size=30 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
 ms_path=${base_dir}"/"${sub_dir}"/"*
-output="GASKAP_SB14158_chan"${chanNum}
+output="GASKAP_SB14158_SB14211_chan"${chanNum}
 mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve_stream.mask
 config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_stream.config
 ## call to imager

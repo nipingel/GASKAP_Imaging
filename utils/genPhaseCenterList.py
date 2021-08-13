@@ -92,10 +92,8 @@ for ms_file in ms_file_list:
 	offset = feed_table_filtered.getcol("BEAM_OFFSET")[field_id]
 
 	## loop through the interleave coordinates and calculate offset
-	for i in range(0, 3):
-		print(inter_ra_list[field_id], inter_dec_list[field_id])
-		inter_phase_center = SkyCoord(inter_ra_list[field_id], inter_dec_list[field_id], frame = 'icrs')
-		inter_phase_center_rad = Skypos(inter_phase_center.ra.rad, inter_phase_center.dec.rad, 9, 9)
+	inter_phase_center = SkyCoord(inter_ra_list[field_id], inter_dec_list[field_id], frame = 'icrs')
+	inter_phase_center_rad = Skypos(inter_phase_center.ra.rad, inter_phase_center.dec.rad, 9, 9)
 	## calculate shift
 	new_pos = inter_phase_center_rad.shift(-offset[0][0], offset[0][1])
 	new_pos.rn = 15

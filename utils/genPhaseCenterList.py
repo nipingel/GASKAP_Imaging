@@ -3,7 +3,7 @@
 Script that generates a text file of beam phase centers based on a list of MS files. The user must provide 
 the phase centers for each interleave as input
 -p --path - <required> path to directory containing MS files
--e --prefix - <optional> file prefix for MS file (default *.ms)
+-e --suffix - <optional> file suffix for MS file (default *.ms)
 -o --output - <required> name of output file to store beam phase centers
 -a --interA - <required> center coordinate for A interleave (J2000, MUST be in 00h00m00.0s 00d00m00.0s format)
 -b --interB - <required> center coordinate for B interleave (J2000, MUST be in 00h00m00.0s 00d00m00.0s format)
@@ -25,7 +25,7 @@ import glob as glob
 ## parse user arguments
 parser = argparse.ArgumentParser()
 parser.add_argument('-p', '--path', help='<required> path to directory containing MS files', required = True)
-parser.add_argument('-e', '--prefix', help='<optional> file prefix for MS file (default *.ms)', required = False, default = 'ms')
+parser.add_argument('-s', '--suffix', help='<optional> file suffix for MS file (default *.ms)', required = False, default = 'ms')
 parser.add_argument('-o', '--output', help='<required> name of output file to store beam phase centers', required = True)
 parser.add_argument('-a', '--inter_A', help='<required> center coordinate for A interleave (J2000, MUST be in 00h00m00.0s,00d00m00.0s format)', required = True)
 parser.add_argument('-b', '--inter_B', help='<required> pcenter coordinate for B interleave (J2000, MUST be in 00h00m00.0s,00d00m00.0s format)', required = True)
@@ -34,7 +34,7 @@ args, unknown = parser.parse_known_args()
 
 ## unpack user arguments
 path = args.path
-prefix = args.prefix
+suffix = args.suffix
 output_name = args.output
 inter_A = args.inter_A
 inter_B = args.inter_B
@@ -61,9 +61,8 @@ for inter in inter_list:
 
 
 ## construct list of MS files
-print('%s/*.%s' % (path, prefix))
-ms_file_list = glob.glob('%s/*.%s' % (path, prefix))
-
+print('%s/*.%s' % (path, suffix))
+ms_file_list = sorted(glob.glob('%s/*.%s' % (path, suffix)))
 ## open file for writing 
 f = open('%s.txt' % output_name, "w")
 
@@ -104,12 +103,12 @@ for ms_file in ms_file_list:
 	new_ra = new_pos.ra
 	if new_ra > np.pi:
         	new_ra -= 2.0 * np.pi
- 	
- 	## create new coordinate object
- 	new_coord = SkyCoord(new_ra, new_pos.dec, unit = 'rad', frame = 'icrs')
 
- 	## write to open file
- 	writeStr = '%s: %s\n' % (ms_file.split('/')[-1], new_coord.to_string('hmsdms'))
+	## create new coordinate object
+	new_coord = SkyCoord(new_ra, new_pos.dec, unit = 'rad', frame = 'icrs')
+
+	## write to open file
+	writeStr = '%s: %s\n' % (ms_file.split('/')[-1], new_coord.to_string('hmsdms'))
 	f.write(writeStr)
 f.close()
 

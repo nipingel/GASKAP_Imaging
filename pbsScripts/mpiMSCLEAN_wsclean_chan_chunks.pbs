@@ -1,0 +1,67 @@
+#!/bin/bash
+#### JOB NAME
+#PBS -N wsc_lmc
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes,  cores per one job instance
+#PBS -l select=1:ncpus=28:mpiprocs=1:host=avatar30
+#PBS -l place=free
+#### Type of node: smallmem or largemem
+#PBS -q largemem
+
+## change directory to top level directory where individual spectral MS files are stored
+cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/33047
+## define channel range to image based on job array
+#chanNum=$((294 + $job_num))
+startChan=294
+endChan=322
+
+## set imaging parameters
+totNiter=10000
+minorThresh=0.01 ##Jy
+m_gain=0.7
+#robust=${uvweight_array[$job_num]}
+robust=1.25
+scales="0,8,16,32,64,128,256,512,1024"
+imsize=5000 
+cellsize="7asec"
+compute_threads=28
+beam_size=30 ## arcsec
+multiscale_bias=0.85
+num_major_limit=5
+#ms_path=${base_dir}"/"${sub_dir}"/"*
+#output="GASKAP_SMC_30584_30625_30665_chan"${chanNum}
+#mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve_smc_tech_test.im
+#config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_smc_tech_test.config
+output="GASKAP_LMC_SB33047_chan"${chanNum}
+mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/SB33047_deconvolve.mask
+config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/SB33047_beammap.config
+
+## call to imager
+#/usr/local/openmpi/bin/mpirun wsclean-mp \
+wsclean \
+	-use-idg \
+	-aterm-config ${config_path} \
+	-field 0,1,2 \
+	-name ${output} \
+	-casa-mask ${mask_path} \
+	-no-negative \
+	-weight briggs ${robust} \
+	-size ${imsize} ${imsize} \
+	-scale ${cellsize} \
+	-pol i \
+	-channels-out 28 \
+	-channel-range ${startChan} ${endChan} \
+	-auto-threshold 3 \
+	-save-first-residual \
+	-beam-size ${beam_size} \
+	-nmiter ${num_major_limit} \
+	-mgain 0.7 \
+	-niter ${totNiter} \
+	-threshold ${minorThresh} \
+	-multiscale-gain 0.1 \
+	-multiscale -multiscale-scale-bias ${multiscale_bias} \
+	-multiscale-scales ${scales} \
+	-log-time \
+	-j ${compute_threads} *".contsub" | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"

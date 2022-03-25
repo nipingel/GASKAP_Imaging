@@ -4,7 +4,7 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1:host=avatar39
+#PBS -l select=1:ncpus=1:host=avatar32
 #PBS -l place=free:shared
 #### Type of node: large memory
 #PBS -q largemem
@@ -44,13 +44,11 @@ job_num=$PBS_ARRAY_INDEX
 
 ## define path variables
 subDir="BINNED"
-fieldName="GASKAP_M344-06"
-SBID="14158"
-SBID_1="14158"
-SBID_2="14211"
+fieldName="M000+02"
+SBID="33047"
 
 ## set channel range
-chanRange="0 100 240 320 440 500"
+chanRange="0 250 850 1400 1750 2111"
 order=1
 
 ## set base path to data
@@ -99,9 +97,8 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		## define data paths
 		#dataPath=$baseDataPath"/"$SBID"/"$fieldName$inter"/"$subDir
 		#msName=$dataPath"/scienceData_SB"$SBID"_"$fieldName"_"$inter".beam"$beamNum"_SL.binned"
-
-		dataPath=${baseDataPath}/${SBID_1}_${SBID_2}
-		msName=${dataPath}/${subDir}/scienceData_SB${SBID_1}_SB${SBID_2}_${fieldName}_${inter}.beam${beamNum}_SL_binned.ms
+		dataPath=${baseDataPath}/${SBID}
+		msName=${dataPath}/scienceData.${fieldName}A.SB${SBID}.${fieldName}${inter}.beam${beamNum}_SL.ms
 
 		## make call to casa
 		casa --logfile "contSubBeam"$beamNum"_inter"$inter".log" -c uvContSub_Indv.py -l $chanRange -o $order -n $msName

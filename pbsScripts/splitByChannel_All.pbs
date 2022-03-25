@@ -1,10 +1,10 @@
 #### JOB NAME
-#PBS -N splitByChan
+#PBS -N split_chan
 ### Ask for email at job start, end, and if aborted
 ####PBS -M Nickolas.Pingel@anu.edu.au
 ####PBS -m abe
 #### Ask for 1 total nodes, 1 ncpus instance
-#PBS -l select=1:ncpus=1:host=avatar31
+#PBS -l select=1:ncpus=1:host=avatar40
 #PBS -l place=free:shared
 #### Type of node: smallmem or largemem
 #PBS -q largemem
@@ -52,7 +52,7 @@ SBID_2="14211"
 SBID="33047"
 
 ## define channel range to split out
-startChan=266
+startChan=182
 endChan=$(($startChan + 28))
 
 ## set base path to dataS
@@ -108,12 +108,11 @@ for ((beamNum=$startBeam;beamNum<$endBeam;beamNum++));
 		
 		## make call to casa
 		casa --nologfile -c splitByChannel_Indv.py -p ${dataPath} -n ${msName} -s ${startChan} -e ${endChan}
-		done
 	done
 	## incrememnt skipCnt if we skipped an interleave/beam pair 
 	if [[ $beamIn -eq 0 ]]; then 
 		((skipCnt++))
 	fi
-    ## remove leading zero for next beam iteration
-    beamNum=${beamNum#0}
+    	## remove leading zero for next beam iteration
+ 	beamNum=${beamNum#0}
 done

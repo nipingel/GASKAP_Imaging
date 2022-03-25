@@ -35,10 +35,10 @@ end_chan = args.end_chan
 ## create list of file names
 output_vis_list = []
 for i in range(start_chan, end_chan):
-	output_vis_list.append('%s/%s_chan%d' % (path, name, i))
+	output_vis_list.append('%s/%s_chan%d' % (ms_path, ms_name, i))
 
 cnt = 0
-for i in range(start_chan, end_chan+1):
+for i in range(start_chan, end_chan):
 	## set split parameters and run
 	default('split')
 	vis = '%s/%s' % (ms_path, ms_name)

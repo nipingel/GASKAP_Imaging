@@ -5,17 +5,20 @@
 #PBS -M Nickolas.Pingel@anu.edu.au
 #PBS -m abe
 #### Ask for 1 total nodes,  cores per one job instance
-#PBS -l select=1:ncpus=14:mpiprocs=1:host=avatar40
+#PBS -l select=1:ncpus=2:mpiprocs=1:host=avatar39
 #PBS -l place=free
 #### Type of node: smallmem or largemem
 #PBS -q largemem
+#### job array: one job instance per velocity plane 
+#PBS -J 0-20
 
+job_num=$PBS_ARRAY_INDEX
 ## change directory to top level directory where individual spectral MS files are stored
 cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/33047
-## define channel range to image based on job array
-#chanNum=$((294 + $job_num))
-startChan=639
-endChan=667
+
+## array of channels to process
+chan_array=(237 243 286 338 355 403 432 444 488 513 530 554 591 624 647 662 689 720 763 777 799)
+chanNum=${chan_array[$job_num]}
 
 ## set imaging parameters
 totNiter=10000
@@ -26,7 +29,7 @@ robust=1.25
 scales="0,8,16,32,64,128,256,512,1024"
 imsize=5000 
 cellsize="7asec"
-compute_threads=14
+compute_threads=2
 beam_size=30 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
@@ -34,7 +37,7 @@ num_major_limit=5
 #output="GASKAP_SMC_30584_30625_30665_chan"${chanNum}
 #mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/deconvolve_smc_tech_test.im
 #config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/beammap_smc_tech_test.config
-output="GASKAP_LMC_SB33047_startChan"${startChan}
+output="GASKAP_LMC_SB33047_chan"${chanNum}
 mask_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/SB33047_deconvolve.mask
 config_path=/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/misc/SB33047_beammap.config
 
@@ -51,8 +54,6 @@ wsclean \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
 	-pol i \
-	-channels-out 28 \
-	-channel-range ${startChan} ${endChan} \
 	-auto-threshold 3 \
 	-save-first-residual \
 	-beam-size ${beam_size} \
@@ -64,4 +65,4 @@ wsclean \
 	-multiscale -multiscale-scale-bias ${multiscale_bias} \
 	-multiscale-scales ${scales} \
 	-log-time \
-	-j ${compute_threads} *".contsub" | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"
+	-j ${compute_threads} "chan"${chanNum}"/"*"chan"${chanNum} | tee "/avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/pbsScripts/"${output}".log"

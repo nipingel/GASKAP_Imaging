@@ -17,10 +17,8 @@ job_num=$PBS_ARRAY_INDEX
 #cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/30584_30625_30665
 cd /avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data/33047
 ## define channel range to image based on job array
-#chanNum=$((210 + $job_num))
+chanNum=$((182 + $job_num))
 
-## array of channels to process
-chan_array=
 
 ## set imaging parameters
 totNiter=10000

@@ -1,5 +1,5 @@
-# transfer_checksums.sub
-# script to submit imaging for a cutout around absorption source
+# untar_images.sub
+# script to untar imaging products and retain specific files
 #
 # Specify the HTCondor Universe (vanilla is the default and is used
 #  for almost all jobs) and your desired name of the HTCondor log file,
@@ -13,18 +13,21 @@ universe = vanilla
 #  output (or "screen output").
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
-executable = untar_casa_images.sh
+executable = untar_images.sh
 
-#chan = $INT(input_chan,%d)
-c = $(Process) + 1500
-## argument: link to wget checksum
+## assign chanel variables and list arguments 
+c = $(Process)+1500
 chan = $INT(c,%d)
-arguments = $(chan)
+suffix="image"
+root_file_name="GASKAP_SB38814"
+sbid="38814"
+arguments = $(suffix) $(root_file_name) $(sbid) $(chan)
+
+## name log, output, and error log files
 log = expand_image_tarball_$(chan).log
 output = expand_image_tarball_$(chan).out
 error = expand_image_tarball_$(chan).err
 
-#
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be
 #  used if there were any other files needed for the executable to use.
@@ -39,4 +42,3 @@ request_disk = 3GB
 #
 # Tell HTCondor to run 1 instances of our job:
 queue 300
-#queue chan_num from chan_nums.txt

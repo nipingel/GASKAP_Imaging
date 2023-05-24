@@ -1,0 +1,48 @@
+#### JOB NAME
+#PBS -N uvBin_sub
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 ncpus instance
+#PBS -l select=1:ncpus=1:host=avatar39
+#PBS -l place=free:shared
+#### Type of node: small or large memory
+#PBS -q largemem
+#### job array: one per ms file
+#PBS -J 0-11
+
+
+## beam array
+beam_array=( 07 08 13 14 06 07 13 14 07 13 14 19 )
+## interleave array
+inter_array=( A A A A B B B B C C C C )
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+job_num=$PBS_ARRAY_INDEX
+
+## define path variables
+subDir="SWBAR"
+fieldName="GASKAP_M344-11"
+SBID_1="10941"
+SBID_2="10944"
+
+## set channel range
+width=2
+
+## set beam and inter variable names
+beamNum=${beam_array[$job_num]}
+inter=${inter_array[$job_num]}
+
+## set base path to data
+baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
+
+## set path to MS file
+dataPath=${baseDataPath}/${SBID_1}_${SBID_2}/${subDir}
+msName=${dataPath}/scienceData_SB${SBID_1}_SB${SBID_2}_${fieldName}${inter}.beam${beamNum}_SL.ms
+	
+## make call to casa
+casa --logfile bin${beamNum}${inter}.log" -c bin_Indv.py -n ${msName} -w ${width}
+
+
+
+

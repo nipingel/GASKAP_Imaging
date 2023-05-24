@@ -1,0 +1,88 @@
+#
+#### JOB NAME
+#PBS -N splitByChan
+### Ask for email at job start, end, and if aborted
+#PBS -M Nickolas.Pingel@anu.edu.au
+#PBS -m abe
+#### Ask for 1 total nodes, 1 ncpus instance
+#PBS -l select=1:ncpus=1
+#PBS -l place=free:shared
+#### Type of node: smallmem or largemem
+#PBS -q largemem
+#### job array: one per 6 ms files
+#PBS -J 0-11
+
+## beam array
+beam_array=( 07 08 13 14 06 07 13 14 07 13 14 19 )
+## interleave array
+inter_array=( A A A A B B B B C C C C )
+
+## function to check if an input value to in an array
+function containsBeams () {
+        local compareVar=$1
+        shift
+        local bmArray=("$@")
+        beamIn=1
+        for bm in "${bmArray[@]}";
+                do
+                if [[ $bm -eq $compareVar ]];
+                        then
+                        beamIn=0
+                        break
+                fi
+        done
+        return $beamIn
+}
+
+## function to check if an input character is in string
+function containsInters () {
+        local compareInter=$1
+        local interVals=$2
+        interIn=1
+        if [[ $interVals == *$compareInter* ]]; then
+                interIn=0
+        fi
+        return $interIn
+}
+
+
+cd /avatar/nipingel/ASKAP/SMC/pros/GASKAP_Imaging/casaConfigScripts
+job_num=$PBS_ARRAY_INDEX
+
+## define path variables
+subDir="SWBAR"
+fieldName="GASKAP_M344-11B_T0-0"
+
+SBID_1="10941"
+SBID_2="10944"
+
+## define channel range to split out
+startChan=762
+endChan=$(($startChan + 28))
+
+## set base path to dataS
+baseDataPath="/avatar/nipingel/ASKAP/SMC/data/pilot_obs/ms_data"
+
+## set beam and inter variable names
+beamNum=${beam_array[$job_num]}
+inter=${inter_array[$job_num]}
+
+## Loop through the starting and end beam. 
+## Each iteration will call a single instance of CASA
+## to run splitByTime_Indv.py with the specified time range string
+## as an input
+
+for ((chanNum=$startChan; chanNum<$endChan; chanNum++));
+	do
+	## loop over the channel range one wishes to split out from the ms file
+	## define data paths
+	dataPath=$baseDataPath"/"$SBID_1"_"$SBID_2"/"$subDir
+	msName=$dataPath"/scienceData_SB"$SBID_1"_SB"$SBID_2"_"$fieldName$inter".beam"$beamNum"_SL.ms.contsub"
+	
+	## make call to casa
+	casa --logfile "splitByChan_Beam"$beamNum"_chan$chanNum_inter"$inter".log" -c splitByChannel_Indv.py -n $msName -c $chanNum
+done
+
+
+
+

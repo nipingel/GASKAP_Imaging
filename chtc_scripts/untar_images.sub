@@ -35,7 +35,7 @@ Requirements=(Target.HasCHTCStaging == true)
 +HasCHTCStaging=true
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = untar_casa_images.sh
+transfer_input_files = untar_images.sh
 request_cpus = 1
 request_memory = 100MB
 request_disk = 3GB

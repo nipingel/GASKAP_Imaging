@@ -20,7 +20,7 @@ if [ "${chan}" -lt "100" ] && [ "${chan}" -gt "9" ]; then
 fi
 
 ## untar
-tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocties/${root_file_name}_chan${chan}.tar --directory .
+tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities/${root_file_name}_chan${chan}.tar --directory .
 
 ## move image and pb fits files to designated directory
 mv ${root_file_name}_chan${chan}-${file_suffix}.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities/${output_name}

@@ -18,9 +18,9 @@ executable = untar_images.sh
 ## assign chanel variables and list arguments 
 c = $(Process)+1500
 chan = $INT(c,%d)
-suffix="image"
-root_file_name="GASKAP_SB38814"
-sbid="38814"
+suffix=image
+root_file_name=GASKAP_SB38814
+sbid=38814
 arguments = $(suffix) $(root_file_name) $(sbid) $(chan)
 
 ## name log, output, and error log files

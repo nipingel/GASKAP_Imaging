@@ -30,7 +30,7 @@ do
 done
 
 ## set imaging parameters
-total_iters=40000
+total_iters=100
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
@@ -42,7 +42,7 @@ multiscale_bias=0.85
 num_major_limit=5
 output_name=${output_prefix}_chan${chan}
 #mask_path=SB38814_deconvolve_mask.fits
-config_path=beammap_SB38814.config
+config_path=${config_file}
 
 ## call to imager
 #/usr/local/openmpi/bin/mpirun wsclean-mp \

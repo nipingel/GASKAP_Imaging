@@ -34,7 +34,7 @@ Requirements=(Target.HasCHTCStaging == true) && (Target.Microarch >= "x86_64-v3"
 
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = SB38814_deconvolve_mask.fits, beammap_SB38814.config, image_channel_clean_mask.sh, http://proxy.chtc.wisc.edu/SQUID/chtc/python39.tar.gz, /home/nmpingel/student_projects/packages.tar.gz
+transfer_input_files = SB38814_deconvolve_mask.fits, beammap_SB38814.config, image_channel_clean_mask.sh, http://proxy.chtc.wisc.edu/SQUID/chtc/python39.tar.gz, /home/nmpingel/student_projects/packages.tar.gz, generate_clean_mask.py
 
 request_cpus = 4
 request_memory = 10GB

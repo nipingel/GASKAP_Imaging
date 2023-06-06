@@ -3,17 +3,24 @@
 # imaging_wsclean.sh
 # execution script for imaging of single GASKAP survey
 
+## get user provided variables
+sbid=$1
+chan=$2 
+mask_file=$3
+config_file=$4
+output_prefix=$5
+
 ## directory containing channel measurement sets
-data_dir="/projects/vla-processing/GASKAP-HI/measurement_sets/38814/contsub"
+data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/contsub
 
 ## untar channels
-for tar_file in ${data_dir}"/"*"_chan"$1".tar"
+for tar_file in ${data_dir}/*_chan${chan}.tar
 do
 	tar -xf ${tar_file} --directory .
 done
 
 ## set imaging parameters
-total_iters=40000
+total_iters=100
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
@@ -23,9 +30,9 @@ compute_threads=4
 beam_size=30 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
-output_name="GASKAP_SB38814_chan"$1
-mask_path=SB38814_deconvolve_mask.fits
-config_path=beammap_SB38814.config
+output_name=${output_prefix}_chan${chan}
+mask_path=${mask_file}
+config_path=${config_file}
 
 ## call to imager
 #/usr/local/openmpi/bin/mpirun wsclean-mp \
@@ -51,13 +58,13 @@ wsclean \
 	-multiscale-gain 0.1 \
 	-multiscale -multiscale-scale-bias ${multiscale_bias} \
 	-log-time \
-	-j ${compute_threads} *"_chan"$1 | tee ${output_name}".log"
+	-j ${compute_threads} *_chan${chan} | tee ${output_name}.log
 
 ## tar result
-tar -cvf ${output_name}".tar" ${output_name}*
+tar -cvf ${output_name}.tar ${output_name}*
 
-mv ${output_name}".tar" /projects/vla-processing/GASKAP-HI
+mv ${output_name}.tar /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities
 
 ## clean up
-rm -rf *"chan"$1
-rm -rf $output_name*
+rm -rf *chan${chan}
+rm -rf ${output_name}*

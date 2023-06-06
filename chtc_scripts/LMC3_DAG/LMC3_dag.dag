@@ -1,0 +1,45 @@
+#!/usr/bin/env LMC3_dag.dag
+
+## TRANSFER STAGED MEASUREMENT SETS
+## transfer_measurement_sets.sub to transfer measurement sets from CASDA
+## executable:
+## - transfer_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_link: file url from which to wget
+## output:
+## - tarball measurement set
+#JOB A transfer.sub
+#VARS A sbid="38814"
+#PARENT A CHILD B
+
+## SHIFT PHASE CENTERS
+
+## CONTSUB
+## run continuum subtraction for all measurement sets from all VLA configurations
+## executable:
+## - uvcontsub.sh (runs uvcontsub.py)
+## arguments:
+## - ms_name: file name in textfil
+## - v_sys: systemic velocity of source
+## - v_width: velocity width of source
+## - src_name: source name
+## output:
+## - contsubed measurement sets with '.contsub' suffix appended
+##JOB D uvcontsub.sub
+##VARS D src_name="NGC6822" v_sys="-44" v_width="210"
+##PARENT D CHILD E
+
+## SPLIT CHANNELS
+
+## GENERATE CLEAN MASK
+
+## IMAGE
+
+## UNTAR IMAGES
+
+## GENERATE PB IMAGE
+
+## FEATHER
+
+## MASK

@@ -14,11 +14,10 @@ universe = vanilla
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
 executable = untar_measurement_sets.sh
-sbid=38509
 arguments = $(sbid) $(file_name) 
-output = decompress_$(Process).out
-error = decompress_$(Process).err
-log = decompress_$(Process).log 
+output = decompress_ms_file_$(Process).out
+error = decompress_ms_file_$(Process).err
+log = decompress_ms_file_$(Process).log 
 #
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be

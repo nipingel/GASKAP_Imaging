@@ -11,15 +11,20 @@ chan=$4
 image_output_name=${root_file_name}_chan${chan}-${file_suffix}.fits
 beam_output_name=${root_file_name}_chan${chan}-beam.fits
 
-## check if 0 needs to be appended in name (channel range from 0 to 99) for alphanumeric ordering
+## check if 0 needs to be appended in name (channel range from 0 to 9) for alphanumeric ordering
 if [ "${chan}" -lt "10" ]; then
+        image_output_name=${root_file_name}_chan000${chan}-${file_suffix}.fits
+        beam_output_name=${root_file_name}_chan000${chan}-beam.fits
+fi
+## check if 0 needs to be appended in name (channel range from 10 to 99) for alphanumeric ordering
+if [ "${chan}" -lt "100" ] && [ "${chan}" -gt "9" ]; then
         image_output_name=${root_file_name}_chan00${chan}-${file_suffix}.fits
         beam_output_name=${root_file_name}_chan00${chan}-beam.fits
 fi
 ## check if 0 needs to be appended in name (channel range from 100 to 999) for alphanumeric ordering
-if [ "${chan}" -lt "100" ] && [ "${chan}" -gt "9" ]; then
+if [ "${chan}" -lt "1000" ] && [ "${chan}" -gt "99" ]; then
         image_output_name=${root_file_name}_chan0${chan}-${file_suffix}.fits
-        beam_output_name=${root_file_name}_chan00${chan}-beam.fits
+        beam_output_name=${root_file_name}_chan0${chan}-beam.fits
 fi
 
 ## untar

@@ -13,22 +13,46 @@
 #VARS A sbid="38814"
 #PARENT A CHILD B
 
+## UNTAR MEASUREMENT SETS
+## untar transferred measurement sets
+## executable: 
+## - untar_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_name: name of measurement set
+## output: 
+## - untarred measurement set
+## JOB B untar_measurement_set
+## VARS B sbid="38814"
+## PARENT B CHILD C
+
 ## SHIFT PHASE CENTERS
+## shift phase centers of all measurement sets to given phase center for imaging
+## executable:
+## - shift_phase_centre.sh
+## inputs:
+## - sbid: SBID
+## - ra_str: ra in hms format
+## - dec_str: dec in dms format
+## output:
+## measurement set with shifted phase center
+## JOB C shift_phase_centre.sub 
+## VARS C sbid="38814" ra_str=""04h32m25.1s" dec_str="-69d04m38s"
+## PARENTS C CHILD D
 
 ## CONTSUB
 ## run continuum subtraction for all measurement sets from all VLA configurations
 ## executable:
 ## - uvcontsub.sh (runs uvcontsub.py)
 ## arguments:
-## - ms_name: file name in textfil
-## - v_sys: systemic velocity of source
-## - v_width: velocity width of source
-## - src_name: source name
+## - sbid: SBID
+## - ms_name: file name in textfile
+## - chan_str: string denoting channel ranges over which to fit polynomial and remove continuum
 ## output:
-## - contsubed measurement sets with '.contsub' suffix appended
-##JOB D uvcontsub.sub
-##VARS D src_name="NGC6822" v_sys="-44" v_width="210"
-##PARENT D CHILD E
+## - cont-subbed measurement sets with '.contsub' suffix appended
+## JOB D uvcontsub.sub
+## VARS D sbid="38814" chan_str="0 250 850 1400 1750 2111"
+## PARENT D CHILD E
 
 ## SPLIT CHANNELS
 
@@ -39,6 +63,8 @@
 ## UNTAR IMAGES
 
 ## GENERATE PB IMAGE
+
+## COMBINE (PB-CORRECT, SMOOTH to 30'')
 
 ## FEATHER
 

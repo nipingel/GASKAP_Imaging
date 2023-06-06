@@ -16,12 +16,9 @@ universe = vanilla
 executable = untar_images.sh
 
 ## assign chanel variables and list arguments 
-c = $(Process)+1500
+c = $(Process)+$(start_chan)
 chan = $INT(c,%d)
-suffix=image
-root_file_name=GASKAP_SB38814
-sbid=38814
-arguments = $(suffix) $(root_file_name) $(sbid) $(chan)
+arguments = $(sbid) $(suffix) $(root_file_name) $(chan)
 
 ## name log, output, and error log files
 log = expand_image_tarball_$(chan).log

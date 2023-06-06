@@ -4,9 +4,9 @@
 # execution script for untarring processed individual spectral channels
 
 ## unpack user arguments
-file_suffix=$1
-root_file_name=$2
-sbid=$3
+sbid=$1
+file_suffix=$2
+root_file_name=$3
 chan=$4
 image_output_name=${root_file_name}_chan${chan}-${file_suffix}.fits
 beam_output_name=${root_file_name}_chan${chan}-beam.fits

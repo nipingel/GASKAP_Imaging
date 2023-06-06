@@ -55,6 +55,18 @@
 ## PARENT D CHILD E
 
 ## SPLIT CHANNELS
+## split out user provided number of individual channels from measurement sets to be imaged
+## executable:
+## - split_channels.sh
+## arguments:
+## - sbid: SBID
+## - ms_name: file name in textfile
+## - sc: starting channel
+## - ec: ending channel
+## output:
+## - measurement sets of indivdual spectral channels for each GASKAP beam
+## JOB E split_channels.sub
+## VARS E sbid="38814" sc="300" ec="700" 
 
 ## GENERATE CLEAN MASK
 

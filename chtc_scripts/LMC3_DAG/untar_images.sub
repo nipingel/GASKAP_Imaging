@@ -36,8 +36,8 @@ Requirements=(Target.HasCHTCStaging == true)
 #  each job will need on the computer where it runs.
 transfer_input_files = untar_images.sh, importfits.py
 request_cpus = 1
-request_memory = 100MB
-request_disk = 3GB
+request_memory = 2GB
+request_disk = 5GB
 #
 # Tell HTCondor to run 1 instances of our job:
 queue 700

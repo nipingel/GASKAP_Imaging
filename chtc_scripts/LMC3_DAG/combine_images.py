@@ -32,11 +32,6 @@ restFreqStr = '%sMHz' % args.restFreq
 freqResStr = '%skHz' % args.freqRes
 outFile = args.outFile
 
-print('Correcting headers and creating cube from files with extension: %s' % fileExt)
-print('Setting rest frequency: %s [MHz]' % restFreqStr)
-print('Setting frequency resolution: %s [kHz]' % freqResStr)
-print('Creating cube: %s.fits' % outFile)
-
 ## create list of files
 fileList = glob.glob('*.%s' % fileExt)
 
@@ -56,4 +51,3 @@ ia.imageconcat(outfile = '%s.combImage' % outFile , infiles = fileList, relax = 
 
 ## write out FITS file
 exportfits(imagename = '%s_lsrk.combImage' % outFile, fitsimage = '%s_lsrk.fits' % outFile, velocity = True, dropdeg = True, history = False)
-

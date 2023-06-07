@@ -1,4 +1,4 @@
-# combine_images.sub
+# feather.sub
 # script to base submission of LGLBS imaging jobs
 #
 # Specify the HTCondor Universe (vanilla is the default and is used
@@ -8,7 +8,7 @@
 #  queue number assigned to this set of jobs at the time of submission.
 universe = docker
 docker_image = nipingel/casa:latest
-log = collate_images.log
+log = produce_final_image.log
 #
 # Specify your executable (single binary or a script that runs several
 #  commands), arguments, and a files for HTCondor to store standard
@@ -16,15 +16,12 @@ log = collate_images.log
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
 
-## imaging ()
+## set output variable names
 executable = combine_images.sh
-
-## argument: split-out channel for imaging
-## set up start and end channels
-
-arguments = $(suffix) $(src_name) $(output_name) $(delta_nu)
-output = collate_images.out
-error = collate_images.err
+arguments = $(sbid) $(file_name) $(output_name) $(beam_cube_name) $(sd_file_name)
+log = produce_final_image.log
+output = log = produce_final_image.out
+error = log = produce_final_image.err
 
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be
@@ -34,9 +31,9 @@ Requirements=(Target.HasCHTCStaging == true)
 
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = combine_images.sh, combine_images.py
+transfer_input_files = combine_images.sh, feather.py
 request_cpus = 1
-request_memory = 20GB
+request_memory = 50GB
 request_disk = 10GB
 #
 # Tell HTCondor to run 1 instances of our job:

@@ -28,11 +28,13 @@ if [ "${chan}" -lt "1000" ] && [ "${chan}" -gt "99" ]; then
 fi
 
 ## untar
-tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities/${root_file_name}_chan${chan}.tar --directory .
+tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${root_file_name}_chan${chan}.tar --directory .
 
 ## move image and pb fits files to designated directory
-mv ${root_file_name}_chan${chan}-${file_suffix}.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities/${image_output_name}
-mv ${root_file_name}_chan${chan}-beam.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities/${beam_output_name}
+mv ${root_file_name}_chan${chan}-${file_suffix}.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${image_output_name}
+mv ${root_file_name}_chan${chan}-beam.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${beam_output_name}
+
+## EXPORT FITS
 
 ## clean up
 rm -rf ${root_file_name}_chan${chan}*

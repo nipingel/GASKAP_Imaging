@@ -1,5 +1,5 @@
 # combine_images.sub
-# script to base submission of LGLBS imaging jobs
+# script to base submission of GASKAP imaging jobs
 #
 # Specify the HTCondor Universe (vanilla is the default and is used
 #  for almost all jobs) and your desired name of the HTCondor log file,

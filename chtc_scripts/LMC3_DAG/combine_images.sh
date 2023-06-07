@@ -21,11 +21,11 @@ cd /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities
 ## decide which casa call to make (beam pattern cube or image cube)
 ## beam pattern
 if [ ${process_name} -eq "0" ]; then
-/casa-6.5.0-15-py3.8/bin/casa -c combine_images.py -f ${beam_suffix} -o ${output_name} -d ${delta_nu}
+	/casa-6.5.0-15-py3.8/bin/casa -c combine_images.py -f ${beam_suffix} -o ${output_name}_beam -d ${delta_nu}
 fi
 ## image
 if [ ${process_name} -eq "1" ]; then
-/casa-6.5.0-15-py3.8/bin/casa -c combine_images.py -f ${file_suffix} -o ${output_name} -d ${delta_nu}
+	/casa-6.5.0-15-py3.8/bin/casa -c combine_images.py -f ${file_suffix} -o ${output_name} -d ${delta_nu}
 fi
 
 ## clean up

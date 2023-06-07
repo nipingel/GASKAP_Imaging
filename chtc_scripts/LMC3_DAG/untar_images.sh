@@ -30,11 +30,13 @@ fi
 ## untar
 tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${root_file_name}_chan${chan}.tar --directory .
 
-## move image and pb fits files to designated directory
-mv ${root_file_name}_chan${chan}-${file_suffix}.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${image_output_name}
-mv ${root_file_name}_chan${chan}-beam.fits /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${beam_output_name}
+## convert from FITS to CASA image format for combination
+/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e ".im"
+/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e ".bm"
 
-## EXPORT FITS
+## move image and pb fits files to designated directory
+mv ${root_file_name}_chan${chan}-${file_suffix}.im /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${image_output_name}
+mv ${root_file_name}_chan${chan}-beam.bm /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${beam_output_name}
 
 ## clean up
 rm -rf ${root_file_name}_chan${chan}*

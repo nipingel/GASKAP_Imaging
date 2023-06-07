@@ -12,9 +12,6 @@ __email__="nmpingel@wisc.edu"
 __status__="Production"
 """
 
-
--f ${file_name} -o ${output_name} -b ${beam_cube_name} -s ${sd_file_name}
-
 ## imports
 import argparse
 import glob 
@@ -24,7 +21,6 @@ parser.add_argument('-f', '--file_name', help = '<required> input file name (cle
 parser.add_argument('-o', '--out_file', help = '<required> name of output FITS cube', required = True)
 parser.add_argument('-b', '--beam_cube_name', help = '<required> name of input beam pattern cube', required = True)
 parser.add_argument('-s', '--sd_files_name', help = '<required> name of input single dish file', required = True)
-
 args, unknown = parser.parse_known_args()
 
 ## unpack user arguments
@@ -35,6 +31,7 @@ sd_file_name = args.sd_file_name
 
 ## make list to iterate over
 fits_list = [file_name, beam_file, sd_file_name]
+casa_image_list = []
 
 def main():
 
@@ -44,32 +41,37 @@ def main():
 			'imagename':fits.replace('.fits', '.im'),
 			'fitsimage':fitsimage}
 		imporfits(**importfits_params)
+		casa_image_list.append(fits.replace('.fits', '.im'))
 
 	## smooth input askap image to 30''
 	imsmooth_params = {
-		'imagename':file_name,
+		'imagename':casa_image_list[0],
 		'major':'30arcsec',
 		'minor':'30arcsec',
 		'bpa':'0deg',
 		'targetres':True,
-		'outfile':'%s.imsmooth' % file_name}
+		'outfile':'%s.imsmooth' % casa_image_list[0].replace('.im', '.imsmooth')}
 	imsmooth(**imsmooth_params)
 
 	## correct for primary beam 
-	smoothed_file_name = '%s.imsmooth' % file_name
-	image_list = [smoothed_file_name , beam_file]
+	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), casa_image_list[1]]
 	immath_params = {
 		'images':image_list, 
-		'outfile':'%s.imsmooth.pbc' % (file_name),
-		'expr':'IM0/IM1'
-	}
-	pbc_file = '%s.imsmooth.pbc' % (file_name)
+		'outfile':'%s' % (casa_image_list[0].replace('.im', '.imsmooth.pbc')),
+		'expr':'IM0/IM1'}
 	immath(**immath_params)
+
+	## regrid single dish data
+	regrid_params = {
+		'imagename': casa_image_list[2],
+		'output': casa_image_list[2].replace('.im', '.regrid'),
+		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc')}
+	imregrid(**regrid_params)
 
 	## run feather
 	feather_params = {
-		'highres':pbc_file,
-		'lowres':sd_file_name,
+		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
+		'lowres':casa_image_list[2].replace('.im', '.regrid'),
 		'sdfactor':1.0,
 		'imagename':outfile}
 

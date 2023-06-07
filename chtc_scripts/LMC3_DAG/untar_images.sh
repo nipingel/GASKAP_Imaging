@@ -3,6 +3,9 @@
 # untar_images.sh
 # execution script for untarring processed individual spectral channels
 
+## change home directory so CASA will run
+HOME=$PWD
+
 ## unpack user arguments
 sbid=$1
 file_suffix=$2
@@ -33,6 +36,7 @@ tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${root
 ## convert from FITS to CASA image format for combination
 /casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e "im"
 /casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e "bm"
+
 
 ## move image and pb fits files to designated directory
 mv ${root_file_name}_chan${chan}-${file_suffix}.im /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities/${image_output_name}

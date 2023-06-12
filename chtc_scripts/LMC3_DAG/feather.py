@@ -30,7 +30,7 @@ beam_file = args.beam_file
 sd_file_name = args.sd_file_name
 
 ## make list to iterate over
-fits_list = [file_name, beam_file, sd_file_name]
+fits_list = [file_name, sd_file_name]
 casa_image_list = []
 
 def main():
@@ -54,7 +54,7 @@ def main():
 	imsmooth(**imsmooth_params)
 
 	## correct for primary beam 
-	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), casa_image_list[1]]
+	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file]
 	immath_params = {
 		'images':image_list, 
 		'outfile':'%s' % (casa_image_list[0].replace('.im', '.imsmooth.pbc')),

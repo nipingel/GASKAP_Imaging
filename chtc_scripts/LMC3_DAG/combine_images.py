@@ -44,10 +44,12 @@ for file in fileList:
 	imhead(imagename = file, mode = 'put', hdkey = 'restfreq', hdvalue = restFreqStr)
 
 	## set frequency resolution
-	imhead(imagename = file, mode = 'put', hdkey = 'cdelt4', hdvalue = freqResStr)
+	imhead(imagename = file, mode = 'put', hdkey = 'cdelt3', hdvalue = freqResStr)
 
 ## combine images
 ia.imageconcat(outfile = '%s.combImage' % outFile , infiles = fileList, relax = False)
+
+imreframe(imagename = '%s.combImage' % outFile, output = '%s_lsrk.combImage' % outFile, outframe = 'lsrk')
 
 ## write out FITS file
 exportfits(imagename = '%s_lsrk.combImage' % outFile, fitsimage = '%s_lsrk.fits' % outFile, velocity = True, dropdeg = True, history = False)

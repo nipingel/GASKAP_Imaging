@@ -8,7 +8,7 @@
 #  queue number assigned to this set of jobs at the time of submission.
 universe = docker
 docker_image = nipingel/casa:latest
-log = collate_images.log
+log = collate_images_$(Process).log
 #
 # Specify your executable (single binary or a script that runs several
 #  commands), arguments, and a files for HTCondor to store standard
@@ -19,8 +19,8 @@ log = collate_images.log
 ## set output variable names
 executable = combine_images.sh
 arguments = $(sbid) $(suffix) $(output_name) $(delta_nu) $(Process)
-output = collate_images.out
-error = collate_images.err
+output = collate_images_$(Process).out
+error = collate_images_$(Process).err
 
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be

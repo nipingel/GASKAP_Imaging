@@ -110,9 +110,9 @@
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-JOB H untar_images.sub
-VARS H sbid="38814" start_chan="300" suffix="image" root_file_name="GASKAP_SB38814"
-PARENT H CHILD I
+## JOB H untar_images.sub
+## VARS H sbid="38814" start_chan="300" suffix="image" root_file_name="GASKAP_SB38814"
+##PARENT H CHILD I
 
 ## COMBINE
 ## combine images cleaned images or primary beam patterns

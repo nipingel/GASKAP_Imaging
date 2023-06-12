@@ -26,8 +26,8 @@ parser.add_argument('-f', '--fileExt', help = '<required> file extension (e.g., 
 parser.add_argument('-d', '--freqRes', help = '<required> frequency resolution in kHz', required = True)
 parser.add_argument('-o', '--outFile', help = '<required> name of FITS cube', required = True)
 parser.add_argument('-r', '--restFreq', help = 'rest frequency in MHz (default is 1420.405752)', default = '1420.405752')
-parser.add_argument('-i', '--image', help = 'combining to create image cube', required = False, dest = 'beam', action = 'store_false')
-parser.add_argument('-b', '--beam', help='combining to create a primary beam cube', required = False, dest = 'beam')
+parser.add_argument('-i', '--image', help = 'combining to create image cube', required = False, action = 'store_true')
+parser.add_argument('-b', '--beam', help='combining to create a primary beam cube', required = False, dest = 'image', action = 'store_false')
 parser.set_defaults(image = True)
 args, unknown = parser.parse_known_args()
 
@@ -36,7 +36,7 @@ fileExt = args.fileExt
 restFreqStr = '%sMHz' % args.restFreq
 freqResStr = '%skHz' % args.freqRes
 outFile = args.outFile
-create_beam_cube = args.beam
+create_image_cube = args.image
 
 ## create list of files
 fileList = glob.glob('*.%s' % fileExt)
@@ -56,7 +56,7 @@ for file in fileList:
 ia.imageconcat(outfile = '%s.combImage' % outFile , infiles = fileList, relax = False)
 
 ## if creating an image cube, shift reference frame and save out to fits file; if beam file, just exit
-if not create_beam_cube:
+if create_image_cube:
 	imreframe(imagename = '%s.combImage' % outFile, output = '%s_lsrk.combImage' % outFile, outframe = 'lsrk')
 	## write out FITS file
 	exportfits(imagename = '%s_lsrk.combImage' % outFile, fitsimage = '%s_lsrk.fits' % outFile, velocity = True, dropdeg = True, history = False)

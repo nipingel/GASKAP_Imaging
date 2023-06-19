@@ -16,7 +16,7 @@ docker_image = nipingel/casa:latest
 #  and increasing for the relevant number of jobs.
 
 ## set output variable names
-executable = combine_images.sh
+executable = feather.sh
 arguments = $(sbid) $(file_name) $(output_name) $(beam_cube_name) $(sd_file_name)
 log = produce_final_image.log
 output = produce_final_image.out

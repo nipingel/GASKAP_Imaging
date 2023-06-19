@@ -19,8 +19,8 @@ import glob
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--file_name', help = '<required> input file name (cleaned ASKAP cube)', required = True)
 parser.add_argument('-o', '--out_file', help = '<required> name of output FITS cube', required = True)
-parser.add_argument('-b', '--beam_cube_name', help = '<required> name of input beam pattern cube', required = True)
-parser.add_argument('-s', '--sd_files_name', help = '<required> name of input single dish file', required = True)
+parser.add_argument('-b', '--beam_file', help = '<required> name of input beam pattern cube', required = True)
+parser.add_argument('-s', '--sd_file_name', help = '<required> name of input single dish file', required = True)
 args, unknown = parser.parse_known_args()
 
 ## unpack user arguments
@@ -39,7 +39,7 @@ def main():
 	for fits in fits_list:
 		importfits__params = {
 			'imagename':fits.replace('.fits', '.im'),
-			'fitsimage':fitsimage}
+			'fitsimage':fits}
 		imporfits(**importfits_params)
 		casa_image_list.append(fits.replace('.fits', '.im'))
 
@@ -63,15 +63,15 @@ def main():
 
 	## regrid single dish data
 	regrid_params = {
-		'imagename': casa_image_list[2],
-		'output': casa_image_list[2].replace('.im', '.regrid'),
+		'imagename': casa_image_list[1],
+		'output': casa_image_list[1].replace('.im', '.regrid'),
 		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc')}
 	imregrid(**regrid_params)
 
 	## run feather
 	feather_params = {
 		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
-		'lowres':casa_image_list[2].replace('.im', '.regrid'),
+		'lowres':casa_image_list[1].replace('.im', '.regrid'),
 		'sdfactor':1.0,
 		'imagename':outfile}
 

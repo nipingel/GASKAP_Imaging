@@ -127,9 +127,9 @@
 ## - output_name: name of output file
 ## output:
 ## - combined cube
-JOB I combine_images.sub
-VARS I sbid="38814" suffix="im" root_file_name="GASKAP_SB38814" delta_nu="1.157" output_name="LMC3_askap_Jy"
-PARENT I CHILD J
+##JOB I combine_images.sub
+##VARS I sbid="38814" suffix="im" root_file_name="GASKAP_SB38814" delta_nu="1.157" output_name="LMC3_askap_Jy"
+##PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
 ## primary beam correct, smooth to 30'', feather, and produce final masked cube

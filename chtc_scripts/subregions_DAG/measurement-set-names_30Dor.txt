@@ -1,0 +1,14 @@
+scienceData.M000+02A.SB33047.M000+02A.beam20_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02A.beam21_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02A.beam27_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02A.beam28_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02B.beam15_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02B.beam20_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02B.beam21_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02B.beam26_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02B.beam27_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02C.beam20_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02C.beam21_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02C.beam26_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02C.beam27_SL.ms.tar
+scienceData.M000+02A.SB33047.M000+02C.beam32_SL.ms.tar

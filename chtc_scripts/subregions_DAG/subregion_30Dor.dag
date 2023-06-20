@@ -22,8 +22,8 @@
 ## - ms_name: name of measurement set
 ## output: 
 ## - untarred measurement set
-JOB B untar_measurement_sets.sub
-VARS B sbid="33047"
+## JOB B untar_measurement_sets.sub
+## VARS B sbid="33047"
 ## PARENT B CHILD C
 
 ## SHIFT PHASE CENTERS
@@ -36,8 +36,8 @@ VARS B sbid="33047"
 ## - dec_str: dec in dms format
 ## output:
 ## measurement set with shifted phase center
-## JOB C shift_phase_centre.sub 
-## VARS C sbid="38814" ra_str=""04h32m25.1s" dec_str="-69d04m38s"
+JOB C shift_phase_centre.sub 
+VARS C sbid="33047" ra_str="05h38m42.357s" dec_str="-69d06m03.24s"
 ## PARENTS C CHILD D
 
 ## CONTSUB

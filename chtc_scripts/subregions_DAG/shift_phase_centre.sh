@@ -9,7 +9,7 @@ ra_str=$2
 dec_str=$3
 
 ## change directory to where measurement sets are stored in staging area
-cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid} 
+cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/30Dor
 
 ## change the phase centre
 chgcentre ${ms_name} ${ra_str} ${dec_str}

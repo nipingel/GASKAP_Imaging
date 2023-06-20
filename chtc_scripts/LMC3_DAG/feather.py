@@ -58,7 +58,8 @@ def main():
 	immath_params = {
 		'imagename':image_list, 
 		'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
-		'expr':'IM0/(IM1/max(IM1))'}
+		'expr':'IM0/(IM1/max(IM1))',
+		'imagemd':image_list[0]}
 	immath(**immath_params)
 
 	## regrid single dish data

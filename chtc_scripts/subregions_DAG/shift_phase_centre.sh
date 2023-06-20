@@ -5,8 +5,9 @@
 
 ##  set measurement set nam, RA, and DEC strings
 ms_name=$1
-ra_str=$2
-dec_str=$3
+sbid=$2
+ra_str=$3
+dec_str=$4
 
 ## change directory to where measurement sets are stored in staging area
 cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/30Dor

@@ -20,7 +20,7 @@ executable = shift_phase_centre.sh
 ## argument: link to wget checksum
 
 arguments = $(ms_name) $(ra_str) $(dec_str)
-log = phase_shift_$(Process).log
+log = phase_centre_shift_$(Process).log
 output = phase_centre_shift_$(Process).out
 error = phase_centre_shift_$(Process).err
 

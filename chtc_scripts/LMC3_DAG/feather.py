@@ -69,14 +69,14 @@ def main():
 		'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
 		'expr':'IM0/(IM1/max(IM1))',
 		'imagemd':image_list[0]}
-	immath(**immath_params)
+	##immath(**immath_params)
 
 	## regrid single dish data
 	regrid_params = {
 		'imagename': casa_image_list[1],
 		'output': casa_image_list[1].replace('.im', '.regrid'),
 		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc')}
-	imregrid(**regrid_params)
+	##imregrid(**regrid_params)
 
 	## run feather
 	feather_params = {
@@ -85,6 +85,7 @@ def main():
 		'sdfactor':1.0,
 		'imagename':out_file}
 
+	feather(**feather_params)
 	## exportfits
 	final_cube_name = '%s.fits' % (out_file)
 	exportfits_params = {

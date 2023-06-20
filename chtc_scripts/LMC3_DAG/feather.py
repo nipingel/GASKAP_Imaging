@@ -53,8 +53,17 @@ def main():
 		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth')}
 	#imsmooth(**imsmooth_params)
 
+	## remove stokes axis in beam cube
+	beam_file_imsub = '%s.imsub' % beam_file
+	imsubimage_params = {
+		'imagename':beam_file,
+		'outfile':beam_file_imsub,
+		'dropdeg':True,
+		'overwrite':True}
+	#imsubimage(**imsubimage_params)
+
 	## correct for primary beam 
-	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file]
+	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file_imsub]
 	immath_params = {
 		'imagename':image_list, 
 		'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),

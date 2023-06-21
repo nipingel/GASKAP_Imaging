@@ -36,8 +36,8 @@
 ## - dec_str: dec in dms format
 ## output:
 ## measurement set with shifted phase center
-JOB C shift_phase_centre.sub 
-VARS C sbid="33047" ra_str="05h38m42.357s" dec_str="-69d06m03.24s"
+## JOB C shift_phase_centre.sub 
+## VARS C sbid="33047" ra_str="05h38m42.357s" dec_str="-69d06m03.24s"
 ## PARENTS C CHILD D
 
 ## CONTSUB
@@ -65,8 +65,8 @@ VARS C sbid="33047" ra_str="05h38m42.357s" dec_str="-69d06m03.24s"
 ## - ec: ending channel
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
-## JOB E split_channels.sub
-## VARS E sbid="38814" sc="300" ec="700" 
+JOB E split_channels.sub
+VARS E sbid="38814" sc="300" ec="800" 
 ## PARENT E CHILD F
 
 ## GENERATE CLEAN MASK

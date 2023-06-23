@@ -54,6 +54,19 @@
 ## VARS D sbid="38814" chan_str="0 250 850 1400 1750 2111"
 ## PARENT D CHILD E
 
+## TAR MEASUREMENT SETS
+## tar phase shifted measurement sets (ADD TARRING TO CONTSUB NODE)
+## executable: 
+## - tar_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_name: name of measurement set
+## output: 
+## - tarred phase-shifted measurement set
+JOB D tar_measurement_sets.sub
+VARS D sbid="33047"
+PARENT D CHILD E
+
 ## SPLIT CHANNELS
 ## split out user provided number of individual channels from measurement sets to be imaged
 ## executable:

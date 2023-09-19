@@ -15,8 +15,8 @@ process_num=$5
 beam_suffix="bm"
 
 ## change working directory to staging area
-mv combine_images.py /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities
-cd /projects/vla-processing/GASKAP-HI/images/${sbid}/lmc_velocities
+mv combine_images.py /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities
+cd /projects/vla-processing/GASKAP-HI/images/${sbid}/mw_velocities
 
 ## decide which casa call to make (beam pattern cube or image cube)
 ## beam pattern

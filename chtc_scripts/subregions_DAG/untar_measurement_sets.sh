@@ -6,7 +6,7 @@
 sbid=$1
 file_name=$2
 
-cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid} 
+cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge 
 
 ## untar 
 tar -xvf ${file_name}

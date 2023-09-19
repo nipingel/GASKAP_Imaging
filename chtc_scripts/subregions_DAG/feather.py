@@ -40,9 +40,9 @@ def main():
 		importfits_params = {
 			'imagename':fits.replace('.fits', '.im'),
 			'fitsimage':fits}
-		#importfits(**importfits_params)
+		importfits(**importfits_params)
 		casa_image_list.append(fits.replace('.fits', '.im'))
-
+	
 	## smooth input askap image to 30''
 	imsmooth_params = {
 		'imagename':casa_image_list[0],
@@ -50,16 +50,16 @@ def main():
 		'minor':'30arcsec',
 		'pa':'0deg',
 		'targetres':True,
-		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth')}
+		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth.pbc')}
 	#imsmooth(**imsmooth_params)
 
 	## correct for primary beam 
 	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file]
-	immath_params = {
-		'imagename':image_list, 
-		'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
-		'expr':'IM0/(IM1/max(IM1))'}
-	immath(**immath_params)
+	#immath_params = {
+	#	'imagename':image_list, 
+	#	'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
+	#	'expr':'IM0/(IM1/max(IM1))'}
+	#immath(**immath_params)
 
 	## regrid single dish data
 	regrid_params = {
@@ -75,6 +75,7 @@ def main():
 		'sdfactor':1.0,
 		'imagename':out_file}
 
+	feather(**feather_params)
 	## exportfits
 	final_cube_name = '%s.fits' % (out_file)
 	exportfits_params = {

@@ -6,12 +6,11 @@
 ## get user provided variables
 sbid=$1
 chan=$2 
-mask_file=$3
-config_file=$4
-output_prefix=$5
+config_file=$3
+output_prefix=$4
 
 ## directory containing channel measurement sets
-data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/contsub
+data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge
 
 ## untar channels
 for tar_file in ${data_dir}/*_chan${chan}.tar
@@ -20,18 +19,17 @@ do
 done
 
 ## set imaging parameters
-total_iters=100
+total_iters=10000
 minor_thresh=0.015 ##Jy
 m_gain=0.7
-robust=0.75
+robust=0.0
 imsize=4096 
-cellsize="7asec"
+cellsize="2asec"
 compute_threads=4
-beam_size=30 ## arcsec
+beam_size=10 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
 output_name=${output_prefix}_chan${chan}
-mask_path=${mask_file}
 config_path=${config_file}
 
 ## call to imager
@@ -46,11 +44,9 @@ wsclean \
 	-scale ${cellsize} \
 	-pol i \
 	-verbose \
-	-fits-mask ${mask_path} \
 	-auto-mask 3 \
 	-auto-threshold 0.3 \
 	-save-first-residual \
-	-taper-gaussian 14 \
 	-nmiter ${num_major_limit} \
 	-mgain 0.7 \
 	-niter ${total_iters} \
@@ -63,7 +59,7 @@ wsclean \
 ## tar result
 tar -cvf ${output_name}.tar ${output_name}*
 
-mv ${output_name}.tar /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities
+mv -f ${output_name}.tar /projects/vla-processing/GASKAP-HI/images/${sbid}/southern_ridge
 
 ## clean up
 rm -rf *chan${chan}

@@ -18,8 +18,8 @@ docker_image = nipingel/casa:latest
 executable = untar_images.sh
 
 ## assign chanel variables and list arguments 
-#c = $(Process)+$(start_chan)
-#chan = $INT(c,%d)
+c = $(Process)+$(start_chan)
+chan = $INT(c,%d)
 arguments = $(sbid) $(suffix) $(root_file_name) $(chan)
 
 ## name log, output, and error log files

@@ -20,7 +20,7 @@ config_file=$4
 output_prefix=$5
 
 ## directory containing channel measurement sets
-data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/contsub
+data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/30Dor
 
 
 ## untar channels
@@ -34,7 +34,7 @@ total_iters=100
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
-imsize=4096 
+imsize=650 
 cellsize="7asec"
 compute_threads=4
 beam_size=30 ## arcsec
@@ -69,9 +69,12 @@ wsclean \
 	-log-time \
 	-j ${compute_threads} *"_chan"${chan} | tee ${output_name}".log"
 
+mv ${output_name}-beam.fits /projects/vla-processing/GASKAP-HI/images/33047/30Dor
+
 ## run trailing python script to generate clean mask
-python3 generate_clean_mask.py -n {output_name}-beam.fits -o ${mask_file} -t 0.3
+python3 generate_clean_mask.py -n ${output_name}-beam.fits -o ${mask_file} -t 0.3
 
 ## clean up
+mv ${mask_file}.fits /projects/vla-processing/GASKAP-HI/images/33047/30Dor   
 rm -rf *chan${chan}
 rm -rf ${output_name}*

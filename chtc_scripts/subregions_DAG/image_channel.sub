@@ -21,13 +21,16 @@ executable = image_channel.sh
 
 ## argument: split-out channel for imaging
 ## set up start and end channels
-c = $(Process) + $(start_channel)
-chan = $INT(c,%d)
+#c=$(Process) + $(start_chan)
+#chan=$INT(c,%d)
 
 log = wsclean_imaging_chan$(chan).log
 output = wsclean_imaging_chan$(chan).out
 error = wsclean_imaging_chan$(chan).err
-arguments = $(sbid) $(chan) $(mask_file) $(config_file) $(output_prefix)
+sbid=33047
+config_file=beammap_MolRidge_SB33047.config
+output_prefix=SB33047_MolRidge
+arguments = $(sbid) $(chan) $(config_file) $(output_prefix)
 
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be
@@ -37,10 +40,11 @@ Requirements=(Target.HasCHTCStaging == true) && (Target.Microarch >= "x86_64-v3"
 
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = $(mask_file), $(config_file), image_channel.sh
+transfer_input_files = $(config_file), image_channel.sh
 request_cpus = 4
 request_memory = 10GB
 request_disk = 22GB
 #
 # Tell HTCondor to run 700 instances of our job:
-queue 700
+#queue 500
+queue chan from leftover-channels.txt

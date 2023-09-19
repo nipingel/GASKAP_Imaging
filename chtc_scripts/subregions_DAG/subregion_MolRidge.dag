@@ -123,9 +123,9 @@
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-JOB H untar_images.sub
-VARS H sbid="33047" start_chan="300" suffix="image-pb" root_file_name="SB33047_MolRidge"
-PARENT H CHILD I
+##JOB H untar_images.sub
+##VARS H sbid="33047" start_chan="300" suffix="image-pb" root_file_name="SB33047_MolRidge"
+##PARENT H CHILD I
 
 ## COMBINE
 ## combine images cleaned images or primary beam patterns
@@ -141,7 +141,7 @@ PARENT H CHILD I
 ## output:
 ## - combined cube
 JOB I combine_images.sub
-VARS I sbid="33047" suffix="im" root_file_name="SB33047_MolRidge" delta_nu="1.157" output_name="MolRidge_askap_Jy"
+VARS I sbid="33047" suffix="imsub" root_file_name="SB33047_MolRidge" delta_nu="1.157" output_name="MolRidge_askap_Jy"
 PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK

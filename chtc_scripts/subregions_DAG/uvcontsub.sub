@@ -15,6 +15,8 @@ docker_image = nipingel/casa:latest
 #  output (or "screen output").
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
+sbid=33047
+chan_str='0 300 800 1400 1750 2111'
 executable = uvcontsub.sh
 arguments = $(sbid) $(ms_name) $(chan_str)
 log = contsub_$(Process).log
@@ -35,4 +37,4 @@ request_memory = 16GB
 request_disk = 10GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue ms_name from measurement-set-names.txt
+queue ms_name from measurement-set-names_southern_ridge.txt 

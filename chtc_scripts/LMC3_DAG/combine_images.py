@@ -19,7 +19,7 @@ __status__="Production"
 
 ## imports
 import argparse
-import glob 
+import glob as glob 
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-f', '--fileExt', help = '<required> file extension (e.g., image)', required = True)
@@ -38,6 +38,25 @@ freqResStr = '%skHz' % args.freqRes
 outFile = args.outFile
 create_image_cube = args.image
 
+## create lists of images/beams and convert to CASA images
+
+if create_image_cube:
+	## run importfits (images)
+	image_list = glob.glob('*-image.fits')
+	for i in image_list:
+		importfits_params = {
+			'fitsimage': i,
+			'imagename': i.replace('.fits', '.im')}
+		importfits(**importfits_params)
+else:
+	## run importfits (beams)
+	beam_list = glob.glob('*-beam.fits')
+	for i in beam_list:
+        	importfits_params = {
+                	'fitsimage': i,
+                	'imagename': i.replace('.fits', '.bm')}
+        	importfits(**importfits_params)
+
 ## create list of files
 fileList = glob.glob('*.%s' % fileExt)
 
@@ -45,7 +64,7 @@ fileList = glob.glob('*.%s' % fileExt)
 fileList.sort()
 
 ## loop through list to correct headers
-for file in fileList:
+for file in fileList:	
 	## set rest freq
 	imhead(imagename = file, mode = 'put', hdkey = 'restfreq', hdvalue = restFreqStr)
 

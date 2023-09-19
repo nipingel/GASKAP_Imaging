@@ -40,9 +40,10 @@ def main():
 		importfits_params = {
 			'imagename':fits.replace('.fits', '.im'),
 			'fitsimage':fits}
-		#importfits(**importfits_params)
+		importfits(**importfits_params)
 		casa_image_list.append(fits.replace('.fits', '.im'))
-
+		
+	
 	## smooth input askap image to 30''
 	imsmooth_params = {
 		'imagename':casa_image_list[0],
@@ -51,7 +52,7 @@ def main():
 		'pa':'0deg',
 		'targetres':True,
 		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth')}
-	#imsmooth(**imsmooth_params)
+	imsmooth(**imsmooth_params)
 
 	## remove stokes axis in beam cube
 	beam_file_imsub = '%s.imsub' % beam_file
@@ -60,27 +61,37 @@ def main():
 		'outfile':beam_file_imsub,
 		'dropdeg':True,
 		'overwrite':True}
-	#imsubimage(**imsubimage_params)
+	imsubimage(**imsubimage_params)
 
 	## correct for primary beam 
-	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file_imsub]
+	askap_image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file_imsub]
 	immath_params = {
-		'imagename':image_list, 
+		'imagename':askap_image_list, 
 		'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
 		'expr':'IM0/(IM1/max(IM1))',
 		'imagemd':image_list[0]}
-	##immath(**immath_params)
+	immath(**immath_params)
+
+	## replace askap_image_list with primary beam corrected images
+	askap_image_list = [casa_image_list[0].replace('.im', '.imsmooth.pbc'), beam_file_imsub]
+	## run immath again to mask out pixels outside primary beam area
+	immath_mask_params = {
+		'imagename': askap_image_list,
+		'outfile': askap_image_list[0].replace('.imsmooth.pbc', '.imsmooth.pbc.clipped')
+		'expr': 'iif(IM1 > 0.25, IM0, 0.0)'
+		'imagemd':askap_image_list[0]}
+	immath(**immath_mask_params)
 
 	## regrid single dish data
 	regrid_params = {
 		'imagename': casa_image_list[1],
 		'output': casa_image_list[1].replace('.im', '.regrid'),
-		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc')}
-	##imregrid(**regrid_params)
+		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc.clipped')}
+	imregrid(**regrid_params)
 
 	## run feather
 	feather_params = {
-		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
+		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc.clipped'),
 		'lowres':casa_image_list[1].replace('.im', '.regrid'),
 		'sdfactor':1.0,
 		'imagename':out_file}

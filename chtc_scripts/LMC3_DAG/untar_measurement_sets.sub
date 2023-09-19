@@ -14,6 +14,7 @@ universe = vanilla
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
 executable = untar_measurement_sets.sh
+sbid=38215
 arguments = $(sbid) $(file_name) 
 output = decompress_ms_file_$(Process).out
 error = decompress_ms_file_$(Process).err
@@ -31,4 +32,4 @@ request_memory = 10GB
 request_disk = 10GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue file_name from untar-list.txt
+queue file_name from list.txt

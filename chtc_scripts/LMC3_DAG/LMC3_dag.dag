@@ -110,8 +110,8 @@
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-## JOB H untar_images.sub
-## VARS H sbid="38814" start_chan="300" suffix="image" root_file_name="GASKAP_SB38814"
+##JOB H untar_images.sub
+##VARS H sbid="38814" start_chan="1500" suffix="image" root_file_name="GASKAP_SB38814_robust1.25_taper10"
 ##PARENT H CHILD I
 
 ## COMBINE
@@ -128,7 +128,7 @@
 ## output:
 ## - combined cube
 ##JOB I combine_images.sub
-##VARS I sbid="38814" suffix="im" root_file_name="GASKAP_SB38814" delta_nu="1.157" output_name="LMC3_MW_askap_Jy"
+##VARS I sbid="38814" suffix="im" root_file_name="GASKAP_SB38814_robust1.25_taper10" delta_nu="1.157" output_name="LMC3_MW_askap_Jy"
 ##PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK

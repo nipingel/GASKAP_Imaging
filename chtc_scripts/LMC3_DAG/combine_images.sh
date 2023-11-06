@@ -27,6 +27,3 @@ fi
 if [ ${process_num} -eq "1" ]; then
 	/casa-6.5.0-15-py3.8/bin/casa -c combine_images.py -f ${file_suffix} -o ${output_name} -d ${delta_nu} --image
 fi
-
-## clean up
-rm combine_images.py

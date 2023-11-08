@@ -1,23 +1,28 @@
-# transfer_checksums.sub
-# script to submit imaging for a cutout around absorption source
+# shift_phase_centre.sub
+# script to submit jobs to shift phase centre of ASKAP measurement sets using WSClean's chgcentre tool 
 #
 # Specify the HTCondor Universe (vanilla is the default and is used
 #  for almost all jobs) and your desired name of the HTCondor log file,
 #  which is where HTCondor will describe what steps it takes to run 
 #  your job. Wherever you see $(Cluster), HTCondor will insert the 
 #  queue number assigned to this set of jobs at the time of submission.
-universe = vanilla
-log = transfer_ms_files$(Process).log
+universe = docker
+docker_image = nipingel/wsclean:wsclean_v3.1
+
 #
 # Specify your executable (single binary or a script that runs several
 #  commands), arguments, and a files for HTCondor to store standard
 #  output (or "screen output").
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
-executable = transfer_measurement_sets.sh
-arguments = $(ms_link) $(sbid)
-output = transfer_ms_files_$(Process).out
-error = transfer_ms_files_$(Process).err
+executable = shift_phase_centre.sh
+
+## argument: link to wget checksum
+
+arguments = $(ms_name) $(ra_str) $(dec_str)
+log = phase_shift_$(Process).log
+output = phase_centre_shift_$(Process).out
+error = phase_centre_shift_$(Process).err
 
 #
 # Specify that HTCondor should transfer files to and from the
@@ -27,10 +32,10 @@ Requirements=(Target.HasCHTCStaging == true)
 +HasCHTCStaging=true
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = transfer_measurement_sets.sh
+transfer_input_files = shift_phase_centre.sh
 request_cpus = 1
-request_memory = 100MB
+request_memory = 1GB
 request_disk = 1GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue ms_link from links.txt
+queue ms_name from measurement-set-names.txt

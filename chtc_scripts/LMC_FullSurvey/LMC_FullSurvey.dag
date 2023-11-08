@@ -9,7 +9,7 @@
 ## - ms_link: file url from which to wget
 ## output:
 ## - tarball measurement set
-JOB A transfer.sub
+JOB A transfer_measurement_sets.sub
 VARS A sbid="53093"
 PARENT A CHILD B
 
@@ -38,7 +38,7 @@ PARENT B CHILD C
 ## measurement set with shifted phase center
 JOB C shift_phase_centre.sub
 VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
-PARENTS C CHILD D
+#PARENTS C CHILD D
 
 ## CONTSUB
 ## run continuum subtraction for all measurement sets from all VLA configurations

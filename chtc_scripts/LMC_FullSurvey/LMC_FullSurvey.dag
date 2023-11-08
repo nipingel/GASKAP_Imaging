@@ -37,7 +37,7 @@ PARENT B CHILD C
 ## output:
 ## measurement set with shifted phase center
 JOB C shift_phase_centre.sub
-VARS C sbid="53093" ra_str=""05h36m41s" dec_str="-67d38m44s"
+VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
 PARENTS C CHILD D
 
 ## CONTSUB

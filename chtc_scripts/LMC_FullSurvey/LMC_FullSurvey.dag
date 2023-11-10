@@ -9,9 +9,9 @@
 ## - ms_link: file url from which to wget
 ## output:
 ## - tarball measurement set
-JOB A transfer_measurement_sets.sub
-VARS A sbid="53093"
-PARENT A CHILD B
+## JOB A transfer_measurement_sets.sub
+## VARS A sbid="53093"
+## PARENT A CHILD B
 
 ## UNTAR MEASUREMENT SETS
 ## untar transferred measurement sets
@@ -24,7 +24,7 @@ PARENT A CHILD B
 ## - untarred measurement set
 JOB B untar_measurement_sets.sub
 VARS B sbid="53093"
-PARENT B CHILD C
+## PARENT B CHILD C
 
 ## SHIFT PHASE CENTERS
 ## shift phase centers of all measurement sets to given phase center for imaging
@@ -36,8 +36,8 @@ PARENT B CHILD C
 ## - dec_str: dec in dms format
 ## output:
 ## measurement set with shifted phase center
-JOB C shift_phase_centre.sub
-VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
+## JOB C shift_phase_centre.sub
+## VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
 #PARENTS C CHILD D
 
 ## CONTSUB

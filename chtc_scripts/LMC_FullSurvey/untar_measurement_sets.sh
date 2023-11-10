@@ -9,4 +9,4 @@ file_name=$2
 cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid} 
 
 ## untar 
-tar -xvf ${file_name}
+tar -xvf ${file_name}.tar

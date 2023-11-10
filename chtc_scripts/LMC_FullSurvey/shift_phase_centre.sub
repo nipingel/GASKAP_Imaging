@@ -34,8 +34,8 @@ Requirements=(Target.HasCHTCStaging == true)
 #  each job will need on the computer where it runs.
 transfer_input_files = shift_phase_centre.sh
 request_cpus = 1
-request_memory = 1GB
-request_disk = 1GB
+request_memory = 10GB
+request_disk = 2GB
 #
 # Tell HTCondor to run 1 instances of our job:
 queue ms_name from measurement-set-names.txt

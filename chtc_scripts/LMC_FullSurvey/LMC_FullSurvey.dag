@@ -36,9 +36,9 @@
 ## - dec_str: dec in dms format
 ## output:
 ## measurement set with shifted phase center
-JOB C shift_phase_centre.sub
-VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
-PARENT C CHILD D
+## JOB C shift_phase_centre.sub
+## VARS C sbid="53093" ra_str="05h36m41s" dec_str="-67d38m44s"
+## PARENT C CHILD D
 
 ## CONTSUB
 ## run continuum subtraction for all measurement sets from all VLA configurations
@@ -50,9 +50,9 @@ PARENT C CHILD D
 ## - chan_str: string denoting channel ranges over which to fit polynomial and remove continuum
 ## output:
 ## - cont-subbed measurement sets with '.contsub' suffix appended
-JOB D uvcontsub.sub
-VARS D sbid="53903" chan_str="0 250 850 1400 1750 2111"
-PARENT D CHILD E
+## JOB D uvcontsub.sub
+## VARS D sbid="53093" chan_str="0 250 850 1400 1750 2111"
+## PARENT D CHILD E
 
 ## SPLIT CHANNELS
 ## split out user provided number of individual channels from measurement sets to be imaged

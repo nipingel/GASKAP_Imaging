@@ -24,6 +24,7 @@ args, unknown = parser.parse_known_args()
 
 ## based on list of channels, create string to pass to 'fitspw' uvcontsub3 task
 listOfChans = args.listOfChans
+print(listOfChans)
 def main():
 	fitspwStr = '0:'
 	for i in range(len(args.listOfChans)):
@@ -37,6 +38,7 @@ def main():
 			fitspwStr += '~'
 		elif i % 2 == 1 and i < len(args.listOfChans) - 1:
 			fitspwStr += ';'
+	print(fitspwStr, listOfChans)
 	vis_name = args.msPath
 	fitorder = args.order
 	uvcontsub_params = {

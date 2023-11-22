@@ -16,6 +16,7 @@ docker_image = nipingel/casa:latest
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
 executable = uvcontsub.sh
+chan_str='0 250 850 1400 1750 2111'
 arguments = $(sbid) $(ms_name) $(chan_str)
 log = contsub_$(Process).log
 output = contsub_$(Process).out
@@ -31,8 +32,8 @@ Requirements=(Target.HasCHTCStaging == true)
 #  each job will need on the computer where it runs.
 transfer_input_files = uvcontsub.sh, uvcontsub.py
 request_cpus = 1
-request_memory = 10GB
-request_disk = 2GB
+request_memory = 16GB
+request_disk = 200GB
 #
 # Tell HTCondor to run 1 instances of our job:
 queue ms_name from measurement-set-names.txt

@@ -8,7 +8,7 @@ file_url=$1
 sbid=$2
 
 ## transfer directly to staging area
-mkdir -p /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
+#mkdir -p /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 cd /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 
 ## use wget to download link

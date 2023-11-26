@@ -65,9 +65,9 @@
 ## - ec: ending channel
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
-JOB E split_channels.sub
-VARS E sbid="53093" sc="250" ec="700" 
-PARENT E CHILD F
+## JOB E split_channels.sub
+## VARS E sbid="53093" sc="250" ec="700" 
+## PARENT E CHILD F
 
 ## GENERATE CLEAN MASK
 ## run a very shallow clean on a single channel to produce beam pattern FITS file that can be used to generate clean mask
@@ -80,8 +80,8 @@ PARENT E CHILD F
 ## - mask_file: name of output clean mask file
 ## output:
 ## a *-beam.fits file to base clean mask off of
-JOB F image_channel_clean_mask.sub
-VARS F sbid="53093" input_chan="700" mask_file="SB53093_deconvolve_mask" config_file="beammap_SB53093.config" output_prefix="GASKAP_SB53093"
+## JOB F image_channel_clean_mask.sub
+## VARS F sbid="53093" input_chan="700" config_file="beammap_SB53093.config" output_file="SB53093_deconvolve_mask"
 ## PARENT F CHILD G
 
 ## IMAGE
@@ -95,8 +95,8 @@ VARS F sbid="53093" input_chan="700" mask_file="SB53093_deconvolve_mask" config_
 ## - mask_file: name of clean mask
 ## output:
 ## - tarball of imaging products from WSClean
-## JOB G image_channel_clean_mask.sub
-## VARS G sbid="38814" start_chan="700" mask_file="SB38814_deconvolve_mask.fits" config_file="beammap_SB38814.config"
+JOB G image_channel.sub
+VARS G sbid="53093" start_chan="250" mask_file="SB53093_deconvolve_mask.fits" config_file="beammap_SB53093.config" output_prefix="GASKAP_SB53093"
 ## PARENT G CHILD H
 
 ## UNTAR IMAGES

@@ -15,9 +15,8 @@ export HOME=$PWD
 ## get user provided variables
 sbid=$1
 chan=$2 
-mask_file=$3
-config_file=$4
-output_prefix=$5
+config_file=$3
+output_file=$4
 
 ## directory containing channel measurement sets
 data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
@@ -28,7 +27,6 @@ for tar_file in ${data_dir}/*_chan${chan}.tar
 do
 	tar -xf ${tar_file} --directory .
 done
-
 ## set imaging parameters
 total_iters=100
 minor_thresh=0.015 ##Jy
@@ -40,7 +38,6 @@ compute_threads=4
 beam_size=30 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
-output_name=${output_prefix}_chan${chan}
 #mask_path=SB38814_deconvolve_mask.fits
 config_path=${config_file}
 
@@ -50,7 +47,7 @@ wsclean \
 	-use-idg \
 	-aterm-config ${config_path} \
 	-field 0,1,2 \
-	-name ${output_name} \
+	-name ${output_file} \
 	-weight briggs ${robust} \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
@@ -70,8 +67,8 @@ wsclean \
 	-j ${compute_threads} *"_chan"${chan} | tee ${output_name}".log"
 
 ## run trailing python script to generate clean mask
-python3 generate_clean_mask.py -n {output_name}-beam.fits -o ${mask_file} -t 0.3
+python3 generate_clean_mask.py -n ${output_name}-beam.fits -o ${output_name} -t 0.3
 
 ## clean up
 rm -rf *chan${chan}
-rm -rf ${output_name}*
+rm -rf ${output_name}-*

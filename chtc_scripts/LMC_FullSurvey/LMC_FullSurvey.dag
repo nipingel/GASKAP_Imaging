@@ -66,8 +66,8 @@
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
 ## JOB E split_channels.sub
-## VARS E sbid="53093" sc="250" ec="700" 
-## PARENT E CHILD F
+## VARS E sbid="53093" sc="900" ec="1100" 
+## PARENT E CHILD G
 
 ## GENERATE CLEAN MASK
 ## run a very shallow clean on a single channel to produce beam pattern FITS file that can be used to generate clean mask
@@ -97,7 +97,7 @@
 ## - tarball of imaging products from WSClean
 JOB G image_channel.sub
 VARS G sbid="53093" start_chan="250" mask_file="SB53093_deconvolve_mask.fits" config_file="beammap_SB53093.config" output_prefix="GASKAP_SB53093"
-## PARENT G CHILD H
+PARENT G CHILD H
 
 ## UNTAR IMAGES
 ## untar the tarballs of processed images and transfer desired files over to be combined into a single cube
@@ -110,9 +110,9 @@ VARS G sbid="53093" start_chan="250" mask_file="SB53093_deconvolve_mask.fits" co
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-##JOB H untar_images.sub
-##VARS H sbid="38814" start_chan="1500" suffix="image" root_file_name="GASKAP_SB38814_robust1.25_taper10"
-##PARENT H CHILD I
+JOB H untar_images.sub
+VARS H sbid="53093" start_chan="250" suffix="image-pb" root_file_name="GASKAP_SB53093"
+PARENT H CHILD I
 
 ## COMBINE
 ## combine images cleaned images or primary beam patterns
@@ -127,9 +127,9 @@ VARS G sbid="53093" start_chan="250" mask_file="SB53093_deconvolve_mask.fits" co
 ## - output_name: name of output file
 ## output:
 ## - combined cube
-##JOB I combine_images.sub
-##VARS I sbid="38814" suffix="im" root_file_name="GASKAP_SB38814_robust1.25_taper10" delta_nu="1.157" output_name="LMC3_MW_askap_Jy"
-##PARENT I CHILD J
+JOB I combine_images.sub
+VARS I sbid="53093" suffix="im" root_file_name="GASKAP_SB53093" delta_nu="1.157" output_name="LMC_FullSurvey_SB53093_askap_Jy"
+## PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
 ## primary beam correct, smooth to 30'', feather, and produce final masked cube

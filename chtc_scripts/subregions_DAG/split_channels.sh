@@ -12,7 +12,7 @@ start_chan=$3
 end_chan=$4
 
 ## untar measurement set to working directory
-cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge/${ms_file} .
+cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/${ms_file} .
 
 # make casa call to imaging script
 /casa-6.5.0-15-py3.8/bin/casa -c split_channels.py -p ${ms_file} -s ${start_chan} -e ${end_chan}
@@ -21,7 +21,7 @@ cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge
 for ((i=$3; i<=$4; i++))
 do
 	tar -cvf ${ms_file}_chan${i}.tar ${ms_file}_chan${i}
-	mv ${ms_file}_chan${i}.tar /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge
+	mv ${ms_file}_chan${i}.tar /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 done
 
 ## clean up

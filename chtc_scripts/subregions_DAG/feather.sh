@@ -14,8 +14,8 @@ beam_cube_name=$4
 sd_file_name=$5
 
 ## change working directory to staging area
-mv feather.py /projects/vla-processing/GASKAP-HI/images/${sbid}/southern_ridge
-cd /projects/vla-processing/GASKAP-HI/images/${sbid}/southern_ridge
+mv feather.py /projects/vla-processing/GASKAP-HI/images/${sbid}
+cd /projects/vla-processing/GASKAP-HI/images/${sbid}
 
 /casa-6.5.0-15-py3.8/bin/casa -c feather.py -f ${file_name} -o ${output_name} -b ${beam_cube_name} -s ${sd_file_name}
 

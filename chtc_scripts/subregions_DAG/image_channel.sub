@@ -21,15 +21,12 @@ executable = image_channel.sh
 
 ## argument: split-out channel for imaging
 ## set up start and end channels
-#c=$(Process) + $(start_chan)
-#chan=$INT(c,%d)
+c=$(Process) + $(start_chan)
+chan=$INT(c,%d)
 
 log = wsclean_imaging_chan$(chan).log
 output = wsclean_imaging_chan$(chan).out
 error = wsclean_imaging_chan$(chan).err
-sbid=33047
-config_file=beammap_MolRidge_SB33047.config
-output_prefix=SB33047_MolRidge
 arguments = $(sbid) $(chan) $(config_file) $(output_prefix)
 
 # Specify that HTCondor should transfer files to and from the
@@ -46,5 +43,5 @@ request_memory = 10GB
 request_disk = 22GB
 #
 # Tell HTCondor to run 700 instances of our job:
-#queue 500
-queue chan from leftover-channels.txt
+queue 1200
+#queue chan from leftover-channels.txt

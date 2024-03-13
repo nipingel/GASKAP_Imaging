@@ -9,8 +9,8 @@
 ## - ms_link: file url from which to wget
 ## output:
 ## - tarball measurement set
-JOB A transfer_measurement_sets.sub
-VARS A sbid="33047"
+## JOB A transfer_measurement_sets.sub
+## VARS A sbid="33047"
 #PARENT A CHILD B
 
 ## UNTAR MEASUREMENT SETS
@@ -38,7 +38,7 @@ VARS A sbid="33047"
 ## measurement set with shifted phase center
 ## JOB C shift_phase_centre.sub 
 ## VARS C sbid="33047" ra_str="05h32m37s" dec_str="-69d37m00s"
-## PARENTS C CHILD D
+## PARENT C CHILD E
 
 ## CONTSUB
 ## run continuum subtraction for all measurement sets from all VLA configurations
@@ -79,7 +79,7 @@ VARS A sbid="33047"
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
 ## JOB E split_channels.sub
-## VARS E sbid="33047" sc="300" ec="800" 
+## VARS E sbid="33047" sc="0" ec="1200" 
 ## PARENT E CHILD F
 
 ## GENERATE CLEAN MASK
@@ -108,8 +108,8 @@ VARS A sbid="33047"
 ## - mask_file: name of clean mask
 ## output:
 ## - tarball of imaging products from WSClean
-##JOB G image_channel.sub
-##VARS G sbid="33047" start_chan="300" output_prefix="SB33047_MolRidge" config_file="beammap_MolRidge_SB33047.config"
+## JOB G image_channel.sub
+## VARS G sbid="33047" start_chan="0" output_prefix="SB33047_30Dor" config_file="beammap_30Dor_SB33047.config"
 ## PARENT G CHILD H
 
 ## UNTAR IMAGES
@@ -124,7 +124,7 @@ VARS A sbid="33047"
 ## output:
 ## - untarred casa image files
 ## JOB H untar_images.sub
-## VARS H sbid="33047" start_chan="300" suffix="image-pb" root_file_name="SB33047_MolRidge"
+## VARS H sbid="33047" start_chan="0" suffix="image-pb" root_file_name="SB33047_30Dor"
 ## PARENT H CHILD I
 
 ## COMBINE
@@ -141,7 +141,7 @@ VARS A sbid="33047"
 ## output:
 ## - combined cube
 ## JOB I combine_images.sub
-## VARS I sbid="33047" suffix="im" root_file_name="SB33047_MolRidge" delta_nu="1.157" output_name="MolRidge_askap_Jy"
+## VARS I sbid="33047" suffix="im" root_file_name="SB33047_30Dor" delta_nu="1.157" output_name="30Dor_askap_Jy_extended"
 ## PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
@@ -156,5 +156,5 @@ VARS A sbid="33047"
 ## - sd_file_name: name of input single dish file
 ## output:
 ## - final primary beam corrected, smoothed, feathered, and masked cube
-## JOB J feather.sub
-## VARS J sbid="33047" file_name="MolRidge_askap_Jy_lsrk.fits" output_name="MolRidge_askap_parkes_PBC_Jy" beam_cube_name="MolRidge_askap_Jy_beam.combImage" sd_file_name="GASS_LMC3_Jy.fits"
+JOB J feather.sub
+VARS J sbid="33047" file_name="30Dor_askap_Jy_extended_lsrk.fits" output_name="30Dor_askap_parkes_PBC_Jy_extended" beam_cube_name="30Dor_askap_Jy_extended_beam.combImage" sd_file_name="GASS_LMC3_Jy.fits"

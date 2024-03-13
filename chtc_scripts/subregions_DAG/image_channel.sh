@@ -10,7 +10,7 @@ config_file=$3
 output_prefix=$4
 
 ## directory containing channel measurement sets
-data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/southern_ridge
+data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 
 ## untar channels
 for tar_file in ${data_dir}/*_chan${chan}.tar
@@ -23,8 +23,8 @@ total_iters=10000
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.0
-imsize=4096 
-cellsize="2asec"
+imsize=1024 
+cellsize="7asec"
 compute_threads=4
 beam_size=10 ## arcsec
 multiscale_bias=0.85
@@ -42,6 +42,7 @@ wsclean \
 	-weight briggs ${robust} \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
+	-taper-gaussian 14 \
 	-pol i \
 	-verbose \
 	-auto-mask 3 \
@@ -59,7 +60,7 @@ wsclean \
 ## tar result
 tar -cvf ${output_name}.tar ${output_name}*
 
-mv -f ${output_name}.tar /projects/vla-processing/GASKAP-HI/images/${sbid}/southern_ridge
+mv -f ${output_name}.tar /projects/vla-processing/GASKAP-HI/images/${sbid}
 
 ## clean up
 rm -rf *chan${chan}

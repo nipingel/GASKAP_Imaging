@@ -1,22 +1,13 @@
 #!/bin/bash
 #
-# image_channel_clean_mask.sh
+# image_channel.sh
 # execution script for imaging of single channel in GASKAP survey
-# to generate clean mask 
-
-## untar python scripts
-tar -xzf packages.tar.gz
-tar -xzf python39.tar.gz
-
-export PATH=$PWD/python/bin:$PATH
-export PYTHONPATH=$PWD/packages
-export HOME=$PWD
 
 ## get user provided variables
 sbid=$1
 chan=$2 
 config_file=$3
-make_file=$4
+mask_file=$4
 output_prefix=$5
 
 ## directory containing channel measurement sets
@@ -29,7 +20,7 @@ do
 	tar -xf ${tar_file} --directory .
 done
 ## set imaging parameters
-total_iters=100
+total_iters=50000
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
@@ -55,7 +46,7 @@ wsclean \
 	-scale ${cellsize} \
 	-pol i \
 	-verbose \
-	-fits_mask ${mask_file} \
+	-fits-mask ${mask_file} \
 	-auto-mask 3 \
 	-auto-threshold 0.3 \
 	-save-first-residual \

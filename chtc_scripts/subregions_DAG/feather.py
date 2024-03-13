@@ -51,7 +51,7 @@ def main():
 		'pa':'0deg',
 		'targetres':True,
 		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth.pbc')}
-	#imsmooth(**imsmooth_params)
+	imsmooth(**imsmooth_params)
 
 	## correct for primary beam 
 	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file]
@@ -60,6 +60,38 @@ def main():
 	#	'outfile':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
 	#	'expr':'IM0/(IM1/max(IM1))'}
 	#immath(**immath_params)
+
+	## set telescope name in single dish image using imhead
+	telescope_params = {
+		'imagename':casa_image_list[1],
+		'mode':'put',
+		'hdkey':'telescope',
+		'hdvalue':'PKS'
+		}
+	imhead(**telescope_params)
+
+	## set beam parameters
+	bmaj_params = {
+		'imagename':casa_image_list[1],
+		'mode':'put',
+		'hdkey':'bmaj',
+		'hdvalue':'960arcsec'
+		}
+	imhead(**bmaj_params)
+	bmin_params = {
+		'imagename':casa_image_list[1],
+		'mode':'put',
+		'hdkey':'bmin',
+		'hdvalue':'960arcsec'
+		}
+	imhead(**bmin_params)
+	bpa_params = {
+		'imagename':casa_image_list[1],
+		'mode':'put',
+		'hdkey':'bpa',
+		'hdvalue':'0deg'
+		}
+	imhead(**bpa_params)
 
 	## regrid single dish data
 	regrid_params = {

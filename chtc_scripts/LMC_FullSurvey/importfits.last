@@ -1,0 +1,10 @@
+fitsimage         = 'GASKAP_SB53093_chan465-beam.fits'
+imagename         = 'GASKAP_SB53093_chan465-beam.bm'
+whichrep          = 0
+whichhdu          = -1
+zeroblanks        = True
+overwrite         = False
+defaultaxes       = False
+defaultaxesvalues = []
+beam              = []
+#importfits( fitsimage='GASKAP_SB53093_chan465-beam.fits',imagename='GASKAP_SB53093_chan465-beam.bm',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )

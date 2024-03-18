@@ -9,9 +9,9 @@
 ## - ms_link: file url from which to wget
 ## output:
 ## - tarball measurement set
-JOB A transfer_measurement_sets.sub
-VARS A sbid="38466"
-PARENT A CHILD B
+### JOB A transfer_measurement_sets.sub
+## VARS A sbid="38466"
+## PARENT A CHILD B
 
 ## UNTAR MEASUREMENT SETS
 ## untar transferred measurement sets

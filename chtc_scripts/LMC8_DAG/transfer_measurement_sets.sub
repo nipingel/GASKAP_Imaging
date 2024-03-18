@@ -29,7 +29,7 @@ Requirements=(Target.HasCHTCStaging == true)
 #  each job will need on the computer where it runs.
 transfer_input_files = transfer_measurement_sets.sh
 request_cpus = 1
-request_memory = 100MB
+request_memory = 1GB
 request_disk = 1GB
 #
 # Tell HTCondor to run 1 instances of our job:

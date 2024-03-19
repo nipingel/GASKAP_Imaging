@@ -1,5 +1,5 @@
-# wsclean_imaging.sub
-# script to base submission of GASKAP imaging jobs
+# split_channels.sub
+# script to submit job to split channels from staged & calibrated GASKAP measurement set
 #
 # Specify the HTCondor Universe (vanilla is the default and is used
 #  for almost all jobs) and your desired name of the HTCondor log file,
@@ -7,7 +7,7 @@
 #  your job. Wherever you see $(Cluster), HTCondor will insert the 
 #  queue number assigned to this set of jobs at the time of submission.
 universe = docker
-docker_image = nipingel/wsclean:wsclean_v3.1
+docker_image = nipingel/casa:latest
 
 #
 # Specify your executable (single binary or a script that runs several
@@ -15,30 +15,27 @@ docker_image = nipingel/wsclean:wsclean_v3.1
 #  output (or "screen output").
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
+executable = split_channels.sh
+## set up start and end channels
+start_chan = $INT(sc,%d)
+end_chan = $INT(ec,%d)
 
-## imaging
-executable = image_channel_clean_mask.sh
-
-c = $(input_chan)
-chan = $INT(c,%d)
-log = generate_clean_mask.log
-output = generate_clean_mask.out
-error = generate_clean_mask.err
-arguments = $(sbid) $(chan) $(config_file) $(output_prefix)
-
+arguments = $(sbid) $(ms_name) $(start_chan) $(end_chan) 
+output = channel_split_$(start_chan)_to_$(end_chan).out
+error = channel_split_$(start_chan)_to_$(end_chan).err
+log = channel_split_$(start_chan)_to_$(end_chan).log
+#
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be
 #  used if there were any other files needed for the executable to use.
-Requirements=(Target.HasCHTCStaging == true) && (Target.Microarch >= "x86_64-v3")
+Requirements=(Target.HasCHTCStaging == true)
 +HasCHTCStaging=true
-
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = beammap_SB38466.config, image_channel_clean_mask.sh, http://proxy.chtc.wisc.edu/SQUID/chtc/python39.tar.gz, /home/nmpingel/student_projects/packages.tar.gz, generate_clean_mask.py
-
-request_cpus = 4
-request_memory = 10GB
-request_disk = 22GB
+transfer_input_files = split_channels.py, split_channels.sh
+request_cpus = 1
+request_memory = 20GB
+request_disk = 150GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue 1
+queue ms_name from measurement-set-names.txt

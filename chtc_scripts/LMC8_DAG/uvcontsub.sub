@@ -31,8 +31,8 @@ Requirements=(Target.HasCHTCStaging == true)
 #  each job will need on the computer where it runs.
 transfer_input_files = uvcontsub.sh, uvcontsub.py
 request_cpus = 1
-request_memory = 10GB
-request_disk = 2GB
+request_memory = 50GB
+request_disk = 300GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue ms_name from measurement-set-names.txt
+queue ms_name from measurement-set-names_leftover.txt

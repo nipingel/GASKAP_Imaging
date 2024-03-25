@@ -21,9 +21,9 @@ executable = image_channel_clean_mask.sh
 
 c = $(input_chan)
 chan = $INT(c,%d)
-log = generate_clean_mask.log
-output = generate_clean_mask.out
-error = generate_clean_mask.err
+log = clean_mask_generate.log
+output = clean_mask_generate.out
+error = clean_mask_generate.err
 arguments = $(sbid) $(chan) $(config_file) $(output_prefix)
 
 # Specify that HTCondor should transfer files to and from the

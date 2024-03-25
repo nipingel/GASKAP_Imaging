@@ -11,7 +11,7 @@ ms_file=$2
 start_chan=$3
 end_chan=$4
 
-cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/${ms_file}.contsub
+cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/${ms_file}.contsub .
 
 # make casa call to imaging script
 /casa-6.5.0-15-py3.8/bin/casa -c split_channels.py -p ${ms_file}.contsub -s ${start_chan} -e ${end_chan}

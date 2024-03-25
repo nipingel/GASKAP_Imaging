@@ -50,9 +50,9 @@
 ## - chan_str: string denoting channel ranges over which to fit polynomial and remove continuum
 ## output:
 ## - cont-subbed measurement sets with '.contsub' suffix appended
-JOB D uvcontsub.sub
-VARS D sbid="38466" chan_str="0 250 850 1400 1750 2111"
-PARENT D CHILD E
+## JOB D uvcontsub.sub
+## VARS D sbid="38466" chan_str="0 250 850 1400 1750 2111"
+## PARENT D CHILD E
 
 ## SPLIT CHANNELS
 ## split out user provided number of individual channels from measurement sets to be imaged

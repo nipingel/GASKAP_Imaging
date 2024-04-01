@@ -20,11 +20,8 @@ cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/${ms_file}.con
 for ((i=$3; i<=$4; i++))
 do
 	tar -cvf ${ms_file}.contsub_chan${i}.tar ${ms_file}.contsub_chan${i}
+	mv ${ms_file}.contsub_chan${i}.tar /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 done
-
-## move back to staging area
-mv ${ms_file}.contsub_chan*.tar /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 
 ## clean up
 rm -rf ${ms_file}.contsub
-rm -rf ${ms_file}.contsub_chan*

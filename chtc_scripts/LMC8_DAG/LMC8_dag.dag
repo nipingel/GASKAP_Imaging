@@ -80,8 +80,8 @@
 ## - mask_file: name of output clean mask file
 ## output:
 ## a *-beam.fits file to base clean mask off of
-JOB F image_channel_clean_mask.sub
-VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
+## JOB F image_channel_clean_mask.sub
+## VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
 ## PARENT F CHILD G
 
 ## IMAGE
@@ -95,8 +95,8 @@ VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output
 ## - mask_file: name of clean mask
 ## output:
 ## - tarball of imaging products from WSClean
-## JOB G image_channel.sub
-## VARS G sbid="53093" start_chan="250" mask_file="SB53093_deconvolve_mask.fits" config_file="beammap_SB53093.config" output_prefix="GASKAP_SB53093"
+JOB G image_channel.sub
+VARS G sbid="38466" start_chan="300" mask_file="SB38466_deconvolve_mask.fits" config_file="beammap_SB38466.config" output_prefix="GASKAP_SB38466"
 ## PARENT G CHILD H
 
 ## UNTAR IMAGES

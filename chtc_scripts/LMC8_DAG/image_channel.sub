@@ -21,7 +21,7 @@ executable = image_channel.sh
 
 ## argument: split-out channel for imaging
 ## set up start and end channels
-c = $(Process) + $(start_channel)
+c = $(Process) + $(start_chan)
 chan = $INT(c,%d)
 
 log = wsclean_imaging_chan$(chan).log

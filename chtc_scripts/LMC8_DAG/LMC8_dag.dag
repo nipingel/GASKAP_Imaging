@@ -65,9 +65,9 @@
 ## - ec: ending channel
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
-JOB E split_channels.sub
-VARS E sbid="38466" sc="300" ec="850" 
-PARENT E CHILD F
+## JOB E split_channels.sub
+## VARS E sbid="38466" sc="300" ec="850" 
+## PARENT E CHILD F
 
 ## GENERATE CLEAN MASK
 ## run a very shallow clean on a single channel to produce beam pattern FITS file that can be used to generate clean mask

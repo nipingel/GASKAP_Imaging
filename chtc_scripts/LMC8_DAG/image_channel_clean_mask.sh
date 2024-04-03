@@ -23,7 +23,7 @@ conda activate astro_env
 sbid=$1
 chan=$2 
 config_file=$3
-output_prefix=$4
+output_name=$4
 
 ## directory containing channel measurement sets
 data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
@@ -39,14 +39,13 @@ total_iters=100
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
-imsize=4096 
+#imsize=4096
+imsize=4916
 cellsize="7asec"
 compute_threads=4
 beam_size=30 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
-output_name=${output_prefix}_chan${chan}
-mask_file=SB38466_deconvolve_mask.fits
 config_path=${config_file}
 
 ## call to imager
@@ -75,8 +74,8 @@ wsclean \
 	-j ${compute_threads} *"_chan"${chan} | tee ${output_name}".log"
 
 ## run trailing python script to generate clean mask
-python generate_clean_mask.py -n {output_name}-beam.fits -o ${mask_file} -t 0.3
+python generate_clean_mask.py -n {output_name}-beam.fits -o ${output_name} -t 0.3
 
 ## clean up
 rm -rf *chan${chan}
-cp ${output_name}* /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities
+mv ${output_name}* /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities

@@ -42,7 +42,6 @@ def main():
 			'fitsimage':fits}
 		importfits(**importfits_params)
 		casa_image_list.append(fits.replace('.fits', '.im'))
-		
 	
 	## smooth input askap image to 30''
 	imsmooth_params = {
@@ -51,7 +50,8 @@ def main():
 		'minor':'30arcsec',
 		'pa':'0deg',
 		'targetres':True,
-		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth')}
+		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth.pbc')}
+1315
 	imsmooth(**imsmooth_params)
 
 	## remove stokes axis in beam cube
@@ -72,35 +72,34 @@ def main():
 		'imagemd':askap_image_list[0]}
 	#immath(**immath_params)
 
-	## replace askap_image_list with primary beam corrected images
-	askap_image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file_imsub]
-	## run immath again to mask out pixels outside primary beam area
-	immath_mask_params = {
-		'imagename': askap_image_list,
-		'outfile': askap_image_list[0].replace('.imsmooth', '.imsmooth.pbc.clipped'),
-		'expr': 'iif(IM1 > 0.05, IM0, 0.0)',
-		'imagemd':askap_image_list[0]}
-	immath(**immath_mask_params)
-
 	## regrid single dish data
 	regrid_params = {
 		'imagename': casa_image_list[1],
 		'output': casa_image_list[1].replace('.im', '.regrid'),
-		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc.clipped')}
+		'template':casa_image_list[0].replace('.im', '.imsmooth.pbc')}
 	imregrid(**regrid_params)
 
 	## run feather
 	feather_params = {
-		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc.clipped'),
+		'highres':casa_image_list[0].replace('.im', '.imsmooth.pbc'),
 		'lowres':casa_image_list[1].replace('.im', '.regrid'),
 		'sdfactor':1.0,
 		'imagename':out_file}
-
 	feather(**feather_params)
-	## exportfits
-	final_cube_name = '%s.fits' % (out_file)
+
+    ## run immath again to mask out pixels outside primary beam area
+    mask_list = [out_file, beam_file_imsub] 
+    immath_mask_params = {
+        'imagename': mask_list,
+        'outfile': out_file+'.clipped',
+        'expr': 'iif(IM1 > 0.05, IM0, 0.0)',
+        'imagemd':askap_image_list[0]}
+    immath(**immath_mask_params)
+
+    ## exportfits
+	final_cube_name = '%s.fits' % (out_file + '.clipped')
 	exportfits_params = {
-		'imagename':out_file,
+		'imagename':out_file + '.clipped',
 		'fitsimage':final_cube_name,
 		'dropdeg':True,
 		'dropstokes':True,

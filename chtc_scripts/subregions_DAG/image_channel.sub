@@ -22,7 +22,7 @@ executable = image_channel.sh
 ## argument: split-out channel for imaging
 ## set up start and end channels
 c=$(Process) + $(start_chan)
-chan=$INT(c,%d)
+#chan=$INT(c,%d)
 
 log = wsclean_imaging_chan$(chan).log
 output = wsclean_imaging_chan$(chan).out
@@ -43,5 +43,5 @@ request_memory = 10GB
 request_disk = 22GB
 #
 # Tell HTCondor to run 700 instances of our job:
-queue 1200
-#queue chan from leftover-channels.txt
+#queue 500 
+queue chan from leftover_channels.txt

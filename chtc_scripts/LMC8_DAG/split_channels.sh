@@ -14,7 +14,7 @@ end_chan=$4
 cp -r /projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/${ms_file}.contsub .
 
 # make casa call to imaging script
-/casa-6.5.0-15-py3.8/bin/casa -c split_channels.py -p ${ms_file}.contsub -s ${start_chan} -e ${end_chan}
+casa -c split_channels.py -p ${ms_file}.contsub -s ${start_chan} -e ${end_chan}
 
 ## loop through to tar each split out file
 for ((i=$3; i<=$4; i++))

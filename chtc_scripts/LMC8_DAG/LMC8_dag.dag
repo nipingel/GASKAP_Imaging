@@ -66,8 +66,8 @@
 ## output:
 ## - measurement sets of indivdual spectral channels for each GASKAP beam
 ## JOB E split_channels.sub
-## VARS E sbid="38466" sc="300" ec="850" 
-## PARENT E CHILD F
+## VARS E sbid="38466" sc="850" ec="1850" 
+## PARENT E CHILD G
 
 ## GENERATE CLEAN MASK
 ## run a very shallow clean on a single channel to produce beam pattern FITS file that can be used to generate clean mask
@@ -80,9 +80,9 @@
 ## - mask_file: name of output clean mask file
 ## output:
 ## a *-beam.fits file to base clean mask off of
-## JOB F image_channel_clean_mask.sub
-## VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
-## PARENT F CHILD G
+JOB F image_channel_clean_mask.sub
+VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
+PARENT F CHILD G
 
 ## IMAGE
 ## run full clean on all channels
@@ -95,9 +95,9 @@
 ## - mask_file: name of clean mask
 ## output:
 ## - tarball of imaging products from WSClean
-## JOB G image_channel.sub
-## VARS G sbid="38466" start_chan="300" mask_file="SB38466_deconvolve_mask.fits" config_file="beammap_SB38466.config" output_prefix="GASKAP_SB38466"
-## PARENT G CHILD H
+JOB G image_channel.sub
+VARS G sbid="38466" start_chan="850" mask_file="SB38466_deconvolve_mask.fits" config_file="beammap_SB38466.config" output_prefix="GASKAP_SB38466"
+PARENT G CHILD H
 
 ## UNTAR IMAGES
 ## untar the tarballs of processed images and transfer desired files over to be combined into a single cube
@@ -110,9 +110,9 @@
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-JOB H untar_images.sub
-VARS H sbid="38466" start_chan="300" suffix="image-pb" root_file_name="GASKAP_SB38466"
-PARENT H CHILD I
+## JOB H untar_images.sub
+## VARS H sbid="38466" start_chan="850" suffix="image-pb" root_file_name="GASKAP_SB38466"
+## PARENT H CHILD I
 
 ## COMBINE
 ## combine images cleaned images or primary beam patterns
@@ -129,7 +129,7 @@ PARENT H CHILD I
 ## - combined cube
 JOB I combine_images.sub
 VARS I sbid="38466" suffix="im" root_file_name="GASKAP_SB38466" delta_nu="1.157" output_name="LMC8_SB38466_askap_Jy"
-PARENT I CHILD J
+## PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
 ## primary beam correct, smooth to 30'', feather, and produce final masked cube

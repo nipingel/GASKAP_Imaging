@@ -15,12 +15,11 @@ export HOME=$PWD
 ## get user provided variables
 sbid=$1
 chan=$2 
-mask_file=$3
-config_file=$4
-output_prefix=$5
+config_file=$3
+output_prefix=$4
 
 ## directory containing channel measurement sets
-data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}/30Dor
+data_dir=/projects/vla-processing/GASKAP-HI/measurement_sets/${sbid}
 
 
 ## untar channels
@@ -34,10 +33,10 @@ total_iters=100
 minor_thresh=0.015 ##Jy
 m_gain=0.7
 robust=0.75
-imsize=650 
-cellsize="7asec"
+imsize=3000
+cellsize="3.25asec"
 compute_threads=4
-beam_size=30 ## arcsec
+beam_size=18 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
 output_name=${output_prefix}_chan${chan}
@@ -69,12 +68,12 @@ wsclean \
 	-log-time \
 	-j ${compute_threads} *"_chan"${chan} | tee ${output_name}".log"
 
-mv ${output_name}-beam.fits /projects/vla-processing/GASKAP-HI/images/33047/30Dor
+mv ${output_name}-beam.fits /projects/vla-processing/GASKAP-HI/images/${sbid}
 
 ## run trailing python script to generate clean mask
-python3 generate_clean_mask.py -n ${output_name}-beam.fits -o ${mask_file} -t 0.3
+#python3 generate_clean_mask.py -n ${output_name}-beam.fits -o ${mask_file} -t 0.3
 
 ## clean up
-mv ${mask_file}.fits /projects/vla-processing/GASKAP-HI/images/33047/30Dor   
+#mv ${mask_file}.fits /projects/vla-processing/GASKAP-HI/images/${sbid}   
 rm -rf *chan${chan}
 rm -rf ${output_name}*

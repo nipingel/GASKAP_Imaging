@@ -1,8 +1,8 @@
-vis         = 'scienceData.M000+02A.SB33047.M000+02B.beam20_SL.ms'
-outputvis   = 'scienceData.M000+02A.SB33047.M000+02B.beam20_SL.ms_chan1200'
+vis         = 'scienceData_SB14180_GASKAP_M349-07_A_01.beam02_SL.ms.contsub'
+outputvis   = 'scienceData_SB14180_GASKAP_M349-07_A_01.beam02_SL.ms.contsub_chan1700'
 keepmms     = True
 field       = ''
-spw         = '0:1200'
+spw         = '0:1700'
 scan        = ''
 antenna     = ''
 correlation = ''
@@ -17,4 +17,4 @@ keepflags   = True
 width       = 1
 timebin     = '0s'
 combine     = ''
-#split( vis='scienceData.M000+02A.SB33047.M000+02B.beam20_SL.ms',outputvis='scienceData.M000+02A.SB33047.M000+02B.beam20_SL.ms_chan1200',keepmms=True,field='',spw='0:1200',scan='',antenna='',correlation='',timerange='',intent='',array='',uvrange='',observation='',feed='',datacolumn='data',keepflags=True,width=1,timebin='0s',combine='' )
+#split( vis='scienceData_SB14180_GASKAP_M349-07_A_01.beam02_SL.ms.contsub',outputvis='scienceData_SB14180_GASKAP_M349-07_A_01.beam02_SL.ms.contsub_chan1700',keepmms=True,field='',spw='0:1700',scan='',antenna='',correlation='',timerange='',intent='',array='',uvrange='',observation='',feed='',datacolumn='data',keepflags=True,width=1,timebin='0s',combine='' )

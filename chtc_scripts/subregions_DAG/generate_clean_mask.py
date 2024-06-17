@@ -41,4 +41,4 @@ good_indices = np.where(image_data > threshold)
 mask_data[good_indices] = 1.0
 
 ## write out new image
-fits.writeto('%s.fits' % output, data = mask_data, header = image_hdu[0].header)
+fits.writeto('%s.fits' % output_name, data = mask_data, header = image_hdu[0].header)

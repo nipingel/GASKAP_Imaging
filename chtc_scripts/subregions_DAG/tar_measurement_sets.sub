@@ -31,4 +31,4 @@ request_memory = 1GB
 request_disk = 1GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue file_name from measurement-set-names_30Dor.txt
+queue file_name from measurement-set-names_SB14180.txt

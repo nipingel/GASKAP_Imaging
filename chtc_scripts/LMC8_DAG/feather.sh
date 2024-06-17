@@ -17,7 +17,7 @@ sd_file_name=$5
 mv feather.py /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities
 cd /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities
 
-/casa-6.5.0-15-py3.8/bin/casa -c feather.py -f ${file_name} -o ${output_name} -s ${sd_file_name} -b ${beam_file}
+casa -c feather.py -f ${file_name} -o ${output_name} -s ${sd_file_name} -b ${beam_file}
 
 ## clean up
 rm feather.py

@@ -1,0 +1,160 @@
+#!/usr/bin/env subregion_30Dor.dag
+
+## TRANSFER STAGED MEASUREMENT SETS
+## transfer_measurement_sets.sub to transfer measurement sets from CASDA
+## executable:
+## - transfer_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_link: file url from which to wget
+## output:
+## - tarball measurement set
+## JOB A transfer_measurement_sets.sub
+## VARS A sbid="14180"
+#PARENT A CHILD B
+
+## UNTAR MEASUREMENT SETS
+## untar transferred measurement sets
+## executable: 
+## - untar_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_name: name of measurement set
+## output: 
+## - untarred measurement set
+## JOB B untar_measurement_sets.sub
+## VARS B sbid="14180"
+## PARENT B CHILD C
+
+## SHIFT PHASE CENTERS
+## shift phase centers of all measurement sets to given phase center for imaging
+## executable:
+## - shift_phase_centre.sh
+## inputs:
+## - sbid: SBID
+## - ra_str: ra in hms format
+## - dec_str: dec in dms format
+## output:
+## measurement set with shifted phase center
+## JOB C shift_phase_centre.sub 
+## VARS C sbid="14180" ra_str="02h11m48.6s" dec_str="-74d24m43.5s" 
+## PARENT C CHILD D
+
+## CONTSUB
+## run continuum subtraction for all measurement sets from all VLA configurations
+## executable:
+## - uvcontsub.sh (runs uvcontsub.py)
+## arguments:
+## - sbid: SBID
+## - ms_name: file name in textfile
+## - chan_str: string denoting channel ranges over which to fit polynomial and remove continuum
+## output:
+## - cont-subbed measurement sets with '.contsub' suffix appended
+## JOB D uvcontsub.sub
+## VARS D sbid="14180" chan_str="0 650 1150 1400 1750 2111"
+## PARENT D CHILD E
+
+## TAR MEASUREMENT SETS
+## tar phase shifted measurement sets (ADD TARRING TO CONTSUB NODE)
+## executable: 
+## - tar_measurement_sets.sh
+## inputs:
+## - sbid: SBID
+## - ms_name: name of measurement set
+## output: 
+## - tarred phase-shifted measurement set
+## JOB E tar_measurement_sets.sub
+## VARS E sbid="14180"
+## PARENT E CHILD F
+
+## SPLIT CHANNELS
+## split out user provided number of individual channels from measurement sets to be imaged
+## executable:
+## - split_channels.sh
+## arguments:
+## - sbid: SBID
+## - ms_name: file name in textfile
+## - sc: starting channel
+## - ec: ending channel
+## output:
+## - measurement sets of indivdual spectral channels for each GASKAP beam
+## JOB E split_channels.sub
+## VARS E sbid="14180" sc="1200" ec="1700" 
+## PARENT E CHILD G
+
+## GENERATE CLEAN MASK
+## run a very shallow clean on a single channel to produce beam pattern FITS file that can be used to generate clean mask
+## executable:
+## - image_channel_clean_mask.sh
+## arguments:
+## - sbid: SBID
+## - input_chan: input channel to make shallow image
+## - ouput_prefix: name of prefix FITS file names
+## - mask_file: name of output clean mask file
+## output:
+## a *-beam.fits file to base clean mask off of
+## JOB F image_channel_clean_mask.sub
+## VARS F sbid="14180" input_chan="600" config_file="beammap_SB14180.config" output_prefix="SB14180" 
+## PARENT F CHILD G
+
+## IMAGE
+## run full clean on all channels
+## executable:
+## - image_channel.sh
+## arguments:
+## - sbid: SBID
+## - start_chan: starting channel to begin imaging
+## - config_file: name of configuration file
+## - mask_file: name of clean mask
+## output:
+## - tarball of imaging products from WSClean
+## JOB G image_channel.sub
+## VARS G sbid="14180" start_chan="1200" output_prefix="SB14180" config_file="beammap_SB14180.config"
+## PARENT G CHILD H
+
+## UNTAR IMAGES
+## untar the tarballs of processed images and transfer desired files over to be combined into a single cube
+## executable:
+## - untar_images.sh
+## arguments
+## -sbid: SBID
+## - start_chan: starting channel to begin untarring 
+## - suffix: file suffix to transfer back into staging area
+## - root_file_name: root of file name
+## output:
+## - untarred casa image files
+## JOB H untar_images.sub
+## VARS H sbid="14180" start_chan="1200" suffix="image-pb" root_file_name="SB14180"
+## PARENT H CHILD I
+
+## COMBINE
+## combine images cleaned images or primary beam patterns
+## executable:
+## - combine_images.sh
+## arguments
+## - sbid: SBID 
+## - suffix: file suffix to combine
+## - root_file_name: root of file name
+## - process_num: process number to delinate which cube (beam pattern or cleaned images) to make
+## - delta_nu: frequency resolution in kHz
+## - output_name: name of output file
+## output:
+## - combined cube
+JOB I combine_images.sub
+VARS I sbid="14180" suffix="im" root_file_name="SB14180" delta_nu="1.157" output_name="SB14180_askap_Jy"
+##PARENT I CHILD J
+
+## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
+## primary beam correct, smooth to 30'', feather, and produce final masked cube
+# executable:
+## - feather.sh
+## arguments
+## - sbid: SBID 
+## - file_name: input file name
+## - beam_cube_name: name of beam cube
+## - output_name: name of output file
+## - sd_file_name: name of input single dish file
+## output:
+## - final primary beam corrected, smoothed, feathered, and masked cube
+##JOB J feather.sub
+##VARS J sbid="14180" file_name="SB14180_askap_Jy_lsrk.fits" output_name="SB14180_askap_parkes_PBC_Jy" beam_cube_name="SB14180_askap_Jy_beam.combImage" sd_file_name="GASS_SB14180_Jy.fits"

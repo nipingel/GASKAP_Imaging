@@ -1,5 +1,5 @@
-fitsimage         = 'SB33047_30Dor_chan28-beam.fits'
-imagename         = 'SB33047_30Dor_chan28-beam.bm'
+fitsimage         = 'SB14180_chan1572-beam.fits'
+imagename         = 'SB14180_chan1572-beam.bm'
 whichrep          = 0
 whichhdu          = -1
 zeroblanks        = True
@@ -7,4 +7,4 @@ overwrite         = False
 defaultaxes       = False
 defaultaxesvalues = []
 beam              = []
-#importfits( fitsimage='SB33047_30Dor_chan28-beam.fits',imagename='SB33047_30Dor_chan28-beam.bm',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )
+#importfits( fitsimage='SB14180_chan1572-beam.fits',imagename='SB14180_chan1572-beam.bm',whichrep=0,whichhdu=-1,zeroblanks=True,overwrite=False,defaultaxes=False,defaultaxesvalues=[],beam=[] )

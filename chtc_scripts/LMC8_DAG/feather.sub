@@ -30,7 +30,7 @@ Requirements=(Target.HasCHTCStaging == true) && (OpSysMajorVer =?= 8)
 
 # Tell HTCondor what amount of compute resources
 #  each job will need on the computer where it runs.
-transfer_input_files = combine_images.sh, feather.py
+transfer_input_files = feather.sh, feather.py
 request_cpus = 1
 request_memory = 50GB
 request_disk = 10GB

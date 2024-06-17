@@ -13,7 +13,6 @@ universe = vanilla
 #  output (or "screen output").
 #  $(Process) will be a integer number for each job, starting with "0"
 #  and increasing for the relevant number of jobs.
-sbid=33047
 executable = untar_measurement_sets.sh
 arguments = $(sbid) $(file_name) 
 output = decompress_ms_file_$(Process).out

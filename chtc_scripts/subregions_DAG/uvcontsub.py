@@ -39,12 +39,13 @@ def main():
 			fitspwStr += ';'
 	vis_name = args.msPath
 	fitorder = args.order
+	fitspwStr='0:0~650;1150~1400;1750~2111'
 	uvcontsub_params = {
 		'vis':vis_name,
-		'fitspw':fitspwStr,
-        	'excludechans':False,
-        	'fitorder':fitorder,
-        	'want_cont':False}
+		'outputvis': vis_name + '.contsub',
+		'fitspec': fitspwStr,
+		'fitorder':fitorder,
+		'writemodel':False}
 	uvcontsub(**uvcontsub_params)
 if __name__=='__main__':
 	main()

@@ -10,7 +10,7 @@
 ## output:
 ## - tarball measurement set
 ## JOB A transfer_measurement_sets.sub
-## VARS A sbid="33047"
+## VARS A sbid="14180"
 #PARENT A CHILD B
 
 ## UNTAR MEASUREMENT SETS
@@ -23,7 +23,7 @@
 ## output: 
 ## - untarred measurement set
 ## JOB B untar_measurement_sets.sub
-## VARS B sbid="33047"
+## VARS B sbid="14180"
 ## PARENT B CHILD C
 
 ## SHIFT PHASE CENTERS
@@ -36,9 +36,9 @@
 ## - dec_str: dec in dms format
 ## output:
 ## measurement set with shifted phase center
-## JOB C shift_phase_centre.sub 
-## VARS C sbid="33047" ra_str="05h32m37s" dec_str="-69d37m00s"
-## PARENT C CHILD E
+JOB C shift_phase_centre.sub 
+VARS C sbid="14180" ra_str="02h11m48.6s" dec_str="-74d24m43.5s" 
+PARENT C CHILD D
 
 ## CONTSUB
 ## run continuum subtraction for all measurement sets from all VLA configurations
@@ -50,9 +50,9 @@
 ## - chan_str: string denoting channel ranges over which to fit polynomial and remove continuum
 ## output:
 ## - cont-subbed measurement sets with '.contsub' suffix appended
-## JOB D uvcontsub.sub
-## VARS D sbid="38814" chan_str="0 250 850 1400 1750 2111"
-## PARENT D CHILD E
+JOB D uvcontsub.sub
+VARS D sbid="14180" chan_str="0 650 1150 1400 1750 2111"
+PARENT D CHILD E
 
 ## TAR MEASUREMENT SETS
 ## tar phase shifted measurement sets (ADD TARRING TO CONTSUB NODE)
@@ -156,5 +156,5 @@
 ## - sd_file_name: name of input single dish file
 ## output:
 ## - final primary beam corrected, smoothed, feathered, and masked cube
-JOB J feather.sub
-VARS J sbid="33047" file_name="30Dor_askap_Jy_extended_lsrk.fits" output_name="30Dor_askap_parkes_PBC_Jy_extended" beam_cube_name="30Dor_askap_Jy_extended_beam.combImage" sd_file_name="GASS_LMC3_Jy.fits"
+## JOB J feather.sub
+## VARS J sbid="33047" file_name="30Dor_askap_Jy_extended_lsrk.fits" output_name="30Dor_askap_parkes_PBC_Jy_extended" beam_cube_name="30Dor_askap_Jy_extended_beam.combImage" sd_file_name="GASS_LMC3_Jy.fits"

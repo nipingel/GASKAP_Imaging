@@ -21,9 +21,9 @@ start_chan = $INT(sc,%d)
 end_chan = $INT(ec,%d)
 
 arguments = $(sbid) $(ms_name) $(start_chan) $(end_chan) 
-output = channel_split_$(start_chan)_to_$(end_chan).out
-error = channel_split_$(start_chan)_to_$(end_chan).err
-log = channel_split_$(start_chan)_to_$(end_chan).log
+output = channel_split_$(start_chan)_to_$(end_chan)_$(Proces).out
+error = channel_split_$(start_chan)_to_$(end_chan)_$(Process).err
+log = channel_split_$(start_chan)_to_$(end_chan)_$(Process).log
 #
 # Specify that HTCondor should transfer files to and from the
 #  computer where each job runs. The last of these lines *would* be
@@ -38,4 +38,4 @@ request_memory = 20GB
 request_disk = 250GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue ms_name from measurement-set-names_30Dor.txt 
+queue ms_name from measurement-set-names_SB14180_leftover.txt 

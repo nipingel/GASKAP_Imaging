@@ -22,11 +22,11 @@ done
 total_iters=10000
 minor_thresh=0.015 ##Jy
 m_gain=0.7
-robust=0.0
-imsize=1024 
-cellsize="7asec"
+robust=0.75
+imsize=3000
+cellsize="3.25asec"
 compute_threads=4
-beam_size=10 ## arcsec
+beam_size=18 ## arcsec
 multiscale_bias=0.85
 num_major_limit=5
 output_name=${output_prefix}_chan${chan}
@@ -42,7 +42,7 @@ wsclean \
 	-weight briggs ${robust} \
 	-size ${imsize} ${imsize} \
 	-scale ${cellsize} \
-	-taper-gaussian 14 \
+	-beam-size ${beam_size} \
 	-pol i \
 	-verbose \
 	-auto-mask 3 \

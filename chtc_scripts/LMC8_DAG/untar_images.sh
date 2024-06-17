@@ -34,8 +34,8 @@ fi
 tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities/${root_file_name}_chan${chan}.tar --directory .
 
 ## convert from FITS to CASA image format for combination
-/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e "im"
-/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e "bm"
+casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e "im"
+casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e "bm"
 
 
 ## move image and pb fits files to designated directory

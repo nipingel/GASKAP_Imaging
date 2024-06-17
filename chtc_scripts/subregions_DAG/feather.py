@@ -51,7 +51,7 @@ def main():
 		'pa':'0deg',
 		'targetres':True,
 		'outfile':'%s' % casa_image_list[0].replace('.im', '.imsmooth.pbc')}
-	imsmooth(**imsmooth_params)
+	#imsmooth(**imsmooth_params)
 
 	## correct for primary beam 
 	image_list = [casa_image_list[0].replace('.im', '.imsmooth'), beam_file]

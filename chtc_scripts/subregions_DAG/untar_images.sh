@@ -31,16 +31,16 @@ if [ "${chan}" -lt "1000" ] && [ "${chan}" -gt "99" ]; then
 fi
 
 ## untar
-tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities/${root_file_name}_chan${chan}.tar --directory .
+tar -xvf /projects/vla-processing/GASKAP-HI/images/${sbid}/${root_file_name}_chan${chan}.tar --directory .
 
 ## convert from FITS to CASA image format for combination
-/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e "im"
-/casa-6.5.0-15-py3.8/bin/casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e "bm"
+casa -c importfits.py -f ${root_file_name}_chan${chan}-${file_suffix}.fits -e "im"
+casa -c importfits.py -f ${root_file_name}_chan${chan}-beam.fits -e "bm"
 
 
 ## move image and pb fits files to designated directory
-mv ${root_file_name}_chan${chan}-${file_suffix}.im /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities/${image_output_name}
-mv ${root_file_name}_chan${chan}-beam.bm /projects/vla-processing/GASKAP-HI/images/${sbid}/magellanic_velocities/${beam_output_name}
+mv ${root_file_name}_chan${chan}-${file_suffix}.im /projects/vla-processing/GASKAP-HI/images/${sbid}/${image_output_name}
+mv ${root_file_name}_chan${chan}-beam.bm /projects/vla-processing/GASKAP-HI/images/${sbid}/${beam_output_name}
 
 ## clean up
 rm -rf ${root_file_name}_chan${chan}*

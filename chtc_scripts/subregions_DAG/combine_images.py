@@ -53,7 +53,7 @@ for file in fileList:
 	imhead(imagename = file, mode = 'put', hdkey = 'cdelt3', hdvalue = freqResStr)
 
 ## combine images
-ia.imageconcat(outfile = '%s.combImage' % outFile , infiles = fileList, relax = False)
+ia.imageconcat(outfile = '%s.combImage' % outFile , infiles = fileList, relax = False, overwrite = True)
 
 ## if creating an image cube, shift reference frame and save out to fits file; if beam file, just exit
 if create_image_cube:

@@ -19,7 +19,7 @@ executable = untar_images.sh
 
 ## assign chanel variables and list arguments 
 c = $(Process)+$(start_chan)
-chan = $INT(c,%d)
+## chan = $INT(c,%d)
 arguments = $(sbid) $(suffix) $(root_file_name) $(chan)
 
 ## name log, output, and error log files
@@ -40,4 +40,4 @@ request_memory = 2GB
 request_disk = 5GB
 #
 # Tell HTCondor to run 1 instances of our job:
-queue 550
+queue chan from leftover_channels.txt

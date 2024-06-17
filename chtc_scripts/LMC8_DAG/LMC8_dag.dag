@@ -95,9 +95,9 @@ PARENT F CHILD G
 ## - mask_file: name of clean mask
 ## output:
 ## - tarball of imaging products from WSClean
-JOB G image_channel.sub
-VARS G sbid="38466" start_chan="850" mask_file="SB38466_deconvolve_mask.fits" config_file="beammap_SB38466.config" output_prefix="GASKAP_SB38466"
-PARENT G CHILD H
+## JOB G image_channel.sub
+## VARS G sbid="38466" start_chan="850" mask_file="SB38466_deconvolve_mask.fits" config_file="beammap_SB38466.config" output_prefix="GASKAP_SB38466"
+## PARENT G CHILD H
 
 ## UNTAR IMAGES
 ## untar the tarballs of processed images and transfer desired files over to be combined into a single cube
@@ -110,25 +110,24 @@ PARENT G CHILD H
 ## - root_file_name: root of file name
 ## output:
 ## - untarred casa image files
-## JOB H untar_images.sub
-## VARS H sbid="38466" start_chan="850" suffix="image-pb" root_file_name="GASKAP_SB38466"
-## PARENT H CHILD I
+JOB H untar_images.sub
+VARS H sbid="38466" start_chan="300" suffix="image-pb" root_file_name="GASKAP_SB38466"
+PARENT H CHILD I
 
 ## COMBINE
 ## combine images cleaned images or primary beam patterns
 ## executable:
-## - combine_images.sh
+## - fitsconcat.sh
 ## arguments
 ## - sbid: SBID 
 ## - suffix: file suffix to combine
 ## - root_file_name: root of file name
 ## - process_num: process number to delinate which cube (beam pattern or cleaned images) to make
-## - delta_nu: frequency resolution in kHz
 ## - output_name: name of output file
 ## output:
 ## - combined cube
-JOB I combine_images.sub
-VARS I sbid="38466" suffix="im" root_file_name="GASKAP_SB38466" delta_nu="1.157" output_name="LMC8_SB38466_askap_Jy"
+JOB I fitsconcat.sub
+VARS I sbid="38466" suffix="image-pb" root_file_name="GASKAP_SB38466" output_name="LMC8_SB38466_askap_Jy"
 ## PARENT I CHILD J
 
 ## PRIMARY BEAM CORRECT, SMOOTH, FEATHER, AND MASK
@@ -144,4 +143,4 @@ VARS I sbid="38466" suffix="im" root_file_name="GASKAP_SB38466" delta_nu="1.157"
 ## output:
 ## - final primary beam corrected, smoothed, feathered, and masked cube
 ## JOB J feather.sub
-## VARS J sbid="38466" file_name="LMC8_SB38466_askap_Jy_lsrk.fits" beam_cube_name="LMC8_SB38466_askap_Jy_beam.combImage" output_name="LMC8_SB38466_askap_parkes_PBC_Jy" sd_file_name="GASS_LMC8_Jy.fits"
+##VARS J sbid="38466" file_name="LMC8_SB38466_askap_Jy-image-pb.fits" beam_cube_name="LMC8_SB38466_askap_Jy-beam.fits" output_name="LMC8_SB38466_askap_parkes_PBC_Jy" sd_file_name="GASS_LMC8_Jy.fits"

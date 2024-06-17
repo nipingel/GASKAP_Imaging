@@ -80,9 +80,9 @@
 ## - mask_file: name of output clean mask file
 ## output:
 ## a *-beam.fits file to base clean mask off of
-JOB F image_channel_clean_mask.sub
-VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
-PARENT F CHILD G
+## JOB F image_channel_clean_mask.sub
+## VARS F sbid="38466" input_chan="700" config_file="beammap_SB38466.config" output_file="SB38466_deconvolve_mask"
+## PARENT F CHILD G
 
 ## IMAGE
 ## run full clean on all channels
